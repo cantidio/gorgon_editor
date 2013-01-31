@@ -1,0 +1,88 @@
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<link rel="stylesheet" type="text/css" href="css/editor.css">
+		<script src="js/jquery.js"></script>
+		<script src="js/point.js"></script>
+		<script src="js/spritepack.js"></script>
+		<script src="js/editor.js"></script>
+		<script src="js/sprite_properties_view.js"></script>
+		
+		<script>
+			$(document).ready
+			(
+				function()
+				{
+					var a = Editor;
+					a.init();
+					SpritePropertiesView.init();
+					//a.drawHotspot();
+					
+					var sprite				= new Sprite( "TEST", 0, 0, new Image(), new Point( 230,350 ) );
+					sprite.image.onload		= ( function(obj) { return function() {  obj.show(); } } ) ( a );
+					sprite.image.src		= 'http://img368.imageshack.us/img368/4474/mitsurugisoloms5.png';
+					a.mSpritePack.addSprite( sprite );
+					
+					document.oncontextmenu	= new Function("return false");
+					
+					
+					
+					$("#save").click(
+						function()
+						{
+							$("#server").load
+							(
+								'editor.php',
+								{
+									spritepack: Editor.mSpritePack.dump()
+								}
+							);
+						}
+					);
+				}
+			);
+			
+		</script>
+	</head>
+	<body>
+		<div id="server">lol</div>
+		<ul id="menu">
+			<li>Abrir</li>
+			<li><button id="save">Save</button></li>
+			<li><input id="addimg" type="file" accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple"></li>
+		</ul>
+		<canvas id="viewport" class="viewport"></canvas>
+		<div id="sprite_properties">
+			<h1>Sprite properties</h1>
+			<div>
+				<div>
+					<span><input id="add" type="button" value="Add"/></span><span><input id="del" type="button" value="Del"/></span>
+				</div>
+			</div>
+			<div id="sprite_slider">
+				<button id="backward"> < </button>
+				<input type="range" min="0" max="2" step="1"/>
+				<button id="forward"> > </button>
+			</div>
+			<div>
+				<div>Name or Comment</div>
+				<div><input id="name" type="text"></div>
+				<div><span>Group</span><span>Index</span></div>
+				<div><span><input min="0" value="0"id="group" type="number"></span><span><input min="0" value="0" id="index" type="number"></span></div>
+				<div><span>XOffset</span><span>YOffset</span></div>
+				<div><span><input min="0" value="0"id="xoffset" type="number"></span><span><input min="0" value="0" id="yoffset" type="number"></span></div>
+			</div>
+			<div><input id="onionskin" type="button" value="+"/> Onion Skin</div>
+			<div id="onionskin_menu">
+				<div><span><input value="0" name="onionskin" type="radio" checked /></span><span>Disabled</span></div>
+				<div><span><input value="1" name="onionskin" type="radio"/></span><span>Last sprite</span></div>
+				<div><span><input value="2" name="onionskin" type="radio"/></span><span>Fixed</span></div>
+				<div><span>Group</span><span>Index</span></div>
+				<div><span><input min="0" value="0"id="onionskin_group" type="number"></span><span><input min="0" value="0" id="onionskin_index" type="number"></span></div>
+			</div>
+			
+			
+		</div>
+	</body>
+	
+</html>
