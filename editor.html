@@ -2,6 +2,7 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" href="css/editor.css">
+		<script type="text/javascript" src="js/jszip/jszip.js"></script>
 		<script src="js/jquery.js"></script>
 		<script src="js/point.js"></script>
 		<script src="js/spritepack.js"></script>
@@ -9,14 +10,17 @@
 		<script src="js/sprite_properties_view.js"></script>
 		
 		<script>
+		
+			
+		
+		
 			function playStep()
 			{
-				//SpritePropertiesView.onSpriteForward();
-				$("#sprite_properties > #sprite_slider > #forward").click();	
+				SpritePropertiesView.onSpriteForward();
+				//$("#sprite_properties > #sprite_slider > #forward").click();	
 				if( SpritePropertiesView.currentSprite() < SpritePropertiesView.spriteNumber() )
 				{
-					console.log("AQUI");
-					window.setTimeout(playStep, 200);
+					window.setTimeout(playStep, 100);
 				}
 			}
 			$(document).ready
@@ -26,39 +30,49 @@
 					var a = Editor;
 					a.init();
 					SpritePropertiesView.init();
-					//a.drawHotspot();
-					
-					/*var sprite				= new Sprite( "TEST", 0, 0, new Image(), new Point( 230,350 ) );
-					sprite.image.onload		= ( function(obj) { return function() {  obj.show(); } } ) ( a );
-					sprite.image.src		= 'http://img368.imageshack.us/img368/4474/mitsurugisoloms5.png';
-					a.mSpritePack.addSprite( sprite );
-					*/
 					document.oncontextmenu	= new Function("return false");
-					
-					
 					
 					$("#anim").click(
 						function()
 						{
-							//SpritePropertiesView.currentSprite(0);
 							playStep();
 						}
 					);
 					
 					
-					$("#save").click(
+					$("#download").click(
 						function()
 						{
-							$("#server").load
-							(
-								'editor.php',
-								{ spritepack: Editor.mSpritePack.dump() },
-								function( text )
-								{
-									window.open(text, "_self");
-									console.log(text);
-								}
-							);
+							var pack	= Editor.mSpritePack.dump();
+							var zip		= new JSZip();
+							var lua		= "spritepack = {\n";
+							
+							for( var i = 0; i < pack.length; ++i )
+							{
+								zip.file("img_" + i + pack[i].image_type, pack[i].image, { base64: true });
+								
+								lua += "\t{\n";
+								lua +="\t\tname    = \""	+ pack[i].name		+ "\",\n";
+								lua +="\t\tgroup   = "		+ pack[i].group		+ ",\n";
+								lua +="\t\tindex   = "		+ pack[i].index		+ ",\n";
+								lua +="\t\txoffset = "		+ pack[i].xoffset	+ ",\n";
+								lua +="\t\tyoffset = "		+ pack[i].yoffset	+ ",\n";
+								lua +="\t\timage   = \"img_" + i + pack[i].image_type + "\"\n";
+								lua +="\t},\n";
+							}
+							lua += "}";
+							zip.file( "spritepack.lua", lua );
+							
+							var blobLink = document.getElementById('download');
+							try
+							{
+								blobLink.download	= "spritepack.zip";
+								blobLink.href		= window.URL.createObjectURL( zip.generate({ type: "blob" }) );
+							}
+							catch(e)
+							{
+								blobLink.innerHTML += " (not supported on this browser)";
+							}
 						}
 					);
 				}
@@ -70,7 +84,7 @@
 		<div id="server">lol</div>
 		<ul id="menu">
 			<li>Abrir</li>
-			<li><button id="save">Save</button></li>
+			<li><a href="#" id="download">Save</a></li>
 			<li><input id="addimg" type="file" accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple"></li>
 		</ul>
 		<canvas id="viewport" class="viewport"></canvas>

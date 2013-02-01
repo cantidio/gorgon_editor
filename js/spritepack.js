@@ -5,7 +5,38 @@ function Sprite( name, group, index, image, offset )
 	this.index	= index 	? index 	: 0;
 	this.image	= image 	? image 	: null;
 	this.offset	= offset	? offset	: new Point( 0, 0 );
+	
+	this.getImageType = function()
+	{
+		if( this.image.src.search(/^data:image\/png;base64,/,"") != -1 )
+		{
+			return ".png";
+		}
+		else if( this.image.src.search(/^data:image\/gif;base64,/,"") != -1 )
+		{
+			return ".gif";
+		}
+		else if( this.image.src.search(/^data:image\/bmp;base64,/,"") != -1 )
+		{
+			return ".bmp";
+		}
+		else if( this.image.src.search(/^data:image\/jpg;base64,/,"") != -1 )
+		{
+			return ".jpg";
+		}
+		else if( this.image.src.search(/^data:image\/jpeg;base64,/,"") != -1 )
+		{
+			return ".jpeg";
+		}
+		else
+		{
+			return null;
+		}
+	}
 }
+
+
+
 
 function SpritePack()
 {
@@ -104,7 +135,8 @@ function SpritePack()
 				index:		this.sprites[i].index,
 				xoffset:	this.sprites[i].offset.x,
 				yoffset:	this.sprites[i].offset.y,
-				image:		this.sprites[i].image.src.replace(/^data:image\/png;base64,/,"")
+				image:		this.sprites[i].image.src.replace(/^data:image\/.*;base64,/, ""),
+				image_type: this.sprites[i].getImageType()
 			});
 		}
 		return out;
