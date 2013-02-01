@@ -9,6 +9,16 @@
 		<script src="js/sprite_properties_view.js"></script>
 		
 		<script>
+			function playStep()
+			{
+				//SpritePropertiesView.onSpriteForward();
+				$("#sprite_properties > #sprite_slider > #forward").click();	
+				if( SpritePropertiesView.currentSprite() < SpritePropertiesView.spriteNumber() )
+				{
+					console.log("AQUI");
+					window.setTimeout(playStep, 200);
+				}
+			}
 			$(document).ready
 			(
 				function()
@@ -18,13 +28,22 @@
 					SpritePropertiesView.init();
 					//a.drawHotspot();
 					
-					var sprite				= new Sprite( "TEST", 0, 0, new Image(), new Point( 230,350 ) );
+					/*var sprite				= new Sprite( "TEST", 0, 0, new Image(), new Point( 230,350 ) );
 					sprite.image.onload		= ( function(obj) { return function() {  obj.show(); } } ) ( a );
 					sprite.image.src		= 'http://img368.imageshack.us/img368/4474/mitsurugisoloms5.png';
 					a.mSpritePack.addSprite( sprite );
-					
+					*/
 					document.oncontextmenu	= new Function("return false");
 					
+					
+					
+					$("#anim").click(
+						function()
+						{
+							//SpritePropertiesView.currentSprite(0);
+							playStep();
+						}
+					);
 					
 					
 					$("#save").click(
@@ -33,8 +52,11 @@
 							$("#server").load
 							(
 								'editor.php',
+								{ spritepack: Editor.mSpritePack.dump() },
+								function( text )
 								{
-									spritepack: Editor.mSpritePack.dump()
+									window.open(text, "_self");
+									console.log(text);
 								}
 							);
 						}
@@ -61,12 +83,13 @@
 			</div>
 			<div id="sprite_slider">
 				<button id="backward"> < </button>
-				<input type="range" min="0" max="2" step="1"/>
+				<input type="range" min="0" max="2" value="0" step="1"/>
 				<button id="forward"> > </button>
 			</div>
 			<div>
 				<div>Name or Comment</div>
 				<div><input id="name" type="text"></div>
+				<div><input id="anim" type="button" value="clica para preview"></div>
 				<div><span>Group</span><span>Index</span></div>
 				<div><span><input min="0" value="0"id="group" type="number"></span><span><input min="0" value="0" id="index" type="number"></span></div>
 				<div><span>XOffset</span><span>YOffset</span></div>

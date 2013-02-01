@@ -96,7 +96,7 @@ var SpritePropertiesView = new function()
 		}
 		else
 		{
-			return $("#sprite_properties > #sprite_slider > input").val();
+			return parseInt( $("#sprite_properties > #sprite_slider > input").val() );
 		}
 	}
 	this.spriteNumber			= function( pSpriteNumber ) {

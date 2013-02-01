@@ -129,8 +129,8 @@
 
 #server
 {
-	height: 400px;
-	width: 100%;
-	position: absolute;
-	top: 200px;
+	height:		50%;
+	width:		50%;
+	position: 	absolute;
+	top: 		200px;
 }

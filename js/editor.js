@@ -103,6 +103,8 @@ var Editor = new function()
 	this.currentSpriteIndex	= function( pCurrentSprite ) {
 		if( pCurrentSprite != undefined )
 		{
+			if( typeof( pCurrentSprite ) == "string" )
+			pCurrentSprite = parseInt(pCurrentSprite);
 			this.mSpriteShown = pCurrentSprite;
 			if( this.mSpriteShown >= this.spriteNumber() )
 			{
@@ -142,14 +144,14 @@ var Editor = new function()
 		{
 			if( this.mod.control )
 			{
-				++this.mSpritePack.sprite( this.mSpriteShown ).offset.x;
+				++this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.x;
 				this.show();
 			}
 			else
 			{
-				if( this.mSpriteShown < this.mSpritePack.size() - 1 )
+				if( this.currentSpriteIndex() < this.mSpritePack.size() - 1 )
 				{
-					++this.mSpriteShown;
+					this.currentSpriteIndex( this.currentSpriteIndex() + 1 );
 					var sprite = this.currentSprite();
 					this.show();
 				}
@@ -159,14 +161,14 @@ var Editor = new function()
 		{
 			if( this.mod.control )
 			{
-				--this.mSpritePack.sprite( this.mSpriteShown ).offset.x;
+				--this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.x;
 				this.show();
 			}
 			else
 			{
-				if( this.mSpriteShown > 0 )
+				if( this.currentSpriteIndex() > 0 )
 				{
-					--this.mSpriteShown;
+					this.currentSpriteIndex( this.currentSpriteIndex() - 1 );
 					this.show();
 				}
 			}
@@ -175,7 +177,7 @@ var Editor = new function()
 		{
 			if( this.mod.control )
 			{
-				--this.mSpritePack.sprite( this.mSpriteShown ).offset.y;
+				--this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.y;
 				this.show();
 			}
 		}
@@ -183,7 +185,7 @@ var Editor = new function()
 		{
 			if( this.mod.control )
 			{
-				++this.mSpritePack.sprite( this.mSpriteShown ).offset.y;
+				++this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.y;
 				this.show();
 			}
 		}
@@ -278,7 +280,7 @@ var Editor = new function()
 		this.mSize			= new Point( 0, 0 );
 		this.mHotspot		= new Point( 0, 0 );
 		this.mSpritePack	= new SpritePack();
-		this.mSpriteShown	= 0;
+		this.mSpriteShown	= -1;
 		this.mod			= { shift: false, control: false };
 		this.onResize();
 		this.show();

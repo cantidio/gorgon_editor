@@ -104,7 +104,7 @@ function SpritePack()
 				index:		this.sprites[i].index,
 				xoffset:	this.sprites[i].offset.x,
 				yoffset:	this.sprites[i].offset.y,
-				image:		this.sprites[i].image.src
+				image:		this.sprites[i].image.src.replace(/^data:image\/png;base64,/,"")
 			});
 		}
 		return out;
