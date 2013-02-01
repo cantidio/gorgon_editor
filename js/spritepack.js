@@ -6,8 +6,7 @@ function Sprite( name, group, index, image, offset )
 	this.image	= image 	? image 	: null;
 	this.offset	= offset	? offset	: new Point( 0, 0 );
 	
-	this.getImageType = function()
-	{
+	this.getImageType = function() {
 		if( this.image.src.search(/^data:image\/png;base64,/,"") != -1 )
 		{
 			return ".png";
@@ -34,9 +33,6 @@ function Sprite( name, group, index, image, offset )
 		}
 	}
 }
-
-
-
 
 function SpritePack()
 {
@@ -98,7 +94,7 @@ function SpritePack()
 			var group	= this.sprites[0].group;
 			for( var i = 1; i < size; ++i )
 			{
-				if( this.sprites[i].group > this.sprites[i-1] )
+				if( this.sprites[i].group > group )
 				{
 					group = this.sprites[i].group;
 				}

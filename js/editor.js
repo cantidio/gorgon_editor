@@ -1,13 +1,14 @@
 var Editor = new function()
 {
 	this.show = function() {
-		console.log("show sprite: "+ this.mSpriteShown);
 		this.mElement.width		= this.mSize.x;
 		this.mElement.height	= this.mSize.y;
 		var onionskin 			= SpritePropertiesView.onionskin();
-		
+
+		this.drawGrid();		
 		if( onionskin.value == 1 )
 		{
+			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown - 2 ) , 0.3 );
 			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown - 1 ) , 0.5 );
 		}
 		else if( onionskin.value == 2 )
@@ -21,16 +22,86 @@ var Editor = new function()
 		}
 		this.drawHotspot();
 	}
+	this.gridLineWidth	= function( pWidth ) {
+		if( pWidth != undefined )
+		{
+			this.mGrid.lineWidth = pWidth;
+			return this;
+		}
+		else
+		{
+			return this.mGrid.lineWidth;
+		}
+	}
+	this.gridColor		= function( pColor ) {
+		if( pColor != undefined )
+		{
+			this.mGrid.color = pColor;
+			return this;
+		}
+		else
+		{
+			return this.mGrid.color;
+		}
+	}
+	this.gridWidth		= function( pWidth ) {
+		if( pWidth != undefined )
+		{
+			this.mGrid.width = pWidth;
+			return this;
+		}
+		else
+		{
+			return this.mGrid.width;
+		}
+	}
+	this.drawGrid		= function() {
+		var context			= this.mElement.getContext('2d');
+		context.lineWidth	= this.gridLineWidth();//0.5;
+		context.strokeStyle	= this.gridColor();//'#DDDDDD';
+		
+		for( var y = this.mHotspot.y; y < this.mSize.y; y += this.gridWidth() )
+		{
+			context.beginPath();		
+			context.moveTo( 0 , y );
+			context.lineTo( this.mSize.x , y );
+			context.stroke();
+			context.beginPath();		
+			context.moveTo( 0 , this.mSize.y - y );
+			context.lineTo( this.mSize.x , this.mSize.y - y );
+			context.stroke();
+		}
+		for( var x = this.mHotspot.x; x < this.mSize.x; x += this.gridWidth() )
+		{
+			context.beginPath();		
+			context.moveTo( x , 0 );
+			context.lineTo( x , this.mSize.y );
+			context.stroke();
+			context.beginPath();		
+			context.moveTo( this.mSize.x - x , 0 );
+			context.lineTo( this.mSize.x - x , this.mSize.y );
+			context.stroke();
+		}
+	}
 	this.drawHotspot	= function() {
 		var context = this.mElement.getContext('2d');
+		context.lineWidth	= 1;
+		context.strokeStyle	= '#99CCFF';
+		
+		context.beginPath();		
+		context.moveTo( this.mHotspot.x , 0 );
+		context.lineTo( this.mHotspot.x , this.mElement.height -1 );
+		context.stroke();
 		
 		context.beginPath();
-		context.moveTo( this.mHotspot.x , this.mHotspot.y - 5 );
-		context.lineTo( this.mHotspot.x , this.mHotspot.y + 5 );
+		context.moveTo( 0, this.mHotspot.y );
+		context.lineTo( this.mElement.width, this.mHotspot.y );
 		context.stroke();
-		context.beginPath();
-		context.moveTo( this.mHotspot.x - 5, this.mHotspot.y );
-		context.lineTo( this.mHotspot.x + 5, this.mHotspot.y );
+		
+		context.strokeStyle = context.fillStyle = 'red';
+		context.beginPath();		
+		context.arc( this.mHotspot.x, this.mHotspot.y, 3, 0, 2 * Math.PI, false);		
+		context.fill();
 		context.stroke();
 	}
 	this.drawSprite		= function( pSprite, pAlpha ) {
@@ -46,13 +117,6 @@ var Editor = new function()
 			);
 			context.globalAlpha = 1.0;
 		}
-		else
-		{
-			console.log("imagem inválida para a impressão");
-		}
-	}
-	this.toggleActive	= function() {
-		this.mElement.toggleClass("active");
 	}
 	this.removeSprite	= function( pSprite ) {
 		this.mSpritePack.removeSprite( pSprite );
@@ -60,39 +124,49 @@ var Editor = new function()
 		SpritePropertiesView.spriteNumber( this.spriteNumber() - 1 ).currentSprite( this.currentSpriteIndex() );
 		this.show();
 	}
+	this.onImageAddStep	= function( files, i, group ) {
+		var reader		= new FileReader();
+		reader.onload	= ( function( obj, name, group, index, items )
+		{
+			return function( event )
+			{
+				var sprite = new Sprite( name, group, index, new Image(), new Point( 0, 0 ) );
+				sprite.image.onload = (function( obj, sprite, files, group )
+				{
+					return function()
+					{
+						sprite.offset.x = $(sprite.image)[0].width / 2;
+						sprite.offset.y = $(sprite.image)[0].height / 2;
+						obj.mSpritePack.addSprite( sprite );
+						++obj.mSpriteShown;
+//SpritePropertiesView
+						SpritePropertiesView
+							.spriteNumber( obj.spriteNumber() - 1 )
+							.currentSprite( obj.currentSpriteIndex() )
+							.updateSpriteVal( obj.currentSprite() );
+						
+						ProgressBar.add( 1 );
+						if( index + 1 < files.length )
+						{
+							obj.onImageAddStep( files, index + 1, group );
+						}
+						else
+						{
+							obj.show();
+						}
+					}
+				})( obj, sprite, items, group );
+				sprite.image.src = event.target.result;
+			};
+		})( this, files[i].name, group, i, jQuery.extend(true, {}, files) );
+		
+		reader.readAsDataURL( files[i] );
+	}
 	this.onImageAdd		= function() {
 		var items = $("#addimg")[0].files;
 		var group = this.mSpritePack.getGreatestGroup() + 100;
-		for( var i = 0; i < items.length; ++i )
-		{
-			var reader		= new FileReader();
-			reader.onload	= (function( obj, name, group, index ) {
-				return function( event )
-				{
-				console.log("group: "+group);
-					var sprite = new Sprite( name, group, index, new Image(), new Point( 0, 0 ) );
-					sprite.image.onload = (function( obj, sprite )
-					{
-						return function()
-						{
-							sprite.offset.x = $(sprite.image)[0].width / 2;
-							sprite.offset.y = $(sprite.image)[0].height / 2;
-							obj.mSpritePack.addSprite( sprite );
-							++obj.mSpriteShown;
-//SpritePropertiesView							
-							SpritePropertiesView
-								.spriteNumber( obj.spriteNumber() - 1 )
-								.currentSprite( obj.currentSpriteIndex() )
-								.updateSpriteVal( obj.currentSprite() );
-							
-							obj.show();
-						}
-					})( obj, sprite );
-					sprite.image.src = event.target.result;
-				};
-			})( this, items[i].name, group, i );
-			reader.readAsDataURL( items[i] );//Convert the blob from clipboard to base64
-		}
+		ProgressBar.show( items.length, function(){ ProgressBar.hide(); } );
+		this.onImageAddStep( items, 0, group );
 	}
 	this.spriteNumber	= function() {
 		return this.mSpritePack.size();
@@ -214,8 +288,9 @@ var Editor = new function()
 		
 	}
 	this.onResize		= function() {
-		this.mSize				= new Point( $(this.mElement).width(), $(this.mElement).height() );
-		this.mHotspot			= new Point( this.mSize.x / 2, this.mSize.y / 2 );
+		
+		this.mSize				= new Point( Math.floor( $(this.mElement).width() ), Math.floor( $(this.mElement).height() ) );
+		this.mHotspot			= new Point( Math.floor( this.mSize.x / 2 ), Math.floor( this.mSize.y / 2 ) );
 		this.mElement.width		= this.mSize.x;
 		this.mElement.height	= this.mSize.y;
 		
@@ -274,7 +349,6 @@ var Editor = new function()
 			})( this )
 		);
 	}
-	
 	this.init = function() {
 		this.mElement		= document.getElementById("viewport");
 		this.mSize			= new Point( 0, 0 );
@@ -282,6 +356,7 @@ var Editor = new function()
 		this.mSpritePack	= new SpritePack();
 		this.mSpriteShown	= -1;
 		this.mod			= { shift: false, control: false };
+		this.mGrid			= { color: "#DDDDDD", width: 15, lineWidth: 0.5 };
 		this.onResize();
 		this.show();
 		this.registerCallbacks();

@@ -1,3 +1,12 @@
+#progressbar
+{
+	position:	fixed;
+	top:		50%;
+	left:		25%;
+	width:		50%;
+	z-index:	999;
+	display:	none;
+}
 #addimg
 {
 	visibility:	hidden;
@@ -25,12 +34,11 @@
 }
 .viewport
 {
-	position: absolute;
-	top: 5%;
-	left: 5%;
-	height:	90%;
-	width: 90%;
-	border: 1px solid green;
+	position:	absolute;
+	top:		5%;
+	left:		5%;
+	height:		90%;
+	width:		90%;
 }
 .active
 {

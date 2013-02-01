@@ -6,6 +6,7 @@
 		<script src="js/jquery.js"></script>
 		<script src="js/point.js"></script>
 		<script src="js/spritepack.js"></script>
+		<script src="js/progress_bar.js"></script>
 		<script src="js/editor.js"></script>
 		<script src="js/sprite_properties_view.js"></script>
 		
@@ -30,16 +31,10 @@
 					var a = Editor;
 					a.init();
 					SpritePropertiesView.init();
+					ProgressBar.init();
 					document.oncontextmenu	= new Function("return false");
 					
-					$("#anim").click(
-						function()
-						{
-							playStep();
-						}
-					);
-					
-					
+					$("#anim").click( function() { playStep(); } );
 					$("#download").click(
 						function()
 						{
@@ -59,9 +54,11 @@
 								lua +="\t\tyoffset = "		+ pack[i].yoffset	+ ",\n";
 								lua +="\t\timage   = \"img_" + i + pack[i].image_type + "\"\n";
 								lua +="\t},\n";
+								ProgressBar.add(1);
 							}
 							lua += "}";
 							zip.file( "spritepack.lua", lua );
+							
 							
 							var blobLink = document.getElementById('download');
 							try
@@ -81,7 +78,10 @@
 		</script>
 	</head>
 	<body>
-		<div id="server">lol</div>
+		
+		<progress id="progressbar" value="10" max="100"></progress> 
+		
+		<!--<div id="server">lol</div>-->
 		<ul id="menu">
 			<li>Abrir</li>
 			<li><a href="#" id="download">Save</a></li>
@@ -97,7 +97,7 @@
 			</div>
 			<div id="sprite_slider">
 				<button id="backward"> < </button>
-				<input type="range" min="0" max="2" value="0" step="1"/>
+				<input type="range" min="0" max="0" value="0" step="1"/>
 				<button id="forward"> > </button>
 			</div>
 			<div>
@@ -111,8 +111,8 @@
 			</div>
 			<div><input id="onionskin" type="button" value="+"/> Onion Skin</div>
 			<div id="onionskin_menu">
-				<div><span><input value="0" name="onionskin" type="radio" checked /></span><span>Disabled</span></div>
-				<div><span><input value="1" name="onionskin" type="radio"/></span><span>Last sprite</span></div>
+				<div><span><input value="0" name="onionskin" type="radio"/></span><span>Disabled</span></div>
+				<div><span><input value="1" name="onionskin" type="radio" checked /></span><span>Last sprite</span></div>
 				<div><span><input value="2" name="onionskin" type="radio"/></span><span>Fixed</span></div>
 				<div><span>Group</span><span>Index</span></div>
 				<div><span><input min="0" value="0"id="onionskin_group" type="number"></span><span><input min="0" value="0" id="onionskin_index" type="number"></span></div>
