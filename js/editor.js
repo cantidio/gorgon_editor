@@ -5,7 +5,7 @@ var Editor = new function()
 		this.mElement.height	= this.mSize.y;
 		var onionskin 			= SpritePropertiesView.onionskin();
 
-		this.drawGrid();		
+		this.drawGrid();
 		if( onionskin.value == 1 )
 		{
 			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown - 2 ) , 0.3 );
@@ -13,11 +13,10 @@ var Editor = new function()
 		}
 		else if( onionskin.value == 2 )
 		{
-			this.drawSprite( this.mSpritePack.search( onionskin.group, onionskin.index )[0] , 0.5);
+			this.drawSprite( this.mSpritePack.search( onionskin.group, onionskin.index )[0] , 0.5 );
 		}
 		if( this.mSpritePack.size() > 0 )
 		{
-			//console.log("aqui");
 			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown ) );
 		}
 		this.drawHotspot();
@@ -130,7 +129,36 @@ var Editor = new function()
 		{
 			return function( event )
 			{
-				var sprite = new Sprite( name, group, index, new Image(), new Point( 0, 0 ) );
+				var sprite = new Sprite
+				({
+					name:	name,
+					group:	group,
+					index:	index,
+					image:	event.target.result,
+					onload:	( function( index, files ) {
+						return function( obj )
+						{
+							obj.offset.x = $(obj.image)[0].width / 2;
+							obj.offset.y = $(obj.image)[0].height / 2;
+							Editor.mSpritePack.addSprite( sprite );
+							Editor.mSpriteShown++;
+							SpritePropertiesView
+								.spriteNumber( Editor.spriteNumber() - 1 )
+								.currentSprite( Editor.currentSpriteIndex() )
+								.updateSpriteVal( Editor.currentSprite() );
+							ProgressBar.add( 1 );
+							if( index + 1 < files.length )
+							{
+								Editor.onImageAddStep( files, index + 1, group );
+							}
+							else
+							{
+								Editor.show();
+							}
+						}
+					})( index, items )
+				});
+				/*var sprite = new Sprite( name, group, index, new Image(), new Point( 0, 0 ) );
 				sprite.image.onload = (function( obj, sprite, files, group )
 				{
 					return function()
@@ -156,7 +184,7 @@ var Editor = new function()
 						}
 					}
 				})( obj, sprite, items, group );
-				sprite.image.src = event.target.result;
+				sprite.image.src = event.target.result;*/
 			};
 		})( this, files[i].name, group, i, jQuery.extend(true, {}, files) );
 		
@@ -178,7 +206,13 @@ var Editor = new function()
 		if( pCurrentSprite != undefined )
 		{
 			if( typeof( pCurrentSprite ) == "string" )
-			pCurrentSprite = parseInt(pCurrentSprite);
+			{
+				pCurrentSprite = parseInt(pCurrentSprite);
+				if( isNaN( pCurrentSprite ) )
+				{
+					pCurrentSprite = 0;
+				}
+			}
 			this.mSpriteShown = pCurrentSprite;
 			if( this.mSpriteShown >= this.spriteNumber() )
 			{

@@ -7,7 +7,7 @@
 	z-index:	999;
 	display:	none;
 }
-#addimg
+#addimg, #import_spritepack
 {
 	visibility:	hidden;
 	position:	absolute;

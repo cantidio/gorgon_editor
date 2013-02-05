@@ -3,20 +3,19 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 		<link rel="stylesheet" type="text/css" href="css/editor.css">
 		<script type="text/javascript" src="js/jszip/jszip.js"></script>
+		<script type="text/javascript" src="js/jszip/jszip-load.js"></script>
+		<script type="text/javascript" src="js/jszip/jszip-inflate.js"></script>
 		<script src="js/jquery.js"></script>
 		<script src="js/point.js"></script>
+		<script src="js/sprite.js"></script>
 		<script src="js/spritepack.js"></script>
 		<script src="js/progress_bar.js"></script>
 		<script src="js/editor.js"></script>
 		<script src="js/sprite_properties_view.js"></script>
 		
-		<script>
-		
-			
-		
-		
-			function playStep()
-			{
+		<script type="text/javascript">
+			var LUA;
+			function playStep() {
 				SpritePropertiesView.onSpriteForward();
 				//$("#sprite_properties > #sprite_slider > #forward").click();	
 				if( SpritePropertiesView.currentSprite() < SpritePropertiesView.spriteNumber() )
@@ -35,6 +34,46 @@
 					document.oncontextmenu	= new Function("return false");
 					
 					$("#anim").click( function() { playStep(); } );
+					$("#import").click( function() { $("#import_spritepack").click(); } );
+					$("#import_spritepack").change
+					(
+						function()
+						{
+							var item = $("#import_spritepack")[0].files[0];
+							$(this).val("");
+							if( item.type !== "application/zip" ) 
+							{
+								//and then
+							}
+							
+							var reader = new FileReader();
+							
+							reader.onload = function(e)
+							{
+								var zip = new JSZip( e.target.result );
+								ProgressBar.show( zip.file(/img/).length, function(){ ProgressBar.hide(); } );
+								Editor.mSpritePack.load
+								(
+									zip,
+									function()
+									{
+										Editor.currentSpriteIndex( Editor.mSpritePack.size() - 1 );
+										SpritePropertiesView
+												.spriteNumber( Editor.spriteNumber() - 1 )
+												.currentSprite( Editor.currentSpriteIndex() )
+												.updateSpriteVal( Editor.currentSprite() );
+										Editor.show();
+									},
+									function()
+									{
+										ProgressBar.add( 1 );
+									}
+								);
+							}
+							reader.readAsArrayBuffer( item );
+						}
+					);
+					
 					$("#download").click(
 						function()
 						{
@@ -78,14 +117,12 @@
 		</script>
 	</head>
 	<body>
-		
 		<progress id="progressbar" value="10" max="100"></progress> 
-		
-		<!--<div id="server">lol</div>-->
 		<ul id="menu">
-			<li>Abrir</li>
-			<li><a href="#" id="download">Save</a></li>
+			<li><a href="#" id="import">Import</a></li>
+			<li><a href="#" id="download">Export</a></li>
 			<li><input id="addimg" type="file" accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple"></li>
+			<li><input id="import_spritepack" type="file" accept=".zip"></li>
 		</ul>
 		<canvas id="viewport" class="viewport"></canvas>
 		<div id="sprite_properties">
@@ -117,8 +154,6 @@
 				<div><span>Group</span><span>Index</span></div>
 				<div><span><input min="0" value="0"id="onionskin_group" type="number"></span><span><input min="0" value="0" id="onionskin_index" type="number"></span></div>
 			</div>
-			
-			
 		</div>
 	</body>
 	
