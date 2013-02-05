@@ -35,11 +35,11 @@ function getBase64ImageType( pName ) {
  * Class that represents a sprite
  * 
  * @param	{Object} data composed by the following properties:{
- *	{String}	sprite's name
- * 	{Numberic}	sprite's group
- * 	{Int}		sprite's index
- * 	{Point}		sprite's offset
- *  {Image/String Base64} sprite's image
+ *	{String}	name	sprite's name
+ * 	{Numberic}	group	sprite's group
+ * 	{Int}		index	sprite's index
+ * 	{Point}		offset	sprite's offset
+ *  {Image}		image	sprite's image or its base64 data
  * @constructor
  */
 function Sprite( data )
