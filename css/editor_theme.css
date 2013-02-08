@@ -1,0 +1,14 @@
+.ui-dialog {
+	background: 		rgba(80,80,80,0.5);
+	box-shadow: 		3px 3px 10px rgb(21,21,21);
+	border-radius:		0px;	-moz-border-radius:	0px;
+	border: 			1px solid rgb(21,21,21);
+	font-family:		Arial;
+	font-size:			14px;
+	padding: 0px;
+}
+.ui-dialog .ui-dialog-titlebar {
+	border-radius:		0px;	-moz-border-radius:	0px;
+	border-bottom: 			1px solid rgb(21,21,21);
+	
+}
