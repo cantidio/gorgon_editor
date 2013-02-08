@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<link type="text/css" href="css/ui-darkness/jquery-ui.css" rel="stylesheet" />
+	<link type="text/css" href="css/editor_tabs.css" rel="stylesheet" />
+	<link type="text/css" href="css/editor_menu.css" rel="stylesheet" />
+	<link type="text/css" href="css/editor_dialog.css" rel="stylesheet" />
+	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
+	<script src="js/editor.js"></script>
+	<style type="text/css">
+		body
+		{
+			margin:		0px;
+			background:	url("http://www.kyleeheuerphotography.com/sitezimages/background/website%20background.jpg");
+		}
+		
+	</style>
+	<script type="text/javascript">
+		
+		$(document).ready(function(){
+			Editor.init();
+			$("#slider").slider({max: 30, min: 0, step: 1, value: 0})  ;
+			$("#menu").menu();
+			$( "#radio" ).buttonset();
+			$( "#tabs" ).tabs();
+			$("#dialog").dialog({ autoOpen: false });
+			
+			$( document ).tooltip();
+			$("#radio1").click
+			(
+				function()
+				{
+					$("#dialog").dialog("open");
+				}
+			);
+		});
+	</script>
+</head>
+<body>
+	
+	<!--<div id="tabs">
+		<ul>
+			<li><a href="#fragment-1"><span>SPRITEPACK</span></a></li>
+			<li><a href="#fragment-2"><span>ANIMATIONPACK</span></a></li>
+		</ul>
+		<div id="fragment-1">
+			<p>First tab is active by default:</p>
+			<pre><code>$( "#tabs" ).tabs(); </code></pre>
+		</div>
+		<div id="fragment-2">
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+		</div>
+	</div>
+	<!--<div id="slider"></div>
+	<ul id="menu">
+		<li><a href="#">Restore SpritePack</a></li>
+		<li><a href="#">Abrir SpritePack</a></li>
+		<li><a href="#">Salvar SpritePack</a></li>
+		<li></li>
+		<li><a href="#">Restore AnimationPack</a></li>
+		<li><a href="#">Abrir AnimationPack</a></li>
+		<li><a href="#">Salvar AnimationPack</a></li>
+		<li></li>
+		<li><a href="#">Item 3</a>
+			<ul>
+				<li><a href="#">Item 3-1</a></li>
+				<li><a href="#">Item 3-2</a></li>
+				<li><a href="#">Item 3-3</a></li>
+				<li><a href="#">Item 3-4</a></li>
+				<li><a href="#">Item 3-5</a></li>
+			</ul>
+		</li>
+		<li><a href="#">Item 4</a></li>
+		<li><a href="#">Item 5</a></li>
+	</ul>
+	<br>
+	<div id="dialog" title="Dialog Title">I'm a dialog from hell. ^^</div>
+	<div id="radio">
+		<input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label>
+		<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>
+		<input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
+	</div>
+	<br>
+	<input id="spinner" type="number">
+	
+	<div id="tabs">
+		<ul>
+			<li><a href="#fragment-1"><span>Spritepack</span></a></li>
+			<li><a href="#fragment-2"><span>Animationpack</span></a></li>
+		</ul>
+		<div id="fragment-1">
+			<p>First tab is active by default:</p>
+			<pre><code>$( "#tabs" ).tabs(); </code></pre>
+		</div>
+		<div id="fragment-2">
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+		</div>
+	</div>-->
+</body>
+</html>

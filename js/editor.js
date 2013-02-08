@@ -1,5 +1,65 @@
 var Editor = new function()
 {
+	this.mElementId	= "maintabs";
+	/**
+	 * Event Called when the window is resized. This event will resize the height of the tabs as well.
+	 */
+	this.onResize = function()
+	{
+		this.mElement.height( $(window).height() );
+	}
+	this.appendSpritePackTab = function()
+	{
+		var id = this.mElement.children("ul").children().length + 1;
+		this.mElement.children("ul").append
+		(
+			$("<li/>").append
+			(
+				$('<a href="#fragment-'+id+'">').append
+				(
+					$("<span/>").text( "SPRITEPACK" ) 
+				)
+			)
+		);
+		this.mElement.append
+		(
+			$('<div id="fragment-'+id+'"/>').append( $("<p>spritepack-tab"+id+"</p>") )
+		);
+	}
+	this.appendAnimationPackTab = function()
+	{
+		//return $("<p>animationpack-tab</p>");
+	}
+	this.registerEvents = function()
+	{
+		$(window).resize
+		(
+			(function(obj){
+				return function(){ obj.onResize(); }
+			})(this)
+		);
+	}
+	this.init = function()
+	{
+		this.mElement	= $("<div/>").attr("id", this.mElementId );
+		
+		console.log(this.mElement);
+		this.mElement.append( $("<ul/>") );
+		this.appendSpritePackTab();
+		this.appendSpritePackTab();
+		this.appendAnimationPackTab();
+		
+		
+		this.mElement.tabs();
+		this.onResize();
+		$("body").append( this.mElement );
+		
+		
+		this.registerEvents();
+	}
+}
+/*var Editor = new function()
+{
 	this.show = function() {
 		this.mElement.width		= this.mSize.x;
 		this.mElement.height	= this.mSize.y;
@@ -158,33 +218,6 @@ var Editor = new function()
 						}
 					})( index, items )
 				});
-				/*var sprite = new Sprite( name, group, index, new Image(), new Point( 0, 0 ) );
-				sprite.image.onload = (function( obj, sprite, files, group )
-				{
-					return function()
-					{
-						sprite.offset.x = $(sprite.image)[0].width / 2;
-						sprite.offset.y = $(sprite.image)[0].height / 2;
-						obj.mSpritePack.addSprite( sprite );
-						++obj.mSpriteShown;
-//SpritePropertiesView
-						SpritePropertiesView
-							.spriteNumber( obj.spriteNumber() - 1 )
-							.currentSprite( obj.currentSpriteIndex() )
-							.updateSpriteVal( obj.currentSprite() );
-						
-						ProgressBar.add( 1 );
-						if( index + 1 < files.length )
-						{
-							obj.onImageAddStep( files, index + 1, group );
-						}
-						else
-						{
-							obj.show();
-						}
-					}
-				})( obj, sprite, items, group );
-				sprite.image.src = event.target.result;*/
 			};
 		})( this, files[i].name, group, i, jQuery.extend(true, {}, files) );
 		
@@ -299,13 +332,8 @@ var Editor = new function()
 		}
 		SpritePropertiesView.updateSpriteVal( this.currentSprite() ? this.currentSprite() : new Sprite() );
 		SpritePropertiesView.currentSprite( this.currentSpriteIndex() );
-		/*console.log("key press");
-		console.log( event );
-		console.log(" valor: "+this.mSpriteShown);*/
 	}
 	this.onMousePress	= function( event ) {
-		/*console.log("mouse press");
-		console.log( event );*/
 		if( event.button == 1 )
 		{
 			if( this.mod.control )
@@ -343,12 +371,12 @@ var Editor = new function()
 		);
 		$(window).keydown(
 			(function( obj ) {
-				return function( event ) { /*event.preventDefault();*/ obj.onKeyPress( event.which );  }
+				return function( event ) { obj.onKeyPress( event.which );  }
 			})( this )
 		);
 		$(window).keyup(
 			(function( obj ) {
-				return function( event ) { /*event.preventDefault();*/ obj.onKeyRelease( event.which );  }
+				return function( event ) { obj.onKeyRelease( event.which );  }
 			})( this )
 		);
 		
@@ -396,3 +424,4 @@ var Editor = new function()
 		this.registerCallbacks();
 	}
 }
+*/
