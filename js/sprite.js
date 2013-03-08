@@ -78,8 +78,6 @@ Sprite.prototype.load = function( base64, onLoad ) {
 	{
 		return function()
 		{
-			obj.offset.x = $(obj.image)[0].width / 2;
-			obj.offset.y = $(obj.image)[0].height / 2;
 			onLoad( obj );
 		}
 	})( this, onLoad );
