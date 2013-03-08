@@ -23,8 +23,13 @@ var Editor = new function()
 		);
 		this.mElement.append
 		(
-			$('<div id="fragment-'+id+'"/>').append( $("<p>spritepack-tab"+id+"</p>") )
+			$('<div id="fragment-'+id+'"/>')/*.append( $("<p>spritepack-tab"+id+"</p>") )*/
 		);
+		
+		console.log('#fragment-'+id);
+		this.mSpritePackView = new SpritePackView( this.mElement.children('#fragment-'+id) );
+		
+		
 	}
 	this.appendAnimationPackTab = function()
 	{
@@ -43,15 +48,13 @@ var Editor = new function()
 	{
 		this.mElement	= $("<div/>").attr("id", this.mElementId );
 		
-		console.log(this.mElement);
 		this.mElement.append( $("<ul/>") );
-		this.appendSpritePackTab();
 		this.appendSpritePackTab();
 		this.appendAnimationPackTab();
 		
-		
 		this.mElement.tabs();
 		this.onResize();
+		
 		$("body").append( this.mElement );
 		
 		

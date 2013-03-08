@@ -1,5 +1,27 @@
+function SpritePackView( pParent )
+{
+	/*this.appendSpriteProperties = function()
+	{
+		
+	}*/
+	this.init = function( pParent )
+	{
+		this.mElement	= $('<div class="tab-content"/>').text("blabla");
+		
+		
+		$( pParent ).append( this.mElement );
+	}
+	
+	this.init( pParent );
+}
+
+/*
 var SpritePropertiesView = new function()
 {
+	
+	
+	
+	
 	this.registerCallbacks		= function() {
 		$("#sprite_properties > div > div > span > #add").click( function() { $("#addimg").click(); } );
 		$("#sprite_properties > div > div > span > #del").click( (function( obj ){ return function() { obj.onSpriteDelete(); } })( this ) );
@@ -178,3 +200,4 @@ var SpritePropertiesView = new function()
 	
 	//this
 }
+*/

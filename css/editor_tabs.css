@@ -1,8 +1,9 @@
 .ui-tabs {
 	border:			none;
 	border-radius:	0px; -moz-border-radius:	0px;
-	background: 	rgb(29,29,29);
+	background: 	#181818;
 	padding:		0px;
+	height:			100%;
 }
 .ui-tabs .ui-tabs-nav {
 	background: 	rgb(51,51,51);
@@ -37,7 +38,22 @@
 	padding-bottom: 4px;
 }
 .ui-tabs .ui-tabs-panel {
+	margin-top:		12px;
+	margin-left:	123px;
+	margin-right:	123px;
+	margin-bottom:	12px;
+	background: 	#4a4a4a;
+	padding:		0px;
+	border-radius:	0px; -moz-border-radius:	0px;
+}
+.ui-tabs .ui-tabs-panel > .tab-options
+{
+	width:			248px;
+	height:			100%;
+	padding-top:	14px;
+	padding-left:	9px;
+	padding-right:	9px;
+	margin: 		-1px;
 	
-	border:	none;
-	border-radius:		0px; -moz-border-radius:	0px;
+	border:1px solid red;
 }
