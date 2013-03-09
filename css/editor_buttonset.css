@@ -2,6 +2,7 @@
 	font-family:		Arial;
 	font-size:			10px;
 	margin-left:		0px;
+	width:100%;
 }
 .ui-buttonset .ui-button {
 	border:				1px solid rgb(44,44,44);
@@ -9,6 +10,8 @@
 	margin-right:		-3px;
 	background:			rgb(63,63,63);
 	color:				rgb(119,119,119);
+	
+	/*min-width:49.5%;*/
 }
 .ui-buttonset .ui-button.ui-state-active {
 	background: rgb(44,44,44);

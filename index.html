@@ -5,10 +5,15 @@
 	<link type="text/css" rel="stylesheet" href="css/fonts.css"/>
 	<link type="text/css" rel="stylesheet" href="css/ui-darkness/jquery-ui.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_buttonset.css"/>
-	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
+	
 	<link type="text/css" rel="stylesheet" href="css/editor_tabs.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_menu.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_dialog.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_toolbar.css"/>
+	
+	<link type="text/css" rel="stylesheet" href="css/editor_input.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_input_number.css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
@@ -20,9 +25,7 @@
 		{
 			margin:		0px;
 			background:	url("http://www.kyleeheuerphotography.com/sitezimages/background/website%20background.jpg");
-		}
-		
-		
+		}		
 	</style>
 	<script type="text/javascript">
 		//13:11
@@ -43,6 +46,7 @@
 					$("#dialog").dialog("open");
 				}
 			);
+			
 		});
 	</script>
 </head>
@@ -54,11 +58,65 @@
 		</ul>
 		<div id="fragment-1">
 			<div class="tab-options">
-				<label>New Group</label><br>
+				<label>New Group</label>
 				<input type="button" id="create_and_import" value="Create and Import"></input>
+				<label>Properties of Selected Sprite</label>
+				
+				<div class="container">
+					<span class="split left">
+						<label>Group</label>
+						<input type="number" value="0"/>
+					</span>					
+					<span class="split right">
+						<label>Index</label>
+						<input type="number" value="0"/>
+					</span>
+					
+					<span>
+						<label>Name or comment</label>
+						<input type="text" value="frame1"/>
+					</span>
+
+					<span class="split left">
+						<label>XOffset</label>
+						<input type="number" value="0"/>
+					</span>
+					
+					<span class="split right">
+						<label>YOffset</label>
+						<input type="number" value="0"/>
+					</span>
+					
+				</div>
+				<label>Viewport</label>
+				<div id="radio">
+					<input type="radio" id="radio1" name="radio"><label for="radio1">Maximized</label>
+					<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Thumbnails</label>
+				</div>
+				
+			</div>
+			<div class="tab-main-content">
+				<div class="toolbar">
+					<button class="tool" id="crop"></button>
+					<button class="tool" id="flipHorizontal"></button>
+					<button class="tool" id="flipVertical"></button>
+					<button class="tool" id="rotateLeft"></button>
+					<button class="tool" id="rotateRight"></button>
+					<button class="tool" id="zoomNormal"></button>
+					<button class="tool" id="zoomIn"></button>
+					<button class="tool" id="zoomOut"></button>
+					<div class="tool lock">
+						<input type="checkbox" value="None" id="squaredOne" name="check" />
+						<label for="squaredOne"></label>
+					</div>
+				</div>
+			</div>
+	
 			
-			OI<br><br><br><br><br><br><br></div>
-			<div class="tab-main-content"></div>
+			
+			
+			
+			
 		</div>
 		<div id="fragment-2">
 			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.

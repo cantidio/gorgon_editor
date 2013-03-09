@@ -48,12 +48,19 @@
 }
 .ui-tabs .ui-tabs-panel > .tab-options
 {
-	width:			248px;
+	width:			230px;
 	height:			100%;
-	padding-top:	14px;
+	padding-top:	4px;
 	padding-left:	9px;
 	padding-right:	9px;
 	margin: 		-1px;
+	display:		inline-block;
+}
+.tab-main-content
+{
+	display:	inline-block;
 	
-	border:1px solid red;
+	height: 100%;
+	
+	border: 1px solid green;
 }

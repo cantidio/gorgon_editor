@@ -1,11 +1,4 @@
 input[type=number] {
-	border: 		none;
-	background: 	rgb(44,44,44);
-	color:			rgb(170,170,170);
-	text-align:		center;
-	font-family:	Arial;
-	font-size:		12px;
-	outline:		none;
 }
 input[type=number]:focus {
 	
