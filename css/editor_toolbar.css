@@ -1,0 +1,96 @@
+.tool
+{
+	position:			relative;
+	padding:			0px;
+	margin-bottom:		3px;
+	border: 			2px solid rgb(29,29,29);
+	border-radius:		2px; -moz-border-radius:	2px;
+	background:			-2px -2px #4A4A4A;
+	width:				32px;
+	height:				32px;
+	-webkit-box-shadow:	none;
+	-moz-box-shadow:	none;
+	box-shadow:			none;
+}
+.tool:hover
+{
+	background-color:	#6F6F6F;
+	cursor:				pointer;
+}
+.tool:active
+{
+	background-color: 	#313131;
+}
+div.tool
+{
+	padding:0px;
+	margin:	0px;
+	width:	28px;
+	height:	28px;
+}
+.tool > input[type=checkbox]
+{
+	visibility:	hidden;
+	margin:		0px;
+	padding:	0px;
+}
+.tool > label
+{
+	position:	absolute;
+	top:		0px;
+	left:		0px;
+	width: 		100%;
+	height:		100%;
+	padding:	0px;
+	margin:		0px;
+	background:	none;
+}
+.tool > input[type=checkbox]:checked + label
+{
+	background-color: #313131;
+}
+div.tool.lock > label
+{
+	background-image: 		url("../imgs/tools/tools_lock.png");
+	background-position:	-2px -2px;
+}
+.tool#crop
+{
+	background-image: 		url("../imgs/tools/tools_crop.png");
+}
+
+.tool#flipHorizontal
+{
+	background-image: 		url("../imgs/tools/tools_flip_horizontal.png");
+}
+.tool#flipVertical
+{
+	background-image: 		url("../imgs/tools/tools_flip_vertical.png");
+}
+.tool#rotateLeft
+{
+	background-image: 		url("../imgs/tools/tools_rotate_left.png");
+}
+.tool#rotateRight
+{
+	background-image: 		url("../imgs/tools/tools_rotate_right.png");
+}
+.tool#zoomNormal
+{
+	background-image: 		url("../imgs/tools/tools_zoom_normal.png");
+}
+.tool#zoomIn
+{
+	background-image: 		url("../imgs/tools/tools_zoom_in.png");
+}
+.tool#zoomOut
+{
+	background-image: 		url("../imgs/tools/tools_zoom_out.png");
+}
+
+.toolbar
+{
+	margin-top:		15px;
+	margin-left:	15px;
+	width: 			32px;
+}
