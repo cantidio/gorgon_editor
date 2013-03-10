@@ -32,7 +32,23 @@
 			//Editor.init();
 			$("#slider").slider({max: 30, min: 0, step: 1, value: 0})  ;
 			$("#menu").menu();
-			$( "#radio" ).buttonset();
+			$( "#viewport_input" ).buttonset();
+			$( "#onionskin_input" ).buttonset();
+			$( "#onionskin_input input[type=radio]" ).change(function()
+				{
+					var div = $("#oninskin_fixed_input_container");
+					if( this.value != 2 )
+					{
+						div.css("opacity","0.6");
+						div.children("span").children("input").attr("disabled",true);
+					}
+					else
+					{
+						div.css("opacity","1.0");
+						div.children("span").children("input").attr("disabled",false);
+					}
+				}
+			);
 			$( "#tabs" ).tabs();
 			$("#dialog").dialog({ autoOpen: false });
 			
@@ -88,10 +104,28 @@
 					
 				</div>
 				<label>Viewport</label>
+				<div id="viewport_input" style="display:table; width:100%;">
+					<input name="viewport_input" type="radio" id="viewport_maximized" checked="checked"><label for="viewport_maximized">Maximized</label>
+					<input name="viewport_input" type="radio" id="viewport_thumbnails"><label for="viewport_thumbnails">Thumbnails</label>
+				</div>
 				
-				<div id="radio" style="display:table; width:100%;">
-					<input type="radio" id="radio1" name="radio"><label for="radio1">Maximized</label>
-					<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Thumbnails</label>
+				<label>OnionSkin</label>
+				
+				<div id="onionskin_input" style="display:table; width:100%;">
+					<input type="radio" name="onionskin_input" value = "0" id="onionskin_disabled"><label for="onionskin_disabled">Disabled</label>
+					<input type="radio" name="onionskin_input" value = "1" id="onionskin_lastsprite" checked="checked"><label for="onionskin_lastsprite">Last Sprite</label>
+					<input type="radio" name="onionskin_input" value = "2" id="onionskin_fixed"><label for="onionskin_fixed">Fixed</label>
+				</div>
+				
+				<div class="container" id="oninskin_fixed_input_container" style="opacity: 0.6">
+					<span class="split left">
+						<label>Group</label>
+						<input type="number" value="0" disabled />
+					</span>					
+					<span class="split right">
+						<label>Index</label>
+						<input type="number" value="0" disabled />
+					</span>
 				</div>
 				
 			</div>
