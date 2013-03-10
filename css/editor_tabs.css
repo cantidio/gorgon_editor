@@ -11,6 +11,7 @@
 	border-radius:	0px; -moz-border-radius:	0px;
 	padding-left:	124px;
 	padding-bottom:	25px;
+
 }
 .ui-tabs .ui-tabs-nav li {
 	border: 			3px solid rgb(29,29,29);
@@ -37,30 +38,44 @@
 	color:			rgb(39,179,245);
 	padding-bottom: 4px;
 }
-.ui-tabs .ui-tabs-panel {
-	margin-top:		12px;
-	margin-left:	123px;
-	margin-right:	123px;
-	margin-bottom:	12px;
-	background: 	#4a4a4a;
-	padding:		0px;
-	border-radius:	0px; -moz-border-radius:	0px;
+.ui-tabs .ui-tabs-panel 
+{
+	display:			table;
+	min-width:			1339px;
+	margin-top:			12px;
+	margin-left:		123px;
+	margin-right:		123px;
+	margin-bottom:		12px;
+	background: 		#4a4a4a;
+	padding: 			9px;	
+	border:				none;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+}
+.ui-tabs .ui-tabs-panel > .space
+{
+	/*display:table-cell;*/
+	min-width:	123px;
+	
+	width:		123px;
+	background: #252525;
 }
 .ui-tabs .ui-tabs-panel > .tab-options
 {
+	display:		table-cell;
 	width:			230px;
 	height:			100%;
-	padding-top:	4px;
-	padding-left:	9px;
+	padding:		0px;
 	padding-right:	9px;
-	margin: 		-1px;
-	display:		inline-block;
+	vertical-align: top;
 }
 .tab-main-content
 {
-	display:	inline-block;
+	display:	table-cell;	
+	height:		100%;
+	min-width:	1091px;
+	width:		100%;
 	
-	height: 100%;
-	
-	border: 1px solid green;
+	border:		2px solid #252525;
+	background: url("../imgs/grid_background.png");
 }
