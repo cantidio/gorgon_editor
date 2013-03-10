@@ -1,3 +1,9 @@
+.toolbar
+{
+	margin-top:		15px;
+	margin-left:	15px;
+	width: 			32px;
+}
 .tool
 {
 	position:			relative;
@@ -54,11 +60,11 @@ div.tool.lock > label
 	background-image: 		url("../imgs/tools/tools_lock.png");
 	background-position:	-2px -2px;
 }
+
 .tool#crop
 {
 	background-image: 		url("../imgs/tools/tools_crop.png");
 }
-
 .tool#flipHorizontal
 {
 	background-image: 		url("../imgs/tools/tools_flip_horizontal.png");
@@ -86,11 +92,4 @@ div.tool.lock > label
 .tool#zoomOut
 {
 	background-image: 		url("../imgs/tools/tools_zoom_out.png");
-}
-
-.toolbar
-{
-	margin-top:		15px;
-	margin-left:	15px;
-	width: 			32px;
 }

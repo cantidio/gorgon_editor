@@ -1,8 +1,14 @@
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button 
+{
+	-webkit-appearance:		none;
+	margin: 				0;
+}
 input[type=number] , input[type=text] {
 	padding-top:		2px;
 	padding-bottom:		0px;
 	padding-right:		8px;
 	padding-left:		8px;
+	margin:				0px;
 	height:				15px;
 	text-align:			right;
 	font-family:		Arial;
@@ -15,9 +21,6 @@ input[type=number] , input[type=text] {
 	-webkit-box-shadow:	1px 1px 0 #616161, inset 1px 2px 0 #313131, inset -1px 0 0 #313131;
 	-moz-box-shadow:	1px 1px 0 #616161, inset 1px 2px 0 #313131, inset -1px 0 0 #313131;
 	box-shadow:			1px 1px 0 #616161, inset 1px 2px 0 #313131, inset -1px 0 0 #313131;
-	
-	
-	margin:0px;
 }
 
 .tab-options > .container
@@ -67,12 +70,10 @@ label
 	padding-top:		10px;
 	padding-bottom:		1px;
 	
-	/*border:1px solid red;*/
+	font-family:		Arial;
+	color:				#1b1b1b;
+	font-size:			12px;
+	font-weight:		600;
 	
-	font-family:	Arial;
-	color:			#1b1b1b;
-	font-size:		12px;
-	font-weight:	600;
-	
-	text-shadow: 0px 1px 0px #545454;
+	text-shadow: 		0px 1px 0px #545454;
 }
