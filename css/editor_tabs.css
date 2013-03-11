@@ -75,7 +75,7 @@
 	height:		100%;
 	min-width:	1091px;
 	width:		100%;
-	
+	position: relative;
 	border:		2px solid #252525;
 	background: url("../imgs/grid_background.png");
 }

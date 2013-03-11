@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="us">
 <head>
 	<meta charset="utf-8">
@@ -24,12 +24,78 @@
 		{
 			margin:		0px;
 			background:	url("http://www.kyleeheuerphotography.com/sitezimages/background/website%20background.jpg");
-		}		
+		}
+		
+		
+		.drawing-area
+		{
+			display:		block;
+			position:		absolute;
+			top:			0px;
+			left:			0px;
+			width:			100%;
+			height:			100%;
+		}
+		.horizontal-line
+		{
+			position:		absolute;
+			top:			50%;
+			left:			0px;
+			width:			100%;
+			height:			1px;
+			border-top: 	1px solid #7c7c7c;
+			margin-top:		-1;
+		}
+		.vertical-line
+		{
+			position: 		absolute;
+			top:			0px;
+			left:			50%;
+			width: 			1px;
+			height: 		100%;			
+			border-left:	1px solid #7c7c7c;
+			margin-left:	-1px;
+		}
+		.hotspot
+		{
+			position: 		absolute;
+			top:			50%;
+			left:			50%;
+			width:			5px;
+			height:			5px;
+			background:		#7c7c7c;
+			margin-top:		-2px;
+			margin-left:	-3px;
+			cursor:			pointer;
+		}
+		
+		
 	</style>
 	<script type="text/javascript">
 		//13:11
 		$(document).ready(function(){
 			//Editor.init();
+			
+			
+			$( "#hotspot" ).draggable
+			({
+				handle: "#hotspot",
+				containment: "parent",
+				drag: function()
+				{
+					$(".horizontal-line").css({ top: $(this).position().top });
+					$(".vertical-line").css({ left: $(this).position().left });
+				},
+				stop: function()
+				{
+					$(".horizontal-line").css({ top: $(this).position().top });
+					$(".vertical-line").css({ left: $(this).position().left });
+				}
+			});
+			
+			/*$( "div, p" ).disableSelection();
+			*/
+			
 			$("#slider").slider({max: 30, min: 0, step: 1, value: 0})  ;
 			$("#menu").menu();
 			$( "#viewport_input" ).buttonset();
@@ -131,17 +197,20 @@
 					
 				</div>
 				<label>Viewport</label>
-				<div id="viewport_input" style="display:table; width:100%;">
-					<input name="viewport_input" type="radio" id="viewport_maximized" checked="checked"><label for="viewport_maximized">Maximized</label>
-					<input name="viewport_input" type="radio" id="viewport_thumbnails"><label for="viewport_thumbnails">Thumbnails</label>
+				<div class="buttonset-closure">
+					<div id="viewport_input">
+						<input name="viewport_input" type="radio" id="viewport_maximized" checked="checked"><label for="viewport_maximized">Maximized</label>
+						<input name="viewport_input" type="radio" id="viewport_thumbnails"><label for="viewport_thumbnails">Thumbnails</label>
+					</div>
 				</div>
-				
 				<label>OnionSkin</label>
 				
-				<div id="onionskin_input" style="display:table; width:100%;">
-					<input type="radio" name="onionskin_input" value = "0" id="onionskin_disabled"><label for="onionskin_disabled">Disabled</label>
-					<input type="radio" name="onionskin_input" value = "1" id="onionskin_lastsprite" checked="checked"><label for="onionskin_lastsprite">Last Sprite</label>
-					<input type="radio" name="onionskin_input" value = "2" id="onionskin_fixed"><label for="onionskin_fixed">Fixed</label>
+				<div class="buttonset-closure">
+					<div id="onionskin_input">
+						<input type="radio" name="onionskin_input" value = "0" id="onionskin_disabled"><label for="onionskin_disabled">Disabled</label>
+						<input type="radio" name="onionskin_input" value = "1" id="onionskin_lastsprite" checked="checked"><label for="onionskin_lastsprite">Last Sprite</label>
+						<input type="radio" name="onionskin_input" value = "2" id="onionskin_fixed"><label for="onionskin_fixed">Fixed</label>
+					</div>
 				</div>
 				
 				<div class="container" id="oninskin_fixed_input_container" style="opacity: 0.6">
@@ -157,15 +226,26 @@
 				
 			</div>
 			<div class="tab-main-content">
+			
+			
+			<div class="drawing-area">
+				<div class="horizontal-line"></div>
+				<div class="vertical-line"></div>
+				<div id="hotspot" class="hotspot"></div>
+			</div>
+			
+			
+			
+			
 				<div class="toolbar">
-					<button class="tool" id="crop"></button>
-					<button class="tool" id="flipHorizontal"></button>
-					<button class="tool" id="flipVertical"></button>
-					<button class="tool" id="rotateLeft"></button>
-					<button class="tool" id="rotateRight"></button>
-					<button class="tool" id="zoomNormal"></button>
-					<button class="tool" id="zoomIn"></button>
-					<button class="tool" id="zoomOut"></button>
+					<button class="tool" id="crop"><div></div></button>
+					<button class="tool" id="flipHorizontal"><div></div></button>
+					<button class="tool" id="flipVertical"><div></div></button>
+					<button class="tool" id="rotateLeft"><div></div></button>
+					<button class="tool" id="rotateRight"><div></div></button>
+					<button class="tool" id="zoomNormal"><div></div></button>
+					<button class="tool" id="zoomIn"><div></div></button>
+					<button class="tool" id="zoomOut"><div></div></button>
 					<div class="tool lock">
 						<input type="checkbox" value="None" id="squaredOne" name="check" />
 						<label for="squaredOne"></label>

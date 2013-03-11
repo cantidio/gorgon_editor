@@ -26,12 +26,15 @@ input[type=number] , input[type=text]
 
 .tab-options > .container
 {
+	display:		block;
 	border:			1px solid #252525;
 	padding-top:	1px;	
 	padding-bottom:	10px;
 	padding-left:	8px;
-	padding-right:	8px;
+	padding-right:	6px;
+	margin:			0px;
 	margin-top:		5px;
+	position:		relative;
 }
 .tab-options > .container > span
 {
@@ -42,7 +45,7 @@ input[type=number] , input[type=text]
 }
 .tab-options > .container > span > input 
 {
-	width: 192px;
+	width: 194px;
 }
 .tab-options > .container > span.split
 {
@@ -56,7 +59,7 @@ input[type=number] , input[type=text]
 .tab-options > .container > span.left
 {
 	float: 			left;
-	margin-right:	4px;
+	margin-right:	6px;
 }
 .tab-options > .container > span.right
 {
