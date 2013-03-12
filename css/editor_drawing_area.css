@@ -1,0 +1,91 @@
+.drawing-area
+{
+	display:				block;
+	position:				absolute;
+	top:					0px;
+	left:					0px;
+	
+	width:					100%;
+	height:					100%;
+	
+	overflow:				hidden;
+	-moz-user-select:		none;
+	-khtml-user-select:		none;
+	-webkit-user-select:	none;
+	user-select: 			none;
+}
+.drawing-area > .draggable
+{
+	position: 		absolute;
+	top:			-50%;
+	left:			-50%;
+	width: 			500px;
+	height: 		500px;
+	cursor:			pointer;
+	padding:		0px;
+	margin:			0px;
+}
+.drawing-area > .draggable.ui-draggable-dragging
+{
+	cursor:			move;
+}
+
+.drawing-area > .draggable > span
+{
+	display:		block;
+	position:		absolute;
+	top:			50%;
+	left:			50%;
+	padding-left: 	4px;
+	padding-top:	4px;
+	text-align:		right;
+	color:			#7C7C7C;
+	font-family:	Arial;
+	font-size:		8px;
+}
+.horizontal-line
+{
+	position:		absolute;
+	top:			50%;
+	left:			50%;
+	height:			1px;
+	border-top: 	1px solid #7c7c7c;
+	margin-top:		-1;
+}
+.vertical-line
+{
+	position: 		absolute;
+	top:			50%;
+	left:			50%;
+	width: 			1px;
+	border-left:	1px solid #7c7c7c;
+	margin-left:	-1px;			
+}
+.hotspot
+{
+	position: 		absolute;
+	top:			50%;
+	left:			50%;
+	width:			5px;
+	height:			5px;
+	background:		#7c7c7c;
+	margin-top:		-2px;
+	margin-left:	-3px;
+	cursor:			move;
+}
+.sprite
+{
+	position:			absolute;
+	cursor:				move;
+	top:				50%;
+	left:				50%;
+	width:				237px;
+	height:				335px;
+	margin:				0px;
+	padding:			0px;
+	border:				1px solid rgba(0,0,0,0);
+}
+.sprite.borderOn
+{
+	border:				1px solid #7c7c7c;
+}

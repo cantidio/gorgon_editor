@@ -11,8 +11,10 @@
 	<link type="text/css" rel="stylesheet" href="css/editor_dialog.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_toolbar.css"/>
 	
+	<link type="text/css" rel="stylesheet" href="css/editor_slider.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_input.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_drawing_area.css"/>
 	
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
@@ -26,106 +28,10 @@
 		{
 			margin:		0px;
 		}
-		
-		.drawing-area
-		{
-			display:				block;
-			position:				absolute;
-			top:					0px;
-			left:					0px;
-			
-			width:					100%;
-			height:					100%;
-			
-			overflow:				hidden;
-			-moz-user-select:		none;
-			-khtml-user-select:		none;
-			-webkit-user-select:	none;
-			user-select: 			none;
-		}
-		.drawing-area > .draggable
-		{
-			position: 		absolute;
-			top:			-50%;
-			left:			-50%;
-			width: 			500px;
-			height: 		500px;
-			cursor:			pointer;
-			padding:		0px;
-			margin:			0px;
-		}
-		.drawing-area > .draggable.ui-draggable-dragging
-		{
-			cursor:			move;
-		}
-		
-		.drawing-area > .draggable > span
-		{
-			display:		block;
-			position:		absolute;
-			top:			50%;
-			left:			50%;
-			padding-left: 	4px;
-			padding-top:	4px;
-			text-align:		right;
-			color:			#7C7C7C;
-			font-family:	Arial;
-			font-size:		8px;
-		}
-		.horizontal-line
-		{
-			position:		absolute;
-			top:			50%;
-			left:			50%;
-			height:			1px;
-			border-top: 	1px solid #7c7c7c;
-			margin-top:		-1;
-		}
-		.vertical-line
-		{
-			position: 		absolute;
-			top:			50%;
-			left:			50%;
-			width: 			1px;
-			border-left:	1px solid #7c7c7c;
-			margin-left:	-1px;			
-		}
-		.hotspot
-		{
-			position: 		absolute;
-			top:			50%;
-			left:			50%;
-			width:			5px;
-			height:			5px;
-			background:		#7c7c7c;
-			margin-top:		-2px;
-			margin-left:	-3px;
-			cursor:			move;
-		}
-		.sprite
-		{
-			position:			absolute;
-			cursor:				move;
-			top:				50%;
-			left:				50%;
-			width:				237px;
-			height:				335px;
-			margin:				0px;
-			padding:			0px;
-			border:				1px solid rgba(0,0,0,0);
-		}
-		.sprite.borderOn
-		{
-			border:				1px solid #7c7c7c;
-		}
-		
-		
 	</style>
 	<script type="text/javascript">
 		//13:11
-		
-		
-		function setLines()
+		function updateDrawingArea()
 		{
 			var	mult	= 2,
 				parent	= $(".draggable").parent(),
@@ -162,10 +68,6 @@
 				width:		width,
 				marginLeft:	-width / 2
 			});
-			
-			
-		
-			
 		}
 		$(document).ready(function(){
 			//Editor.init();
@@ -176,12 +78,12 @@
 				containment: "parent",
 				drag: function()
 				{
-					console.log( "xoffset: " + -( $(".hotspot").position().left - $(".sprite").position().left ) );
-					console.log( "yoffset: " + -( $(".hotspot").position().top - $(".sprite").position().top ) );
+					//console.log( "xoffset: " + -( $(".hotspot").position().left - $(".sprite").position().left ) );
+					//console.log( "yoffset: " + -( $(".hotspot").position().top - $(".sprite").position().top ) );
 				}
 			});
 			
-			$("#frame-slider").slider({max: 30, min: 0, step: 1, value: 0})  ;
+			$("#frame-slider").slider({max: 30, min: 1, step: 1, value: 1})  ;
 			$("#menu").menu();
 			$( "#viewport_input" ).buttonset();
 			$( "#onionskin_input" ).buttonset();
@@ -213,8 +115,7 @@
 			$( "#tabs" ).tabs();
 			$("#dialog").dialog({ autoOpen: false });
 			
-			$( document ).tooltip();
-			//$("#create_and_import").button();
+			//$( document ).tooltip();
 			$("#radio1").click
 			(
 				function()
@@ -223,19 +124,13 @@
 				}
 			);
 			
-			
-			
-			
-			
-			
 			var window_height	= $(window).height()
 			$("#tabs").height( window_height );
 			var nav_height		= $("#tabs").children("ul").height();
-			var offset = $("#tabs").children("div").offset();
+			var offset			= $("#tabs").children("div").offset();
 			$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
-					
-			setLines();
+			updateDrawingArea();
 			
 			var a = new Sprite
 			({
@@ -243,11 +138,7 @@
 				onload: function( obj )
 				{
 					var img = $( obj.image );
-					
-					
-					
 					$(".sprite").empty().append( img ).css({ width: obj.image.width, height: obj.image.height });
-					
 				}
 			});
 			
@@ -259,11 +150,10 @@
 					$("#tabs").height( window_height );
 					
 					var nav_height		= $("#tabs").children("ul").height();
-					var offset = $("#tabs").children("div").offset();
+					var offset			= $("#tabs").children("div").offset();
 					$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
-					//var conteudo_offset = $("#tabs").children("div").children(".tab-main-content").offset();
-					setLines();
+					updateDrawingArea();
 				}
 			);
 			
@@ -353,9 +243,7 @@
 						<div class="vertical-line"></div>
 						<div id="hotspot" class="hotspot"></div>
 						<span>BASELINE</span>
-						<div class="sprite">
-							<!--<img class="sprite"></img>-->
-						</div>
+						<div class="sprite"></div>
 					</div>
 				</div>
 			
@@ -373,8 +261,14 @@
 						<label for="squaredOne"></label>
 					</div>
 				</div>
-				
-				
+				<div  class="framebar">
+						<button id="framebar_first_button"></button>
+						<button id="framebar_back_button"></button>
+						<button id="framebar_play_button"></button>
+						<button id="framebar_next_button"></button>
+						<button id="framebar_last_button"></button>
+					<div class="slider-closure"><div id="frame-slider"></div></div>
+				</div>
 			</div>
 			
 			
