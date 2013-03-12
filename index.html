@@ -17,6 +17,8 @@
 	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
 	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
 	<script src="js/sprite_properties_view.js"></script>
+	<script src="js/point.js"></script>
+	<script src="js/sprite.js"></script>
 	<script src="js/editor.js"></script>
 	
 	<style type="text/css">
@@ -26,22 +28,38 @@
 			background:	url("http://www.kyleeheuerphotography.com/sitezimages/background/website%20background.jpg");
 		}
 		
-		
 		.drawing-area
+		{
+			display:				block;
+			position:				absolute;
+			top:					0px;
+			left:					0px;
+			width:					100%;
+			height:					100%;
+			overflow:				hidden;
+			-moz-user-select:		none;
+			-khtml-user-select:		none;
+			-webkit-user-select:	none;
+			user-select: 			none;
+		}
+		.drawing-area > span
 		{
 			display:		block;
 			position:		absolute;
-			top:			0px;
-			left:			0px;
-			width:			100%;
-			height:			100%;
+			top:			50%;
+			left:			50%;
+			padding-left: 	4px;
+			padding-top:	4px;
+			text-align:		right;
+			color:			#7C7C7C;
+			font-family:	Arial;
+			font-size:		8px;
 		}
 		.horizontal-line
 		{
 			position:		absolute;
 			top:			50%;
-			left:			0px;
-			width:			100%;
+			left:			50%;
 			height:			1px;
 			border-top: 	1px solid #7c7c7c;
 			margin-top:		-1;
@@ -49,12 +67,11 @@
 		.vertical-line
 		{
 			position: 		absolute;
-			top:			0px;
+			top:			50%;
 			left:			50%;
 			width: 			1px;
-			height: 		100%;			
 			border-left:	1px solid #7c7c7c;
-			margin-left:	-1px;
+			margin-left:	-1px;			
 		}
 		.hotspot
 		{
@@ -66,30 +83,50 @@
 			background:		#7c7c7c;
 			margin-top:		-2px;
 			margin-left:	-3px;
-			cursor:			pointer;
+			cursor:			move;
+		}
+		.sprite
+		{
+			position:			absolute;
+			top:				50%;
+			left:				50%;
+			width:				237px;
+			height:				335px;
 		}
 		
 		
 	</style>
 	<script type="text/javascript">
 		//13:11
+		
+		
+		function setLines()
+		{
+			$(".vertical-line").css
+			({
+				height:		$(window).height() * 2,
+				marginTop:	-$(window).height()
+			});
+			$(".horizontal-line").css
+			({
+				width:		$(window).width() * 2,
+				marginLeft:	-$(window).width()
+			});
+		}
 		$(document).ready(function(){
 			//Editor.init();
 			
-			
 			$( "#hotspot" ).draggable
 			({
-				handle: "#hotspot",
-				containment: "parent",
-				drag: function()
+				handle:			"#hotspot",
+				containment:	"parent",
+				drag: 			function()
 				{
-					$(".horizontal-line").css({ top: $(this).position().top });
-					$(".vertical-line").css({ left: $(this).position().left });
+					$(this).siblings().css({ top: $(this).position().top, left: $(this).position().left });
 				},
-				stop: function()
+				stop: 			function()
 				{
-					$(".horizontal-line").css({ top: $(this).position().top });
-					$(".vertical-line").css({ left: $(this).position().left });
+					$(this).siblings().css({ top: $(this).position().top, left: $(this).position().left });
 				}
 			});
 			
@@ -139,6 +176,22 @@
 			var offset = $("#tabs").children("div").offset();
 			$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
+					
+			setLines();
+			
+			var a = new Sprite
+			({
+				image:"http://images2.wikia.nocookie.net/__cb20091120150503/guilty-gear/images/e/e1/JusticeSprite.gif",
+				onload: function( obj )
+				{
+					var img = $( obj.image );
+					img.attr("class","sprite").css({ width: obj.image.width, height: obj.image.height });
+					
+					$(".sprite").replaceWith( img );
+					
+				}
+			});
+			
 			$(window).resize
 			(
 				function()
@@ -151,7 +204,7 @@
 					$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
 					//var conteudo_offset = $("#tabs").children("div").children(".tab-main-content").offset();
-					
+					setLines();
 				}
 			);
 			
@@ -227,10 +280,11 @@
 			</div>
 			<div class="tab-main-content">
 			
-			
 			<div class="drawing-area">
 				<div class="horizontal-line"></div>
 				<div class="vertical-line"></div>
+				<span>BASELINE</span>
+				<img class="sprite"></img>
 				<div id="hotspot" class="hotspot"></div>
 			</div>
 			
