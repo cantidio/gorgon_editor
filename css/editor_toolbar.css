@@ -50,11 +50,6 @@ div.tool
 	margin:		0px;
 	background:	none;
 }
-.tool > input[type=checkbox]:checked + label
-{
-	background-color: #313131;
-	opacity: 0.55;
-}
 .tool > div
 {
 	margin:	0px;
@@ -70,7 +65,6 @@ div.tool
 {
 	background-image: 		url("../imgs/tools/tools_crop.png");
 }
-
 .tool#flipHorizontal > div
 {
 	background-image: 		url("../imgs/tools/tools_flip_horizontal.png");
@@ -98,6 +92,11 @@ div.tool
 .tool#zoomOut > div
 {
 	background-image: 		url("../imgs/tools/tools_zoom_out.png");
+}
+div.tool > input[type=checkbox]:checked + label
+{
+	background-color: #313131;
+	display:block;
 }
 div.tool.lock > label
 {
