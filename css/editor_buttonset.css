@@ -1,6 +1,7 @@
 .buttonset-closure
 {
 	display:			table;
+	table-layout:		fixed;
 	margin:				0px;
 	margin-bottom:		10px;
 	margin-top:			10px;
@@ -20,13 +21,13 @@
 	font-family:		Arial;
 	font-size:			10px;
 	background:			#333333;
+	width:				100%;
 }
 
 .buttonset-closure > .ui-buttonset .ui-button 
 {
 	display:			table-cell;
-	width:				100%;
-	
+	width:				2%;
 	margin:				0px;
 	padding:			0px;
 	padding-right:		1px;
@@ -39,7 +40,6 @@
 	border:				none;
 	border-radius:		0px;
 	-moz-border-radius:	0px;
-	
 }
 .buttonset-closure > .ui-buttonset input
 {
@@ -49,6 +49,7 @@
 {	
 	text-shadow: 		none;
 }
+
 .buttonset-closure > .ui-buttonset .ui-button.ui-state-active 
 {
 	color:				#FFFFFF;

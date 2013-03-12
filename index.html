@@ -25,7 +25,6 @@
 		body
 		{
 			margin:		0px;
-			background:	url("http://www.kyleeheuerphotography.com/sitezimages/background/website%20background.jpg");
 		}
 		
 		.drawing-area
@@ -34,15 +33,33 @@
 			position:				absolute;
 			top:					0px;
 			left:					0px;
+			
 			width:					100%;
 			height:					100%;
+			
 			overflow:				hidden;
 			-moz-user-select:		none;
 			-khtml-user-select:		none;
 			-webkit-user-select:	none;
 			user-select: 			none;
 		}
-		.drawing-area > span
+		.drawing-area > .draggable
+		{
+			position: 		absolute;
+			top:			-50%;
+			left:			-50%;
+			width: 			500px;
+			height: 		500px;
+			cursor:			pointer;
+			padding:		0px;
+			margin:			0px;
+		}
+		.drawing-area > .draggable.ui-draggable-dragging
+		{
+			cursor:			move;
+		}
+		
+		.drawing-area > .draggable > span
 		{
 			display:		block;
 			position:		absolute;
@@ -88,10 +105,18 @@
 		.sprite
 		{
 			position:			absolute;
+			cursor:				move;
 			top:				50%;
 			left:				50%;
 			width:				237px;
 			height:				335px;
+			margin:				0px;
+			padding:			0px;
+			border:				1px solid rgba(0,0,0,0);
+		}
+		.sprite.borderOn
+		{
+			border:				1px solid #7c7c7c;
 		}
 		
 		
@@ -102,41 +127,74 @@
 		
 		function setLines()
 		{
+			var	mult	= 2,
+				parent	= $(".draggable").parent(),
+				width	= parent.width() * mult,
+				height	= parent.height() * mult,
+				limit 	= { x: width - parent.width(), y: height - parent.height() };
+			
+			$(".draggable").css
+			({
+				width:		width,
+				height:		height,
+				top:		-limit.y / 2,
+				left:		-limit.x / 2
+			});
+		
+			$( ".draggable" ).draggable
+			(
+				"option", "containment",
+				[
+					parent.offset().left - limit.x,
+					parent.offset().top  - limit.y,
+					parent.offset().left,
+					parent.offset().top,
+				]
+			);
+			
 			$(".vertical-line").css
 			({
-				height:		$(window).height() * 2,
-				marginTop:	-$(window).height()
+				height:		height,
+				marginTop:	-height / 2
 			});
 			$(".horizontal-line").css
 			({
-				width:		$(window).width() * 2,
-				marginLeft:	-$(window).width()
+				width:		width,
+				marginLeft:	-width / 2
 			});
+			
+			
+		
+			
 		}
 		$(document).ready(function(){
 			//Editor.init();
 			
-			$( "#hotspot" ).draggable
+			$( ".draggable" ).draggable({ cancel: "div.sprite"  });
+			$( "div.sprite" ).draggable
 			({
-				handle:			"#hotspot",
-				containment:	"parent",
-				drag: 			function()
+				containment: "parent",
+				drag: function()
 				{
-					$(this).siblings().css({ top: $(this).position().top, left: $(this).position().left });
-				},
-				stop: 			function()
-				{
-					$(this).siblings().css({ top: $(this).position().top, left: $(this).position().left });
+					console.log( "xoffset: " + -( $(".hotspot").position().left - $(".sprite").position().left ) );
+					console.log( "yoffset: " + -( $(".hotspot").position().top - $(".sprite").position().top ) );
 				}
 			});
 			
-			/*$( "div, p" ).disableSelection();
-			*/
-			
-			$("#slider").slider({max: 30, min: 0, step: 1, value: 0})  ;
+			$("#frame-slider").slider({max: 30, min: 0, step: 1, value: 0})  ;
 			$("#menu").menu();
 			$( "#viewport_input" ).buttonset();
 			$( "#onionskin_input" ).buttonset();
+			$( "#sprite_borders_input" ).buttonset();
+			
+			$( "#sprite_borders_input input[type=radio]" ).change
+			(
+				function()
+				{
+					$(".sprite").toggleClass("borderOn");
+				}
+			);
+			
 			$( "#onionskin_input input[type=radio]" ).change(function()
 				{
 					var div = $("#oninskin_fixed_input_container");
@@ -185,9 +243,10 @@
 				onload: function( obj )
 				{
 					var img = $( obj.image );
-					img.attr("class","sprite").css({ width: obj.image.width, height: obj.image.height });
 					
-					$(".sprite").replaceWith( img );
+					
+					
+					$(".sprite").empty().append( img ).css({ width: obj.image.width, height: obj.image.height });
 					
 				}
 			});
@@ -256,8 +315,16 @@
 						<input name="viewport_input" type="radio" id="viewport_thumbnails"><label for="viewport_thumbnails">Thumbnails</label>
 					</div>
 				</div>
-				<label>OnionSkin</label>
 				
+				<label>Sprite Borders</label>
+				<div class="buttonset-closure">
+					<div id="sprite_borders_input">
+						<input type="radio" name="sprite_borders_input" value = "0" id="sprite_borders_disabled" checked="checked"><label for="sprite_borders_disabled">Disabled</label>
+						<input type="radio" name="sprite_borders_input" value = "1" id="sprite_borders_show"><label for="sprite_borders_show">Show</label>
+					</div>
+				</div>
+				
+				<label>OnionSkin</label>
 				<div class="buttonset-closure">
 					<div id="onionskin_input">
 						<input type="radio" name="onionskin_input" value = "0" id="onionskin_disabled"><label for="onionskin_disabled">Disabled</label>
@@ -280,16 +347,17 @@
 			</div>
 			<div class="tab-main-content">
 			
-			<div class="drawing-area">
-				<div class="horizontal-line"></div>
-				<div class="vertical-line"></div>
-				<span>BASELINE</span>
-				<img class="sprite"></img>
-				<div id="hotspot" class="hotspot"></div>
-			</div>
-			
-			
-			
+				<div class="drawing-area">
+					<div class="draggable">
+						<div class="horizontal-line"></div>
+						<div class="vertical-line"></div>
+						<div id="hotspot" class="hotspot"></div>
+						<span>BASELINE</span>
+						<div class="sprite">
+							<!--<img class="sprite"></img>-->
+						</div>
+					</div>
+				</div>
 			
 				<div class="toolbar">
 					<button class="tool" id="crop"><div></div></button>
@@ -305,6 +373,8 @@
 						<label for="squaredOne"></label>
 					</div>
 				</div>
+				
+				
 			</div>
 			
 			
