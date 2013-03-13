@@ -107,3 +107,8 @@ div.tool:active.lock > label
 {
 	opacity: 0.55;
 }
+
+div.tool.lock > label:hover
+{
+	cursor:				pointer;
+}
