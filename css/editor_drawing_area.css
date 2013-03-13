@@ -74,13 +74,13 @@
 	left:				50%;
 	width:				237px;
 	height:				335px;
-	margin:				0px;
+	margin:				-1px;
 	padding:			0px;
 	border:				1px solid rgba(0,0,0,0);
 }
 .sprite.borderOn
 {
-	border:				1px solid #7c7c7c;
+	border:				1px dotted #7c7c7c;
 }
 .sprite.ui-draggable-dragging
 {

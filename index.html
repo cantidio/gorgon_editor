@@ -88,7 +88,25 @@
 			});
 			
 			$("#frame-slider").slider({max: 30, min: 1, step: 1, value: 1})  ;
-			$("#menu").menu();
+			$("#main-menu").menu().hide();
+			
+			$("#logo").click
+			(
+				function(event)
+				{
+					event.stopPropagation();
+					$("#main-menu").toggle().focus();
+				}
+			);
+			$("body :not(#logo)").not("#main-menu").not("#main-menu > li").not("#main-menu > li > a").mousedown
+			(
+				function()
+				{
+					$("#main-menu").hide();
+				}
+			);
+			
+			
 			$( "#viewport_input" ).buttonset();
 			$( "#onionskin_input" ).buttonset();
 			$( "#sprite_borders_input" ).buttonset();
@@ -282,61 +300,44 @@
 			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
 		</div>
 	</div>
-	
-	
-	<!--
-	<div id="radio">
-		<input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label>
-		<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>
-		<input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
-	</div>
-	
-	
-	<!--<div id="slider"></div>
-	<ul id="menu">
-		<li><a href="#">Restore SpritePack</a></li>
-		<li><a href="#">Abrir SpritePack</a></li>
-		<li><a href="#">Salvar SpritePack</a></li>
+	<style>
+		#logo
+		{
+			position: 		absolute;
+			top:			39px;
+			right:			162px;
+			font-family:	"Logo-Font";
+			color:			#f2f2f2;
+			font-size:		20px;
+			letter-spacing:	1px;
+			background:		url("imgs/logo_arrow.png") no-repeat center right;
+			margin:			0px;
+			padding:		0px;
+			padding-right:	20px;
+			text-shadow: 	none;
+			border:			none;
+		}
+		#logo:active
+		{
+			opacity: 0.6;
+		}
+		#main-menu
+		{
+			position:	absolute;
+			top: 		69px;
+			right:		156px;
+		}
+	</style>
+	<button id="logo">Gorgon Editor</button>
+	<ul id="main-menu">
+		<li><a id="spritepack-open" href="#">Restore SpritePack</a></li>
+		<li><a id="spritepack-save" href="#">SpritePack - Save</a></li>
 		<li></li>
-		<li><a href="#">Restore AnimationPack</a></li>
-		<li><a href="#">Abrir AnimationPack</a></li>
-		<li><a href="#">Salvar AnimationPack</a></li>
+		<li><a href="#">AnimationPack - Open</a></li>
+		<li><a href="#">AnimationPack - Save</a></li>
 		<li></li>
-		<li><a href="#">Item 3</a>
-			<ul>
-				<li><a href="#">Item 3-1</a></li>
-				<li><a href="#">Item 3-2</a></li>
-				<li><a href="#">Item 3-3</a></li>
-				<li><a href="#">Item 3-4</a></li>
-				<li><a href="#">Item 3-5</a></li>
-			</ul>
-		</li>
-		<li><a href="#">Item 4</a></li>
-		<li><a href="#">Item 5</a></li>
+		<li><a href="#">Help</a></li>
+		<li><a href="#">About</a></li>
 	</ul>
-	<br>
-	<div id="dialog" title="Dialog Title">I'm a dialog from hell. ^^</div>
-	<div id="radio">
-		<input type="radio" id="radio1" name="radio"><label for="radio1">Choice 1</label>
-		<input type="radio" id="radio2" name="radio" checked="checked"><label for="radio2">Choice 2</label>
-		<input type="radio" id="radio3" name="radio"><label for="radio3">Choice 3</label>
-	</div>
-	<br>
-	<input id="spinner" type="number">
-	
-	<div id="tabs">
-		<ul>
-			<li><a href="#fragment-1"><span>Spritepack</span></a></li>
-			<li><a href="#fragment-2"><span>Animationpack</span></a></li>
-		</ul>
-		<div id="fragment-1">
-			<p>First tab is active by default:</p>
-			<pre><code>$( "#tabs" ).tabs(); </code></pre>
-		</div>
-		<div id="fragment-2">
-			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-		</div>
-	</div>-->
 </body>
 </html>
