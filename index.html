@@ -22,7 +22,9 @@
 	<script src="js/point.js"></script>
 	<script src="js/sprite.js"></script>
 	<script src="js/editor.js"></script>
-	
+	<script src="js/editor_menu.js"></script>
+	<script src="js/sprite_properties_view.js"></script>
+	<script src="js/editor_drawing_area.js"/></script>
 	<style type="text/css">
 		body
 		{
@@ -31,93 +33,19 @@
 			-khtml-user-select:		none;
 			-webkit-user-select:	none;
 			user-select: 			none;
+			min-width:				1600px;
 		}
 	</style>
 	<script type="text/javascript">
 		//13:11
-		function updateDrawingArea()
-		{
-			var	mult	= 2,
-				parent	= $(".draggable").parent(),
-				width	= parent.width() * mult,
-				height	= parent.height() * mult,
-				limit 	= { x: width - parent.width(), y: height - parent.height() };
-			
-			$(".draggable").css
-			({
-				width:		width,
-				height:		height,
-				top:		-limit.y / 2,
-				left:		-limit.x / 2
-			});
 		
-			$( ".draggable" ).draggable
-			(
-				"option", "containment",
-				[
-					parent.offset().left - limit.x,
-					parent.offset().top  - limit.y,
-					parent.offset().left,
-					parent.offset().top,
-				]
-			);
-			
-			$(".vertical-line").css
-			({
-				height:		height,
-				marginTop:	-height / 2
-			});
-			$(".horizontal-line").css
-			({
-				width:		width,
-				marginLeft:	-width / 2
-			});
-		}
 		$(document).ready(function(){
 			//Editor.init();
-			
-			$( ".draggable" ).draggable({ cancel: "div.sprite"  });
-			$( "div.sprite" ).draggable
-			({
-				containment: "parent",
-				drag: function()
-				{
-					//console.log( "xoffset: " + -( $(".hotspot").position().left - $(".sprite").position().left ) );
-					//console.log( "yoffset: " + -( $(".hotspot").position().top - $(".sprite").position().top ) );
-				}
-			});
-			
 			$("#frame-slider").slider({max: 30, min: 1, step: 1, value: 1})  ;
-			$("#main-menu").menu().hide();
-			
-			$("#logo").click
-			(
-				function(event)
-				{
-					event.stopPropagation();
-					$("#main-menu").toggle().focus();
-				}
-			);
-			$("body :not(#logo)").not("#main-menu").not("#main-menu > li").not("#main-menu > li > a").mousedown
-			(
-				function()
-				{
-					$("#main-menu").hide();
-				}
-			);
-			
-			
+
 			$( "#viewport_input" ).buttonset();
 			$( "#onionskin_input" ).buttonset();
 			$( "#sprite_borders_input" ).buttonset();
-			
-			$( "#sprite_borders_input input[type=radio]" ).change
-			(
-				function()
-				{
-					$(".sprite").toggleClass("borderOn");
-				}
-			);
 			
 			$( "#onionskin_input input[type=radio]" ).change(function()
 				{
@@ -152,7 +80,7 @@
 			var offset			= $("#tabs").children("div").offset();
 			$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
-			updateDrawingArea();
+			//updateDrawingArea();
 			
 			var a = new Sprite
 			({
@@ -175,7 +103,7 @@
 					var offset			= $("#tabs").children("div").offset();
 					$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
-					updateDrawingArea();
+					//updateDrawingArea();
 				}
 			);
 			
@@ -189,34 +117,34 @@
 			<li><a href="#fragment-2"><span>ANIMATIONPACK</span></a></li>
 		</ul>
 		<div id="fragment-1">
-			<div class="tab-options">
+			<div id="sprite_properties" class="tab-options">
 				<label>New Group</label>
-				<input type="button" id="create_and_import" value="Create and Import"></input>
+				<input type="button" id="btn_import_sprites" value="Import Sprites"></input>
 				<label>Properties of Selected Sprite</label>
 				
 				<div class="container">
 					<span class="split left">
 						<label>Group</label>
-						<input type="number" value="0"/>
+						<input id="input_sprite_group" type="number" value="0"/>
 					</span>					
 					<span class="split right">
 						<label>Index</label>
-						<input type="number" value="0"/>
+						<input id="input_sprite_index"type="number" value="0"/>
 					</span>
 					
 					<span>
 						<label>Name or comment</label>
-						<input type="text" value="frame1"/>
+						<input id="input_sprite_name" type="text" value="frame1"/>
 					</span>
 
 					<span class="split left">
 						<label>XOffset</label>
-						<input type="number" value="0"/>
+						<input id="input_sprite_xoffset" type="number" value="0"/>
 					</span>
 					
 					<span class="split right">
 						<label>YOffset</label>
-						<input type="number" value="0"/>
+						<input id="input_sprite_yoffset" type="number" value="0"/>
 					</span>
 					
 				</div>
@@ -259,7 +187,7 @@
 			</div>
 			<div class="tab-main-content">
 			
-				<div class="drawing-area">
+				<div id="spritepack-drawing-area" class="drawing-area">
 					<div class="draggable">
 						<div class="horizontal-line"></div>
 						<div class="vertical-line"></div>
@@ -327,17 +255,27 @@
 			top: 		69px;
 			right:		156px;
 		}
+		input[type=file]
+		{
+			opacity:	0;
+			position:	absolute;
+			top:		-50px;
+			left:		-50px;
+		}
 	</style>
 	<button id="logo">Gorgon Editor</button>
 	<ul id="main-menu">
-		<li><a id="spritepack-open" href="#">Restore SpritePack</a></li>
-		<li><a id="spritepack-save" href="#">SpritePack - Save</a></li>
+		<li><a id="spritepack-open" href="#">Open SpritePack</a></li>
+		<li><a id="spritepack-save" href="#">Save SpritePack</a></li>
 		<li></li>
-		<li><a href="#">AnimationPack - Open</a></li>
-		<li><a href="#">AnimationPack - Save</a></li>
+		<li><a href="#">Open AnimationPack</a></li>
+		<li><a href="#">Save AnimationPack</a></li>
 		<li></li>
 		<li><a href="#">Help</a></li>
 		<li><a href="#">About</a></li>
 	</ul>
+	
+	<input type="file" id="import_sprites_file"  	accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple">
+	<input type="file" id="import_spritepack"	accept=".zip">
 </body>
 </html>
