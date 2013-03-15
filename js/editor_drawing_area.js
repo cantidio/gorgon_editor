@@ -109,7 +109,6 @@ EditorDrawingArea.prototype.registerEvents = function()
 	$(window).resize( (function(obj) { return function() { obj.updateSize(); } })(this) ); //register the window resize event
 	
 	this.mSprite.on( "drag", this.eventSpriteDrag );
-	
 	this.mSprite.click( function(e){ e.stopPropagation();  $(this).toggleClass("borderOn"); } );
 	this.mGrid.not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
 }
