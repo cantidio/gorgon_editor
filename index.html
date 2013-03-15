@@ -16,14 +16,19 @@
 	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_drawing_area.css"/>
 	
-	<script src="http://code.jquery.com/jquery-1.9.0.js"></script>
-	<script src="http://code.jquery.com/ui/1.10.0/jquery-ui.js"></script>
-	<script src="js/sprite_properties_view.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/jquery-ui.js"></script>
+	
+	<script src="js/progress_bar.js"></script>
+	<script src="js/point.js"></script>
 	<script src="js/point.js"></script>
 	<script src="js/sprite.js"></script>
+	<script src="js/spritepack.js"></script>
 	<script src="js/editor.js"></script>
 	<script src="js/editor_menu.js"></script>
 	<script src="js/sprite_properties_view.js"></script>
+	<script src="js/editor_spritepack_framebar.js"></script>
+	<script src="js/editor_spritepack_sprite_properties.js"></script>
 	<script src="js/editor_drawing_area.js"/></script>
 	<style type="text/css">
 		body
@@ -35,14 +40,21 @@
 			user-select: 			none;
 			min-width:				1600px;
 		}
+		#progressbar
+		{
+			position:	fixed;
+			top:		50%;
+			left:		25%;
+			width:		50%;
+			z-index:	999;
+			display:	none;
+		}
 	</style>
 	<script type="text/javascript">
 		//13:11
 		
 		$(document).ready(function(){
-			//Editor.init();
-			$("#frame-slider").slider({max: 30, min: 1, step: 1, value: 1})  ;
-
+			
 			$( "#viewport_input" ).buttonset();
 			$( "#onionskin_input" ).buttonset();
 			$( "#sprite_borders_input" ).buttonset();
@@ -80,18 +92,6 @@
 			var offset			= $("#tabs").children("div").offset();
 			$("#tabs").children("div").height( window_height - nav_height - offset.top );
 					
-			//updateDrawingArea();
-			
-			var a = new Sprite
-			({
-				image:	"http://images.uncyc.org/pt/5/5f/DuolonXIII.gif",
-				onload: function( obj )
-				{
-					var img = $( obj.image );
-					$(".sprite").empty().append( img ).css({ width: obj.image.width, height: obj.image.height });
-				}
-			});
-			
 			$(window).resize
 			(
 				function()
@@ -107,6 +107,8 @@
 				}
 			);
 			
+			Editor.init();
+			ProgressBar.init();
 		});
 	</script>
 </head>
@@ -153,14 +155,6 @@
 					<div id="viewport_input">
 						<input name="viewport_input" type="radio" id="viewport_maximized" checked="checked"><label for="viewport_maximized">Maximized</label>
 						<input name="viewport_input" type="radio" id="viewport_thumbnails"><label for="viewport_thumbnails">Thumbnails</label>
-					</div>
-				</div>
-				
-				<label>Sprite Borders</label>
-				<div class="buttonset-closure">
-					<div id="sprite_borders_input">
-						<input type="radio" name="sprite_borders_input" value = "0" id="sprite_borders_disabled" checked="checked"><label for="sprite_borders_disabled">Disabled</label>
-						<input type="radio" name="sprite_borders_input" value = "1" id="sprite_borders_show"><label for="sprite_borders_show">Show</label>
 					</div>
 				</div>
 				
@@ -211,12 +205,12 @@
 						<label for="squaredOne"></label>
 					</div>
 				</div>
-				<div  class="framebar">
-					<button id="framebar_first_button"></button>
-					<button id="framebar_back_button"></button>
-					<button id="framebar_play_button"></button>
-					<button id="framebar_next_button"></button>
-					<button id="framebar_last_button"></button>
+				<div  id="sprite-framebar" class="framebar">
+					<button class="framebar_first_button"></button>
+					<button class="framebar_previous_button"></button>
+					<button class="framebar_play_button"></button>
+					<button class="framebar_next_button"></button>
+					<button class="framebar_last_button"></button>
 					<div class="slider-closure"><div id="frame-slider"></div></div>
 				</div>
 			</div>
@@ -276,6 +270,7 @@
 	</ul>
 	
 	<input type="file" id="import_sprites_file"  	accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple">
-	<input type="file" id="import_spritepack"	accept=".zip">
+	<input type="file" id="import_spritepack"		accept=".zip">
+	<progress id="progressbar"></progress> 
 </body>
 </html>

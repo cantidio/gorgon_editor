@@ -4,24 +4,25 @@
 function SpritePack()
 {
 	this.sprites = new Array();
-	this.dump = function() {
-		var out = new Array();
-		var size = this.size();
-		for( var i = 0; i < size; ++i )
-		{
-			out.push
-			({
-				name:		this.sprites[i].name,
-				group:		this.sprites[i].group,
-				index:		this.sprites[i].index,
-				xoffset:	this.sprites[i].offset.x,
-				yoffset:	this.sprites[i].offset.y,
-				image:		this.sprites[i].image.src.replace(/^data:image\/.*;base64,/, ""),
-				image_type: this.sprites[i].getImageType()
-			});
-		}
-		return out;
+}
+SpritePack.prototype.dump = function() 
+{
+	var out		= new Array();
+	var size	= this.size();
+	for( var i = 0; i < size; ++i )
+	{
+		out.push
+		({
+			name:		this.sprites[i].name,
+			group:		this.sprites[i].group,
+			index:		this.sprites[i].index,
+			xoffset:	this.sprites[i].offset.x,
+			yoffset:	this.sprites[i].offset.y,
+			image:		this.sprites[i].image.src.replace(/^data:image\/.*;base64,/, ""),
+			image_type: this.sprites[i].getImageType()
+		});
 	}
+	return out;
 }
 /**
  * Method that gets a sprite by its real index in the pack

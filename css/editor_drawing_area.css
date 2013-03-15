@@ -35,6 +35,7 @@
 	color:			#7C7C7C;
 	font-family:	Arial;
 	font-size:		8px;
+	cursor:			default;
 }
 .horizontal-line
 {
@@ -64,23 +65,20 @@
 	background:		#7c7c7c;
 	margin-top:		-2px;
 	margin-left:	-3px;
-	cursor:			move;
 }
 .sprite
 {
-	position:			absolute;
-	cursor:				move;
-	top:				50%;
-	left:				50%;
-	width:				237px;
-	height:				335px;
-	margin:				-1px;
-	padding:			0px;
-	border:				1px solid rgba(0,0,0,0);
+	position:	absolute;
+	cursor:		move;
+	margin:		-1px;
+	padding:	0px;
+	border:		1px solid rgba(0,0,0,0);
+	width:		0px;
+	height:		0px;
 }
 .sprite.borderOn
 {
-	border:				1px dotted #7c7c7c;
+	border:				1px solid #d7d7d7;
 }
 .sprite.ui-draggable-dragging
 {

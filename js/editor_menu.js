@@ -23,7 +23,6 @@ EditorMenu.prototype.toggle = function()
 EditorMenu.prototype.hide = function()
 {
 	this.mElement.fadeOut( this.mAnimVel );
-	console.log("hide");
 }
 /**
  * Method that shows the menu
@@ -37,7 +36,7 @@ EditorMenu.prototype.show = function()
  */
 EditorMenu.prototype.eventSpritePackOpen = function()
 {
-	$("#import_sprites").click();
+	$("#import_sprites_file").click();
 }
 /**
  * Event that executes the spritepack save event

@@ -26,23 +26,23 @@
 {
 	opacity: 0.35;
 }
-.framebar > button#framebar_first_button
+.framebar > button.framebar_first_button
 {
 	background-image: url("../imgs/framebar/framebar_first.png");
 }
-.framebar > button#framebar_back_button
+.framebar > button.framebar_previous_button
 {
 	background-image: url("../imgs/framebar/framebar_back.png");
 }
-.framebar > button#framebar_play_button
+.framebar > button.framebar_play_button
 {
 	background-image: url("../imgs/framebar/framebar_play.png");
 }
-.framebar > button#framebar_next_button
+.framebar > button.framebar_next_button
 {
 	background-image: url("../imgs/framebar/framebar_next.png");
 }
-.framebar > button#framebar_last_button
+.framebar > button.framebar_last_button
 {
 	background-image: url("../imgs/framebar/framebar_last.png");
 }

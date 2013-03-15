@@ -1,77 +1,10 @@
-function SpriteProperties()
-{
-	this.mElement = $("#sprite_properties");
-	this.registerEvents();
-}
-SpriteProperties.prototype.eventImportSprites = function()
-{
-	$("#import_sprites_file").click();
-}
-SpriteProperties.prototype.eventChangeSpriteGroup = function()
-{
-	// editor > get Sprite > set Group
-}
-SpriteProperties.prototype.eventChangeSpriteIndex = function()
-{
-	// editor > get Sprite > set Index
-}
-SpriteProperties.prototype.eventChangeSpriteName = function()
-{
-	// editor > get Sprite > set Name
-}
-SpriteProperties.prototype.eventChangeSpriteXOffset = function()
-{
-	// editor > get Sprite > set XOffset
-}
-SpriteProperties.prototype.eventChangeSpriteYOffset = function()
-{
-	// editor > get Sprite > set YOffset
-}
-SpriteProperties.prototype.eventChangeSpriteBorders = function()
-{
-	$(".sprite").toggleClass("borderOn");
-}
 
-SpriteProperties.prototype.registerEvents = function()
+function EditorSpritePackView()
 {
-	$("#btn_import_sprites").click( this.eventImportSprites );
-	$("#input_sprite_group").change( this.eventChangeSpriteGroup );
-	$("#input_sprite_index").change( this.eventChangeSpriteIndex );
-	$("#input_sprite_name").change( this.eventChangeSpriteName );
-	$("#input_sprite_xoffset").change( this.eventChangeSpriteXOffset );
-	$("#input_sprite_yoffset").change( this.eventChangeSpriteYOffset );
-	$( "#sprite_borders_input input[type=radio]" ).change( this.eventChangeSpriteBorders );
+	this.mSpriteProperties	= new EditorSpriteProperties();
+	this.mDrawingArea		= new EditorDrawingArea();
+	this.mFrameBar			= new EditorSpritePackFrameBar();
 }
-
-function SpritePackView()
-{
-	//this.
-	
-	
-	this.init = function( pParent )
-	{
-		this.mElement	= $('<div class="tab-content"/>').text("blabla");
-		
-		
-		$( pParent ).append( this.mElement );
-	}
-	
-	this.init( pParent );
-}
-
-
-
-
-SpritePackView.prototype.eventImportSprites = function()
-{
-	
-}
-
-SpritePackView.prototype.registerEvents = function()
-{
-	
-}
-
 
 
 
@@ -83,7 +16,6 @@ var SpritePropertiesView = new function()
 	
 	
 	this.registerCallbacks		= function() {
-		$("#sprite_properties > div > div > span > #add").click( function() { $("#addimg").click(); } );
 		$("#sprite_properties > div > div > span > #del").click( (function( obj ){ return function() { obj.onSpriteDelete(); } })( this ) );
 		$("#sprite_properties > #sprite_slider > input").change
 		(

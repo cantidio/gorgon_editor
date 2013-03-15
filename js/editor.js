@@ -6,35 +6,9 @@ var Editor = new function()
 	 */
 	this.onResize = function()
 	{
-		this.mElement.height( $(window).height() );
+		//this.mElement.height( $(window).height() );
 	}
-	this.appendSpritePackTab = function()
-	{
-		var id = this.mElement.children("ul").children().length + 1;
-		this.mElement.children("ul").append
-		(
-			$("<li/>").append
-			(
-				$('<a href="#fragment-'+id+'">').append
-				(
-					$("<span/>").text( "SPRITEPACK" ) 
-				)
-			)
-		);
-		this.mElement.append
-		(
-			$('<div id="fragment-'+id+'"/>')/*.append( $("<p>spritepack-tab"+id+"</p>") )*/
-		);
-		
-		console.log('#fragment-'+id);
-		this.mSpritePackView = new SpritePackView( this.mElement.children('#fragment-'+id) );
-		
-		
-	}
-	this.appendAnimationPackTab = function()
-	{
-		//return $("<p>animationpack-tab</p>");
-	}
+	
 	this.registerEvents = function()
 	{
 		$(window).resize
@@ -43,20 +17,104 @@ var Editor = new function()
 				return function(){ obj.onResize(); }
 			})(this)
 		);
+		
+		$("#import_sprites_file").change( this.eventImageAdd );
 	}
+	
+	this.eventImageAdd = function()
+	{
+		var imgs	= $("#import_sprites_file")[0].files;
+		var group	= Editor.mSpritePack.getGreatestGroup() + 100;
+		ProgressBar.show( imgs.length, function(){ ProgressBar.hide(); } );
+		Editor.onImageAddStep( imgs, 0, group );
+	}
+	/**
+	 * Method that receives a file object and reads it and returns 
+	 * a callback with the sprite read
+	 * @param	Object pParamList, an object composed of the following properties:
+	 *		Object 		file	the file to be read
+	 *		Function	onload	the function that will be called when the sprite is ready.
+	 *			This function will be called with the sprite read as a param.
+	 */
+	this.readSpriteData = function( pParamList )
+	{
+		var reader		= new FileReader();
+		reader.onload	= (function( pParamList ){
+			return function( event )
+			{
+				var sprite = new Sprite
+				({
+					name:	pParamList.file.name,
+					image:	event.target.result,
+					onload:	pParamList.onload
+				});
+			}
+		})(pParamList);
+		
+		reader.readAsDataURL( pParamList.file );
+	}
+	this.onImageAddStep = function( files, i, group )
+	{
+		this.readSpriteData
+		({
+			file: 	files[i],
+			onload: ( function(files, i, group) 
+			{
+				return function( sprite )
+				{
+					Editor.addSprite( sprite );
+					ProgressBar.add( 1 );
+					if( i + 1 < files.length )
+					{
+						Editor.onImageAddStep( files, i + 1, group );
+					}
+				}
+			}) (files, i, group)
+		});
+	}
+	this.addSprite = function( pSprite )
+	{
+		this.mSpritePack.addSprite( pSprite, this.mSpriteShown + 1 );
+		Editor.actionNextSprite();
+		this.mSpritePackView.mFrameBar.setSliderSize( this.mSpritePack.size() - 1 );
+	}
+	this.getCurrentSprite = function()
+	{
+		return this.mSpritePack.sprite( this.mSpriteShown );
+	}
+	this.actionShowSprite = function( pSpriteNumber )
+	{
+		if( pSpriteNumber >= 0 && pSpriteNumber < this.mSpritePack.size() )
+		{
+			this.mSpriteShown = pSpriteNumber;
+			this.mSpritePackView.mSpriteProperties.setValues( this.getCurrentSprite() );
+			this.mSpritePackView.mDrawingArea.setSprite( this.getCurrentSprite() );
+			this.mSpritePackView.mFrameBar.setSliderValue( this.mSpriteShown );
+		}
+	}
+	this.actionFirstSprite = function()
+	{
+		this.actionShowSprite( 0 );
+	}
+	this.actionNextSprite = function()
+	{
+		this.actionShowSprite( this.mSpriteShown + 1 );
+	}
+	this.actionPreviousSprite = function()
+	{
+		this.actionShowSprite( this.mSpriteShown - 1 );
+	}
+	this.actionLastSprite = function()
+	{
+		this.actionShowSprite( this.mSpritePack.size() - 1 );
+	}
+	
 	this.init = function()
 	{
-		this.mElement	= $("<div/>").attr("id", this.mElementId );
-		
-		this.mElement.append( $("<ul/>") );
-		this.appendSpritePackTab();
-		this.appendAnimationPackTab();
-		
-		this.mElement.tabs();
-		this.onResize();
-		
-		$("body").append( this.mElement );
-		
+		this.mMenu				= new EditorMenu();
+		this.mSpritePackView	= new EditorSpritePackView();
+		this.mSpritePack		= new SpritePack();
+		this.mSpriteShown		= -1;
 		
 		this.registerEvents();
 	}
@@ -84,88 +142,7 @@ var Editor = new function()
 		}
 		this.drawHotspot();
 	}
-	this.gridLineWidth	= function( pWidth ) {
-		if( pWidth != undefined )
-		{
-			this.mGrid.lineWidth = pWidth;
-			return this;
-		}
-		else
-		{
-			return this.mGrid.lineWidth;
-		}
-	}
-	this.gridColor		= function( pColor ) {
-		if( pColor != undefined )
-		{
-			this.mGrid.color = pColor;
-			return this;
-		}
-		else
-		{
-			return this.mGrid.color;
-		}
-	}
-	this.gridWidth		= function( pWidth ) {
-		if( pWidth != undefined )
-		{
-			this.mGrid.width = pWidth;
-			return this;
-		}
-		else
-		{
-			return this.mGrid.width;
-		}
-	}
-	this.drawGrid		= function() {
-		var context			= this.mElement.getContext('2d');
-		context.lineWidth	= this.gridLineWidth();//0.5;
-		context.strokeStyle	= this.gridColor();//'#DDDDDD';
-		
-		for( var y = this.mHotspot.y; y < this.mSize.y; y += this.gridWidth() )
-		{
-			context.beginPath();		
-			context.moveTo( 0 , y );
-			context.lineTo( this.mSize.x , y );
-			context.stroke();
-			context.beginPath();		
-			context.moveTo( 0 , this.mSize.y - y );
-			context.lineTo( this.mSize.x , this.mSize.y - y );
-			context.stroke();
-		}
-		for( var x = this.mHotspot.x; x < this.mSize.x; x += this.gridWidth() )
-		{
-			context.beginPath();		
-			context.moveTo( x , 0 );
-			context.lineTo( x , this.mSize.y );
-			context.stroke();
-			context.beginPath();		
-			context.moveTo( this.mSize.x - x , 0 );
-			context.lineTo( this.mSize.x - x , this.mSize.y );
-			context.stroke();
-		}
-	}
-	this.drawHotspot	= function() {
-		var context = this.mElement.getContext('2d');
-		context.lineWidth	= 1;
-		context.strokeStyle	= '#99CCFF';
-		
-		context.beginPath();		
-		context.moveTo( this.mHotspot.x , 0 );
-		context.lineTo( this.mHotspot.x , this.mElement.height -1 );
-		context.stroke();
-		
-		context.beginPath();
-		context.moveTo( 0, this.mHotspot.y );
-		context.lineTo( this.mElement.width, this.mHotspot.y );
-		context.stroke();
-		
-		context.strokeStyle = context.fillStyle = 'red';
-		context.beginPath();		
-		context.arc( this.mHotspot.x, this.mHotspot.y, 3, 0, 2 * Math.PI, false);		
-		context.fill();
-		context.stroke();
-	}
+	
 	this.drawSprite		= function( pSprite, pAlpha ) {
 		if( pSprite )
 		{
