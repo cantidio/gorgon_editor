@@ -53,36 +53,10 @@
 		
 		$(document).ready(function(){
 			
-			$( "#viewport_input" ).buttonset();
-			$( "#onionskin_input" ).buttonset();
-			$( "#sprite_borders_input" ).buttonset();
-			
-			$( "#onionskin_input input[type=radio]" ).change(function()
-				{
-					var div = $("#oninskin_fixed_input_container");
-					if( this.value != 2 )
-					{
-						div.css("opacity","0.6");
-						div.children("span").children("input").attr("disabled",true);
-					}
-					else
-					{
-						div.css("opacity","1.0");
-						div.children("span").children("input").attr("disabled",false);
-					}
-				}
-			);
 			$( "#tabs" ).tabs();
 			$("#dialog").dialog({ autoOpen: false });
 			
 			//$( document ).tooltip();
-			$("#radio1").click
-			(
-				function()
-				{
-					$("#dialog").dialog("open");
-				}
-			);
 			
 			var window_height	= $(window).height()
 			$("#tabs").height( window_height );
@@ -100,8 +74,6 @@
 					var nav_height		= $("#tabs").children("ul").height();
 					var offset			= $("#tabs").children("div").offset();
 					$("#tabs").children("div").height( window_height - nav_height - offset.top );
-					
-					//updateDrawingArea();
 				}
 			);
 			
@@ -168,11 +140,11 @@
 				<div class="container" id="oninskin_fixed_input_container" style="opacity: 0.6">
 					<span class="split left">
 						<label>Group</label>
-						<input type="number" value="0" disabled />
+						<input id="oninskin_fixed_group" type="number" value="0" disabled />
 					</span>					
 					<span class="split right">
 						<label>Index</label>
-						<input type="number" value="0" disabled />
+						<input id="oninskin_fixed_index" type="number" value="0" disabled />
 					</span>
 				</div>
 				
@@ -185,6 +157,7 @@
 						<div class="vertical-line"></div>
 						<div id="hotspot" class="hotspot"></div>
 						<span>BASELINE</span>
+						<div class="onionskin"></div>
 						<div class="sprite"></div>
 					</div>
 				</div>

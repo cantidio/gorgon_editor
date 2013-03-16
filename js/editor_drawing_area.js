@@ -1,6 +1,5 @@
 /**
  * Class that represents the editor drawing area.
- *
  */
 EditorDrawingArea = function()
 {
@@ -9,6 +8,7 @@ EditorDrawingArea = function()
 	this.mHLine		= this.mGrid.children(".horizontal-line");
 	this.mVLine		= this.mGrid.children(".vertical-line");
 	this.mSprite	= this.mGrid.children("div.sprite");
+	this.mOnionSkin	= this.mGrid.children("div.onionskin");
 	this.mHotspot	= this.mGrid.children(".hotspot");
 	this.mGridScale	= 2;
 	
@@ -34,6 +34,26 @@ EditorDrawingArea.prototype.setSprite = function( pSprite )
 	}).data("sprite", pSprite);
 }
 /**
+ * Method that sets the visible onionskin sprite
+ *
+ * @param	{Sprite} pSprite, the sprite to be shown as onionskin,
+ * if no one is provided then it will clear the current displayed onionskin sprite
+ */
+EditorDrawingArea.prototype.setOnionSkinSprite = function( pSprite )
+{
+	this.mOnionSkin.empty();
+	if( pSprite != undefined )
+	{
+		this.mOnionSkin.append( pSprite.image ).css
+		({
+			width:		pSprite.image.width,
+			height: 	pSprite.image.height,
+			top:		this.mHotspot.position().top + pSprite.offset.y,
+			left:		this.mHotspot.position().left + pSprite.offset.x
+		}).data("sprite", pSprite);
+	}
+}
+/**
  * Method that updates the correct sprite position based in the hotspot position
  * and in the sprite offsets
  */
@@ -45,6 +65,11 @@ EditorDrawingArea.prototype.updateSpritePosition = function()
 		({
 			top:	this.mHotspot.position().top	+ this.mSprite.data("sprite").offset.y,
 			left:	this.mHotspot.position().left	+ this.mSprite.data("sprite").offset.x
+		});
+		this.mOnionSkin.css
+		({
+			top:	this.mHotspot.position().top	+ this.mOnionSkin.data("sprite").offset.y,
+			left:	this.mHotspot.position().left	+ this.mOnionSkin.data("sprite").offset.x
 		});
 	}
 }
@@ -108,7 +133,7 @@ EditorDrawingArea.prototype.registerEvents = function()
 {
 	$(window).resize( (function(obj) { return function() { obj.updateSize(); } })(this) ); //register the window resize event
 	
-	this.mSprite.on( "drag", this.eventSpriteDrag );
-	this.mSprite.click( function(e){ e.stopPropagation();  $(this).toggleClass("borderOn"); } );
+	this.mSprite.on( "drag", this.eventSpriteDrag ); //register the sprite drag event
+	this.mSprite.click( function(e){ e.stopPropagation();  $(this).toggleClass("borderOn"); } ); //register the sprite click event
 	this.mGrid.not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
 }

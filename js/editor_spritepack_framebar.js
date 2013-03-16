@@ -1,3 +1,6 @@
+/**
+ * Class that represents the spritepack framebar
+ */
 function EditorSpritePackFrameBar()
 {
 	this.mElement	= $("#sprite-framebar");
@@ -6,34 +9,62 @@ function EditorSpritePackFrameBar()
 	this.mSlider.slider({ min: 0, max: 0, value: 0, step: 1});
 	this.registerEvents();
 }
+/**
+ * Method that sets the slider maximum value
+ *
+ * @param	{Integer} pSize the size of the slider
+ */
 EditorSpritePackFrameBar.prototype.setSliderSize = function( pSize )
 {
 	this.mSlider.slider( "option", "max", pSize );
 }
+/**
+ * Method that changes the slider current value
+ *
+ * @param {Integer} pValue, the new value of the slider
+ */
 EditorSpritePackFrameBar.prototype.setSliderValue = function( pValue )
 {
 	this.mSlider.slider( "option", "value", pValue );
 }
+/**
+ * Event triggered when the first sprite icon is pressed.
+ */
 EditorSpritePackFrameBar.prototype.eventFirstSprite = function()
 {
 	Editor.actionFirstSprite();
 }
+/**
+ * Event triggered when the previous sprite icon is pressed.
+ */
 EditorSpritePackFrameBar.prototype.eventPreviousSprite = function()
 {
 	Editor.actionPreviousSprite();
 }
+/**
+ * Event triggered when the next sprite icon is pressed.
+ */
 EditorSpritePackFrameBar.prototype.eventNextSprite = function()
 {
 	Editor.actionNextSprite();
 }
+/**
+ * Event triggered when the last sprite icon is pressed.
+ */
 EditorSpritePackFrameBar.prototype.eventLastSprite = function()
 {
 	Editor.actionLastSprite();
 }
+/**
+ * Event triggered when the frame slide changes its value
+ */
 EditorSpritePackFrameBar.prototype.eventSlide = function( event, ui )
 {
 	Editor.actionShowSprite( ui.value );
 }
+/**
+ * Method that registers all the framebar events
+ */
 EditorSpritePackFrameBar.prototype.registerEvents = function()
 {
 	this.mElement.children(".framebar_first_button").click( this.eventFirstSprite );

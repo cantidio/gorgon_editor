@@ -90,7 +90,13 @@ var Editor = new function()
 			this.mSpritePackView.mSpriteProperties.setValues( this.getCurrentSprite() );
 			this.mSpritePackView.mDrawingArea.setSprite( this.getCurrentSprite() );
 			this.mSpritePackView.mFrameBar.setSliderValue( this.mSpriteShown );
+			
+			this.actionShowOnionSkin();
 		}
+	}
+	this.actionShowOnionSkin = function()
+	{
+		this.mSpritePackView.mDrawingArea.setOnionSkinSprite( this.mSpritePackView.mSpriteProperties.getOnionSkin() );
 	}
 	this.actionFirstSprite = function()
 	{

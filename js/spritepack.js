@@ -5,6 +5,11 @@ function SpritePack()
 {
 	this.sprites = new Array();
 }
+/**
+ * Method that returns an array of the spritepack items, but it corrects the imagedata
+ * 
+ * @return	{Array} array of sprites.
+ */
 SpritePack.prototype.dump = function() 
 {
 	var out		= new Array();
