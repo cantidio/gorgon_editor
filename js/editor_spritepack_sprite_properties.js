@@ -38,11 +38,22 @@ EditorSpriteProperties.prototype.getOnionSkin = function()
  */
 EditorSpriteProperties.prototype.setValues = function( pSprite )
 {
-	$("#input_sprite_group")	.val( pSprite.group );
-	$("#input_sprite_index")	.val( pSprite.index );
-	$("#input_sprite_name")		.val( pSprite.name );
-	$("#input_sprite_xoffset")	.val( pSprite.offset.x );
-	$("#input_sprite_yoffset")	.val( pSprite.offset.y );
+	if( pSprite != undefined )
+	{
+		$("#input_sprite_group")	.val( pSprite.group );
+		$("#input_sprite_index")	.val( pSprite.index );
+		$("#input_sprite_name")		.val( pSprite.name );
+		$("#input_sprite_xoffset")	.val( pSprite.offset.x );
+		$("#input_sprite_yoffset")	.val( pSprite.offset.y );
+	}
+	else
+	{
+		$("#input_sprite_group")	.val( 0 );
+		$("#input_sprite_index")	.val( 0 );
+		$("#input_sprite_name")		.val( "" );
+		$("#input_sprite_xoffset")	.val( 0 );
+		$("#input_sprite_yoffset")	.val( 0 );
+	}
 }
 /**
  * Event triggered when the import sprites button is clicked

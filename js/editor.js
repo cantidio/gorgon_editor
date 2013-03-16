@@ -83,13 +83,39 @@ var Editor = new function()
 	{
 		return this.mSpritePack.sprite( this.mSpriteShown );
 	}
+	this.actionRemoveSprite = function( pSPriteNumber )
+	{
+		if( pSPriteNumber >= 0 && pSPriteNumber < this.mSpritePack.size() )
+		{
+			this.mSpritePack.removeSprite( pSPriteNumber );
+			
+			if( pSPriteNumber === this.mSpriteShown )
+			{			
+				if( this.mSpriteShown + 1 >= this.mSpritePack.size() )
+				{
+					--this.mSpriteShown;
+				}
+				this.actionShowSprite( this.mSpriteShown );
+			}
+			else
+			{
+				if( pSPriteNumber < this.mSpriteShown )
+				{
+					--this.mSpriteShown;
+				}
+			}
+			this.mSpritePackView.mFrameBar.setSliderSize( this.mSpritePack.size() - 1 );
+		}
+	}
 	this.actionShowSprite = function( pSpriteNumber )
 	{
-		if( pSpriteNumber >= 0 && pSpriteNumber < this.mSpritePack.size() )
+		if( pSpriteNumber < this.mSpritePack.size() )
 		{
 			this.mSpriteShown = pSpriteNumber;
-			this.mSpritePackView.mSpriteProperties.setValues( this.getCurrentSprite() );
-			this.mSpritePackView.mDrawingArea.setSprite( this.getCurrentSprite() );
+			var sprite = this.getCurrentSprite();
+			
+			this.mSpritePackView.mSpriteProperties.setValues( sprite );
+			this.mSpritePackView.mDrawingArea.setSprite( sprite );
 			this.mSpritePackView.mFrameBar.setSliderValue( this.mSpriteShown );
 			
 			this.actionShowOnionSkin();

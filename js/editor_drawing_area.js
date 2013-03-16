@@ -44,16 +44,21 @@ EditorDrawingArea.prototype.zoom = function( pZoom )
  * Method that sets the displaying sprite in the drawing area
  *
  * @param	{Sprite} pSprite, the sprite to be shown
+ * if no one is provided then it will clear the current displayed sprite
  */
 EditorDrawingArea.prototype.setSprite = function( pSprite )
 {
-	this.mSprite.empty().append( pSprite.image ).css
-	({
-		top:		this.mHotspot.position().top + pSprite.offset.y * this.mZoom,
-		left:		this.mHotspot.position().left + pSprite.offset.x * this.mZoom,
-		width:		pSprite.width() * this.mZoom,
-		height: 	pSprite.height() * this.mZoom
-	}).data("sprite", pSprite);
+	this.mSprite.empty();
+	if( pSprite != undefined )
+	{
+		this.mSprite.append( pSprite.image ).css
+		({
+			top:		this.mHotspot.position().top + pSprite.offset.y * this.mZoom,
+			left:		this.mHotspot.position().left + pSprite.offset.x * this.mZoom,
+			width:		pSprite.width() * this.mZoom,
+			height: 	pSprite.height() * this.mZoom
+		}).data("sprite", pSprite);
+	}
 }
 /**
  * Method that sets the visible onionskin sprite
