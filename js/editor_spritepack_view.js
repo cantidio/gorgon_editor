@@ -15,7 +15,7 @@ function EditorSpritePackView()
  */
 EditorSpritePackView.prototype.eventKeyDown = function( key, listener )
 {
-	if( listener.key( listener.KEY.Control ) )
+	if( listener.key( listener.KEY.Control ) && !this.mDrawingArea.mSprite.hasClass("ui-draggable-dragging"))
 	{
 		switch( key )
 		{

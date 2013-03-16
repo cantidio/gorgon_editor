@@ -134,12 +134,9 @@ EditorDrawingArea.prototype.eventSpriteDrag = function( event, ui )
  */
 EditorDrawingArea.prototype.eventKeyUp = function( key, listener )
 {
-	if( this.mSprite.hasClass("borderOn") )
+	if( key == listener.KEY.Shift )
 	{
-		if( key == listener.KEY.Shift )
-		{
-			this.mSprite.removeClass("ui-draggable-dragging");
-		}
+		this.mSprite.removeClass("key-moving");
 	}
 }
 /**
@@ -149,15 +146,19 @@ EditorDrawingArea.prototype.eventKeyUp = function( key, listener )
 EditorDrawingArea.prototype.eventKeyDown = function( key, listener )
 {
 	//you can't control the sprite if you are editing something
-	if( $("input:focus").length > 0 ) 
+	if( $("input:focus").length > 0 || this.mSprite.hasClass("ui-draggable-dragging")) 
 	{
 		return;
 	}
-	if( key == listener.KEY.Shift )
+	if( key == listener.KEY.F )
 	{
-		this.mSprite.addClass("borderOn").addClass("ui-draggable-dragging");
+		this.mSprite.toggleClass("borderOn");
+	}	
+	else if( key == listener.KEY.Shift )
+	{
+		this.mSprite.addClass("key-moving");
 	}
-	else if( this.mSprite.hasClass("borderOn") )
+	else if( this.mSprite.hasClass("key-moving") )
 	{
 		var sprite = this.mSprite.data("sprite");
 		if( listener.key( listener.KEY.Shift ) )
@@ -195,7 +196,7 @@ EditorDrawingArea.prototype.registerEvents = function()
 	
 	this.mSprite.on( "drag", this.eventSpriteDrag ); //register the sprite drag event
 	this.mSprite.click( function(e){ e.stopPropagation();  $(this).toggleClass("borderOn"); } ); //register the sprite click event
-	$("body").not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
+	this.mGrid.not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
 	
 	Editor.mKeyListener.keydown(
 		(function( obj ) {

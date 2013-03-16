@@ -89,7 +89,7 @@
 {
 	border:				1px solid #d7d7d7;
 }
-.sprite.ui-draggable-dragging
+.sprite.ui-draggable-dragging, .sprite.key-moving
 {
 	opacity: 0.35;
 }
