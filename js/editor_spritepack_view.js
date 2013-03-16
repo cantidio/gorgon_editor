@@ -6,7 +6,7 @@ function EditorSpritePackView()
 	this.mDrawingArea		= new EditorDrawingArea();
 	this.mSpriteProperties	= new EditorSpriteProperties();
 	this.mFrameBar			= new EditorSpritePackFrameBar();
-	
+	this.mToolBar			= new EditorSpriteToolBar();
 	this.registerEvents();
 }
 /**

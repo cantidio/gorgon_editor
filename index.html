@@ -26,6 +26,7 @@
 	<script src="js/editor.js"></script>
 	<script src="js/editor_menu.js"></script>
 	<script src="js/editor_spritepack_view.js"></script>
+	<script src="js/editor_spritepack_toolbar.js"></script>
 	<script src="js/editor_spritepack_framebar.js"></script>
 	<script src="js/editor_spritepack_sprite_properties.js"></script>
 	<script src="js/editor_drawing_area.js"/></script>
@@ -161,7 +162,7 @@
 					</div>
 				</div>
 			
-				<div class="toolbar">
+				<div id="sprite-toolbar" class="toolbar">
 					<button class="tool" id="crop"><div></div></button>
 					<button class="tool" id="flipHorizontal"><div></div></button>
 					<button class="tool" id="flipVertical"><div></div></button>
@@ -171,8 +172,8 @@
 					<button class="tool" id="zoomIn"><div></div></button>
 					<button class="tool" id="zoomOut"><div></div></button>
 					<div class="tool lock">
-						<input type="checkbox" value="None" id="squaredOne" name="check" />
-						<label for="squaredOne"></label>
+						<input type="checkbox" value="None" id="lock" name="check" />
+						<label for="lock"></label>
 					</div>
 				</div>
 				<div  id="sprite-framebar" class="framebar">

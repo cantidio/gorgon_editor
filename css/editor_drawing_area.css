@@ -7,6 +7,7 @@
 	width:					100%;
 	height:					100%;
 	overflow:				hidden;
+	background: 			url("../imgs/grid_background.png");
 }
 .drawing-area > .draggable
 {
@@ -43,8 +44,7 @@
 	top:			50%;
 	left:			50%;
 	height:			1px;
-	border-top: 	1px solid #7c7c7c;
-	margin-top:		-1;
+	background:		#7c7c7c
 }
 .vertical-line
 {
@@ -52,8 +52,7 @@
 	top:			50%;
 	left:			50%;
 	width: 			1px;
-	border-left:	1px solid #7c7c7c;
-	margin-left:	-1px;			
+	background:		#7c7c7c
 }
 .hotspot
 {
@@ -76,6 +75,11 @@
 	width:		0px;
 	height:		0px;
 }
+.sprite > img
+{
+	width:	100%;
+	height:	100%;
+}
 .onionskin
 {
 	position:	absolute;
@@ -84,6 +88,11 @@
 	width:		0px;
 	height:		0px;
 	opacity:	0.2;
+}
+.onionskin > img
+{
+	width:	100%;
+	height:	100%;
 }
 .sprite.borderOn
 {

@@ -84,6 +84,7 @@ div.tool
 .tool#zoomNormal > div
 {
 	background-image: 		url("../imgs/tools/tools_zoom_normal.png");
+	background-position:	-1px -1px;
 }
 .tool#zoomIn > div
 {

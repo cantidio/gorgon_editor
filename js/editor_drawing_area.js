@@ -10,13 +10,28 @@ EditorDrawingArea = function()
 	this.mSprite	= this.mGrid.children("div.sprite");
 	this.mOnionSkin	= this.mGrid.children("div.onionskin");
 	this.mHotspot	= this.mGrid.children(".hotspot");
+	this.mBaseLabel	= this.mGrid.children("span");
 	this.mGridScale	= 2;
+	this.mZoom		= 1.0;
 	
 	this.mGrid.draggable({ cancel: "div.sprite"  });
 	this.mSprite.draggable({ containment: "parent" });
 	
 	this.updateSize();
 	this.registerEvents();
+}
+EditorDrawingArea.prototype.zoom = function( pZoom )
+{
+	if( pZoom != undefined )
+	{
+		this.mZoom = pZoom;
+		this.updateSize();
+		return this;
+	}
+	else
+	{
+		return this.mZoom;
+	}
 }
 /**
  * Method that sets the displaying sprite in the drawing area
@@ -27,10 +42,10 @@ EditorDrawingArea.prototype.setSprite = function( pSprite )
 {
 	this.mSprite.empty().append( pSprite.image ).css
 	({
-		width:		pSprite.image.width,
-		height: 	pSprite.image.height,
-		top:		this.mHotspot.position().top + pSprite.offset.y,
-		left:		this.mHotspot.position().left + pSprite.offset.x
+		top:		this.mHotspot.position().top + pSprite.offset.y * this.mZoom,
+		left:		this.mHotspot.position().left + pSprite.offset.x * this.mZoom,
+		width:		pSprite.width() * this.mZoom,
+		height: 	pSprite.height() * this.mZoom
 	}).data("sprite", pSprite);
 }
 /**
@@ -46,10 +61,10 @@ EditorDrawingArea.prototype.setOnionSkinSprite = function( pSprite )
 	{
 		this.mOnionSkin.append( pSprite.image ).css
 		({
-			width:		pSprite.image.width,
-			height: 	pSprite.image.height,
-			top:		this.mHotspot.position().top + pSprite.offset.y,
-			left:		this.mHotspot.position().left + pSprite.offset.x
+			top:		this.mHotspot.position().top + pSprite.offset.y * this.mZoom,
+			left:		this.mHotspot.position().left + pSprite.offset.x * this.mZoom,
+			width:		pSprite.width()	* this.mZoom,
+			height: 	pSprite.height() * this.mZoom
 		}).data("sprite", pSprite);
 	}
 }
@@ -57,22 +72,26 @@ EditorDrawingArea.prototype.setOnionSkinSprite = function( pSprite )
  * Method that updates the correct sprite position based in the hotspot position
  * and in the sprite offsets
  */
-EditorDrawingArea.prototype.updateSpritePosition = function()
+EditorDrawingArea.prototype.updateSprite = function()
 {
 	if( this.mSprite.data("sprite") )
 	{
 		this.mSprite.css
 		({
-			top:	this.mHotspot.position().top	+ this.mSprite.data("sprite").offset.y,
-			left:	this.mHotspot.position().left	+ this.mSprite.data("sprite").offset.x
+			top:	this.mHotspot.position().top	+ this.mSprite.data("sprite").offset.y * this.mZoom,
+			left:	this.mHotspot.position().left	+ this.mSprite.data("sprite").offset.x * this.mZoom,
+			width:	this.mSprite.data("sprite").width() 	* this.mZoom,
+			height:	this.mSprite.data("sprite").height()	* this.mZoom,
 		});
 	}
 	if( this.mOnionSkin.data("sprite") )
 	{
 		this.mOnionSkin.css
 		({
-			top:	this.mHotspot.position().top	+ this.mOnionSkin.data("sprite").offset.y,
-			left:	this.mHotspot.position().left	+ this.mOnionSkin.data("sprite").offset.x
+			top:	this.mHotspot.position().top	+ this.mOnionSkin.data("sprite").offset.y * this.mZoom,
+			left:	this.mHotspot.position().left	+ this.mOnionSkin.data("sprite").offset.x * this.mZoom,
+			width:	this.mOnionSkin.data("sprite").width() 	* this.mZoom,
+			height:	this.mOnionSkin.data("sprite").height()	* this.mZoom,
 		});
 	}
 }
@@ -82,8 +101,8 @@ EditorDrawingArea.prototype.updateSpritePosition = function()
  */
 EditorDrawingArea.prototype.updateSize = function()
 {
-	var	width	= this.mElement.width() * this.mGridScale,
-		height	= this.mElement.height() * this.mGridScale,
+	var	width	= this.mElement.width() * this.mGridScale * this.mZoom,
+		height	= this.mElement.height() * this.mGridScale * this.mZoom,
 		limit 	= { x: width - this.mElement.width(), y: height - this.mElement.height() };
 		
 	this.mGrid.css
@@ -104,19 +123,31 @@ EditorDrawingArea.prototype.updateSize = function()
 			this.mElement.offset().top,
 		]
 	);
-	
 	this.mVLine.css
 	({
+		width:		this.mZoom * 1.0,
+		marginLeft:	-this.mZoom / 2,
 		height:		height,
 		marginTop:	-height / 2
 	});
 	this.mHLine.css
 	({
+		height:		this.mZoom * 1.0,
+		marginTop:	-this.mZoom / 2,
 		width:		width,
 		marginLeft:	-width / 2
 	});
-	
-	this.updateSpritePosition();
+	this.mHotspot.css
+	({
+		width:		this.mZoom 	* 5.0,
+		height:		this.mZoom 	* 5.0,
+		marginLeft:	-this.mZoom	* 5 / 2,
+		marginTop:	-this.mZoom	* 5 / 2
+	});
+	this.mBaseLabel.css({ zoom: this.mZoom });
+	this.mElement.css( "background-size", (30 * this.mZoom) + "px "+ (30 * this.mZoom) + "px" );
+	this.mSprite.draggable( "option", "grid", [ this.mZoom, this.mZoom ] );
+	this.updateSprite();
 }
 /**
  * Event called every time a sprite is dragged in the view
@@ -125,8 +156,9 @@ EditorDrawingArea.prototype.updateSize = function()
  */
 EditorDrawingArea.prototype.eventSpriteDrag = function( event, ui )
 {
-	$(this).data("sprite").offset.x = parseInt( -$(".hotspot").position().left	+ ui.position.left );
-	$(this).data("sprite").offset.y = parseInt( -$(".hotspot").position().top	+ ui.position.top );
+	var zoom = Editor.mSpritePackView.mDrawingArea.zoom();
+	$(this).data("sprite").offset.x = Math.round(( -$(".hotspot").position().left	+ ui.position.left) / zoom);
+	$(this).data("sprite").offset.y = Math.round(( -$(".hotspot").position().top	+ ui.position.top ) / zoom);
 	Editor.mSpritePackView.mSpriteProperties.setValues( $(this).data("sprite") );
 }
 /**
@@ -178,7 +210,7 @@ EditorDrawingArea.prototype.eventKeyDown = function( key, listener )
 					++sprite.offset.y;
 					break;
 			}
-			this.updateSpritePosition();
+			this.updateSprite();
 			Editor.mSpritePackView.mSpriteProperties.setValues( sprite );
 		}
 		if( key == listener.KEY.Esc )

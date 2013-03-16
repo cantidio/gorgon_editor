@@ -51,6 +51,8 @@ function Sprite( data )
 		this.index	= data.index 	? data.index 	: 0;
 		this.offset	= data.offset	? data.offset	: new Point( 0, 0 );
 		this.image	= ( typeof( data.image ) == "object" ) ? data.image 	: null;
+		this._width	= (this.image) ? this.image.width : 0;
+		this._height= (this.image) ? this.image.height : 0;
 		
 		if( this.image == null && typeof( data.image ) == "string" )
 		{
@@ -64,7 +66,17 @@ function Sprite( data )
 		this.index	= 0;
 		this.offset	= new Point( 0, 0 );
 		this.image	= null;
+		this._width	= 0;
+		this._height= 0;
 	}
+}
+Sprite.prototype.height = function()
+{
+	return this._height;
+}
+Sprite.prototype.width = function()
+{
+	return this._width;
 }
 /**
  * load the sprite image
@@ -78,6 +90,8 @@ Sprite.prototype.load = function( base64, onLoad ) {
 	{
 		return function()
 		{
+			obj._width	= obj.image.width;
+			obj._height	= obj.image.height;
 			onLoad( obj );
 		}
 	})( this, onLoad );
