@@ -66,6 +66,9 @@ EditorDrawingArea.prototype.updateSpritePosition = function()
 			top:	this.mHotspot.position().top	+ this.mSprite.data("sprite").offset.y,
 			left:	this.mHotspot.position().left	+ this.mSprite.data("sprite").offset.x
 		});
+	}
+	if( this.mOnionSkin.data("sprite") )
+	{
 		this.mOnionSkin.css
 		({
 			top:	this.mHotspot.position().top	+ this.mOnionSkin.data("sprite").offset.y,
@@ -120,11 +123,68 @@ EditorDrawingArea.prototype.updateSize = function()
  *	Then it sets the correct offset based in the movement made
  *	and updates the spritepackview with the correct values
  */
-EditorDrawingArea.prototype.eventSpriteDrag = function( event, ui) 
+EditorDrawingArea.prototype.eventSpriteDrag = function( event, ui )
 {
 	$(this).data("sprite").offset.x = parseInt( -$(".hotspot").position().left	+ ui.position.left );
-	$(this).data("sprite").offset.y = parseInt( -$(".hotspot").position().top		+ ui.position.top );
+	$(this).data("sprite").offset.y = parseInt( -$(".hotspot").position().top	+ ui.position.top );
 	Editor.mSpritePackView.mSpriteProperties.setValues( $(this).data("sprite") );
+}
+/**
+ * Event that removes the visual indicationg that the sprite is ready to be moved
+ */
+EditorDrawingArea.prototype.eventKeyUp = function( key, listener )
+{
+	if( this.mSprite.hasClass("borderOn") )
+	{
+		if( key == listener.KEY.Shift )
+		{
+			this.mSprite.removeClass("ui-draggable-dragging");
+		}
+	}
+}
+/**
+ * Event that controls the sprite movement when the key shift is pressed
+ * You can only control the sprite if there is none input on focus.
+ */
+EditorDrawingArea.prototype.eventKeyDown = function( key, listener )
+{
+	//you can't control the sprite if you are editing something
+	if( $("input:focus").length > 0 ) 
+	{
+		return;
+	}
+	if( key == listener.KEY.Shift )
+	{
+		this.mSprite.addClass("borderOn").addClass("ui-draggable-dragging");
+	}
+	else if( this.mSprite.hasClass("borderOn") )
+	{
+		var sprite = this.mSprite.data("sprite");
+		if( listener.key( listener.KEY.Shift ) )
+		{
+			switch( key )
+			{
+				case listener.KEY.Left:
+					--sprite.offset.x;
+					break;
+				case listener.KEY.Up:
+					--sprite.offset.y;
+					break;
+				case listener.KEY.Right:
+					++sprite.offset.x;
+					break;
+				case listener.KEY.Down:
+					++sprite.offset.y;
+					break;
+			}
+			this.updateSpritePosition();
+			Editor.mSpritePackView.mSpriteProperties.setValues( sprite );
+		}
+		if( key == listener.KEY.Esc )
+		{
+			this.mSprite.removeClass("borderOn");
+		}
+	}
 }
 /**
  * Method responsable for registering the events related to the Drawing area.
@@ -135,5 +195,16 @@ EditorDrawingArea.prototype.registerEvents = function()
 	
 	this.mSprite.on( "drag", this.eventSpriteDrag ); //register the sprite drag event
 	this.mSprite.click( function(e){ e.stopPropagation();  $(this).toggleClass("borderOn"); } ); //register the sprite click event
-	this.mGrid.not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
+	$("body").not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
+	
+	Editor.mKeyListener.keydown(
+		(function( obj ) {
+			return function( key, list ) { obj.eventKeyDown( key, list );  }
+		})( this )
+	);
+	Editor.mKeyListener.keyup(
+		(function( obj ) {
+			return function( key, list ) { obj.eventKeyUp( key, list );  }
+		})( this )
+	);
 }

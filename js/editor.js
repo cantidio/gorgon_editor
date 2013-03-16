@@ -1,6 +1,7 @@
 var Editor = new function()
 {
 	this.mElementId	= "maintabs";
+		
 	/**
 	 * Event Called when the window is resized. This event will resize the height of the tabs as well.
 	 */
@@ -117,6 +118,7 @@ var Editor = new function()
 	
 	this.init = function()
 	{
+		this.mKeyListener		= new KeyListener();
 		this.mMenu				= new EditorMenu();
 		this.mSpritePackView	= new EditorSpritePackView();
 		this.mSpritePack		= new SpritePack();
@@ -149,192 +151,15 @@ var Editor = new function()
 		this.drawHotspot();
 	}
 	
-	this.drawSprite		= function( pSprite, pAlpha ) {
-		if( pSprite )
-		{
-			var context = this.mElement.getContext('2d');
-			context.globalAlpha = pAlpha ? pAlpha : 1.0;
-			context.drawImage
-			(
-				pSprite.image,
-				this.mHotspot.x - pSprite.offset.x,
-				this.mHotspot.y - pSprite.offset.y
-			);
-			context.globalAlpha = 1.0;
-		}
-	}
+	
 	this.removeSprite	= function( pSprite ) {
 		this.mSpritePack.removeSprite( pSprite );
 		this.currentSpriteIndex( this.currentSpriteIndex() );
 		SpritePropertiesView.spriteNumber( this.spriteNumber() - 1 ).currentSprite( this.currentSpriteIndex() );
 		this.show();
 	}
-	this.onImageAddStep	= function( files, i, group ) {
-		var reader		= new FileReader();
-		reader.onload	= ( function( obj, name, group, index, items )
-		{
-			return function( event )
-			{
-				var sprite = new Sprite
-				({
-					name:	name,
-					group:	group,
-					index:	index,
-					image:	event.target.result,
-					onload:	( function( index, files ) {
-						return function( obj )
-						{
-							obj.offset.x = $(obj.image)[0].width / 2;
-							obj.offset.y = $(obj.image)[0].height / 2;
-							Editor.mSpritePack.addSprite( sprite );
-							Editor.mSpriteShown++;
-							SpritePropertiesView
-								.spriteNumber( Editor.spriteNumber() - 1 )
-								.currentSprite( Editor.currentSpriteIndex() )
-								.updateSpriteVal( Editor.currentSprite() );
-							ProgressBar.add( 1 );
-							if( index + 1 < files.length )
-							{
-								Editor.onImageAddStep( files, index + 1, group );
-							}
-							else
-							{
-								Editor.show();
-							}
-						}
-					})( index, items )
-				});
-			};
-		})( this, files[i].name, group, i, jQuery.extend(true, {}, files) );
-		
-		reader.readAsDataURL( files[i] );
-	}
-	this.onImageAdd		= function() {
-		var items = $("#addimg")[0].files;
-		var group = this.mSpritePack.getGreatestGroup() + 100;
-		ProgressBar.show( items.length, function(){ ProgressBar.hide(); } );
-		this.onImageAddStep( items, 0, group );
-	}
-	this.spriteNumber	= function() {
-		return this.mSpritePack.size();
-	}
-	this.currentSprite = function() {
-		return this.mSpritePack.sprite( this.currentSpriteIndex() );
-	}
-	this.currentSpriteIndex	= function( pCurrentSprite ) {
-		if( pCurrentSprite != undefined )
-		{
-			if( typeof( pCurrentSprite ) == "string" )
-			{
-				pCurrentSprite = parseInt(pCurrentSprite);
-				if( isNaN( pCurrentSprite ) )
-				{
-					pCurrentSprite = 0;
-				}
-			}
-			this.mSpriteShown = pCurrentSprite;
-			if( this.mSpriteShown >= this.spriteNumber() )
-			{
-				this.mSpriteShown = this.spriteNumber() - 1;
-			}
-			else if( this.mSpriteShown < 0 )
-			{
-				this.mSpriteShown = 0;
-			}
-			return this;
-		}
-		else
-		{
-			return this.mSpriteShown;
-		}
-	}
-	this.onKeyRelease	= function( event ) {
-		if( event == 16 )
-		{
-			this.mod.shift = false;
-		}
-		else if( event == 17 )
-		{
-			this.mod.control = false;
-		}
-	}
-	this.onKeyPress		= function( event ) {
-		if( event == 16 )
-		{
-			this.mod.shift = true;
-		}
-		else if( event == 17 )
-		{
-			this.mod.control = true;
-		}
-		else if( event == 39 ) //right
-		{
-			if( this.mod.control )
-			{
-				++this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.x;
-				this.show();
-			}
-			else
-			{
-				if( this.currentSpriteIndex() < this.mSpritePack.size() - 1 )
-				{
-					this.currentSpriteIndex( this.currentSpriteIndex() + 1 );
-					var sprite = this.currentSprite();
-					this.show();
-				}
-			}
-		}
-		else if( event == 37 ) //left
-		{
-			if( this.mod.control )
-			{
-				--this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.x;
-				this.show();
-			}
-			else
-			{
-				if( this.currentSpriteIndex() > 0 )
-				{
-					this.currentSpriteIndex( this.currentSpriteIndex() - 1 );
-					this.show();
-				}
-			}
-		}
-		else if( event == 38 ) //up
-		{
-			if( this.mod.control )
-			{
-				--this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.y;
-				this.show();
-			}
-		}
-		else if( event == 40 ) //down
-		{
-			if( this.mod.control )
-			{
-				++this.mSpritePack.sprite( this.currentSpriteIndex() ).offset.y;
-				this.show();
-			}
-		}
-		SpritePropertiesView.updateSpriteVal( this.currentSprite() ? this.currentSprite() : new Sprite() );
-		SpritePropertiesView.currentSprite( this.currentSpriteIndex() );
-	}
-	this.onMousePress	= function( event ) {
-		if( event.button == 1 )
-		{
-			if( this.mod.control )
-			{
-				var sprite = this.currentSprite();
-				if( sprite )
-				{
-					sprite.offset.x += event.x - this.mHotspot.x;
-					sprite.offset.y += event.y - this.mHotspot.y;					
-					this.show();
-				}
-			}
-		}
-		
-	}
+	
+	
 	this.onResize		= function() {
 		
 		this.mSize				= new Point( Math.floor( $(this.mElement).width() ), Math.floor( $(this.mElement).height() ) );

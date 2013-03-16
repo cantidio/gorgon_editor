@@ -72,4 +72,12 @@ EditorSpritePackFrameBar.prototype.registerEvents = function()
 	this.mElement.children(".framebar_next_button").click( this.eventNextSprite );
 	this.mElement.children(".framebar_last_button").click( this.eventLastSprite );
 	this.mSlider.on( "slide", this.eventSlide );
+	
+	this.mSlider.children('a.ui-slider-handle').focus//remove the focus of the slider so it can not get keypress events
+	(
+		function()
+		{
+			setTimeout( function() { $('#frame-slider').children('a.ui-slider-handle').blur(); }, 100 );
+		}
+	);	
 }

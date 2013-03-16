@@ -23,11 +23,12 @@ EditorSpriteProperties.prototype.getOnionSkin = function()
 		case 1://last
 			return Editor.mSpritePack.sprite( Editor.mSpriteShown - 1 );
 		case 2://fixed
-			return Editor.mSpritePack.search
+			var sprite = Editor.mSpritePack.search
 			(
 				parseInt( $("#oninskin_fixed_group").val() ),
 				parseInt( $("#oninskin_fixed_index").val() )
 			)[0];
+			return ( sprite !== Editor.getCurrentSprite() ) ? sprite : null;
 	}
 }
 /**
@@ -140,4 +141,5 @@ EditorSpriteProperties.prototype.registerEvents = function()
 	$("#input_sprite_yoffset").change( this.eventChangeSpriteYOffset );
 	
 	$("#onionskin_input input[type=radio],#oninskin_fixed_group,#oninskin_fixed_index" ).change( this.eventChangeOnionSkinMode );
+	$("#spritepack-drawing-area *").click( function(e){ $("* input").blur(); } );//when clicking in the drawing area if a input has focus it loses it
 }
