@@ -20,6 +20,13 @@ EditorDrawingArea = function()
 	this.updateSize();
 	this.registerEvents();
 }
+/**
+ * Method that sets the current zoom of the drawing area
+ *
+ * @param {Number} pZoom, the new value of the zoom (optional)
+ * @return	{EditorDrawingArea} if the zoom were provided it will return the pointer to this object
+ * @return	{Number} if the zoom were not provided it will return the current zoom value
+ */
 EditorDrawingArea.prototype.zoom = function( pZoom )
 {
 	if( pZoom != undefined )
