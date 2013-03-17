@@ -54,9 +54,7 @@
 }
 .ui-tabs .ui-tabs-panel > .space
 {
-	/*display:table-cell;*/
-	min-width:	123px;
-	
+	min-width:	123px;	
 	width:		123px;
 	background: #252525;
 }

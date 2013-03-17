@@ -27,7 +27,6 @@ function EditorSpriteToolBar()
 	this.registerEvents();
 	this.registerShortcuts();
 }
-
 /**
  * Event that increases 1 zoom step to the current zoom
  */

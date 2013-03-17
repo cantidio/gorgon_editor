@@ -4,7 +4,8 @@
  * @param	{String} pName, the name of the file
  * @return	{String} The base64 data attribute  
  */
-function getBase64ImageType( pName ) {
+function getBase64ImageType( pName )
+{
 	if( pName.search(/.png$/,"") != -1 )
 	{
 		return 'data:image/png;base64,';
@@ -70,10 +71,20 @@ function Sprite( data )
 		this._height= 0;
 	}
 }
+/**
+ * Method that returns the original height of the sprite
+ *
+ * @return {Integer}
+ */
 Sprite.prototype.height = function()
 {
 	return this._height;
 }
+/**
+ * Method that returns the original width of the sprite
+ *
+ * @return {Integer}
+ */
 Sprite.prototype.width = function()
 {
 	return this._width;
