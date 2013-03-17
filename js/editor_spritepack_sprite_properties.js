@@ -105,7 +105,7 @@ EditorSpriteProperties.prototype.eventChangeSpriteXOffset = function()
 	if( sprite )
 	{
 		sprite.offset.x = parseInt( $(this).val() );		
-		Editor.mSpritePackView.mDrawingArea.updateSpritePosition();
+		Editor.mSpritePackView.mDrawingArea.updateSprite();
 	}
 }
 /**
@@ -117,7 +117,7 @@ EditorSpriteProperties.prototype.eventChangeSpriteYOffset = function()
 	if( sprite )
 	{
 		sprite.offset.y = parseInt( $(this).val() );		
-		Editor.mSpritePackView.mDrawingArea.updateSpritePosition();
+		Editor.mSpritePackView.mDrawingArea.updateSprite();
 	}
 }
 /**
