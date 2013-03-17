@@ -51,7 +51,7 @@ EditorDrawingArea.prototype.zoom = function( pZoom )
  */
 EditorDrawingArea.prototype.setSprite = function( pSprite )
 {
-	this.mSprite.empty();
+	this.mSprite.empty().css({ width: 0, height: 0 });;
 	if( pSprite != undefined )
 	{
 		this.mSprite.append( pSprite.image ).css

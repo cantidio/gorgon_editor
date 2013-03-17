@@ -98,10 +98,11 @@ var Editor = new function()
 			
 			if( pSpriteNumber === this.mSpriteShown )
 			{			
-				if( this.mSpriteShown + 1 >= this.mSpritePack.size() )
+				if( this.mSpriteShown + 1 > this.mSpritePack.size() )
 				{
 					--this.mSpriteShown;
 				}
+				
 				this.actionShowSprite( this.mSpriteShown );
 			}
 			else
@@ -194,8 +195,6 @@ var Editor = new function()
 	 */
 	this.resize = function()
 	{
-		console.log("resize");
-		
 		var window_height	= $(window).height()
 		this.mElement.height( window_height );
 		
