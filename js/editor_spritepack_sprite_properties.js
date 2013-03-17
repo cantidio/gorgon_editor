@@ -3,11 +3,46 @@
  */
 function EditorSpriteProperties()
 {
-	this.mElement = $("#sprite_properties");
-	
+	this.mElement 			= $("#sprite_properties");
 	$( "#viewport_input" ).buttonset();
 	$( "#onionskin_input" ).buttonset();
+	this.mShortcutListener	= new ShortcutListener();
+	
 	this.registerEvents();
+	this.registerShortcuts();
+}
+EditorSpriteProperties.prototype.registerShortcuts = function()
+{
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Control, KeyListener.KEY.I],
+		down:	this.eventImportSprites,
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Alt, KeyListener.KEY.G],
+		down:	function() { $("#input_sprite_group").focus(); },
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Alt, KeyListener.KEY.I],
+		down:	function() { $("#input_sprite_index").focus(); },
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Alt, KeyListener.KEY.N],
+		down:	function() { $("#input_sprite_name").focus(); },
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Alt, KeyListener.KEY.X],
+		down:	function() { $("#input_sprite_xoffset").focus(); },
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Alt, KeyListener.KEY.Y],
+		down:	function() { $("#input_sprite_yoffset").focus(); },
+	});
 }
 /**
  * Method that returns the onionskin sprite based in the sprite properties selected option
