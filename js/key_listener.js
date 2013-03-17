@@ -136,9 +136,10 @@ KeyListener.prototype.KEY =
 	Enter:		13,
 	Shift:		16,
 	Control:	17,
+	Alt:		18,
 	Capslock:	20,
 	Esc:		27,
-	
+	Space:		32,
 	Left: 		37,
 	Up:			38,
 	Right:		39,

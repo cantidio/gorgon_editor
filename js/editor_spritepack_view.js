@@ -22,19 +22,35 @@ EditorSpritePackView.prototype.eventKeyDown = function( key, listener )
 			case listener.KEY.Left:
 				var input = $("input:focus");
 				
-				input.blur();					//if you were edditing some field, then blur to submit its changes
-				Editor.actionPreviousSprite();	//show the previous sprite if available
-				input.focus();					//return the focus in the field
-												//select the input text after the keypress event
+				input.blur();						//if you were edditing some field, then blur to submit its changes
+				
+				if( listener.key( listener.KEY.Alt ) )
+				{
+					Editor.actionFirstSprite();		//show the first sprite if available
+				}
+				else
+				{
+					Editor.actionPreviousSprite();	//show the previous sprite if available
+				}
+				
+				input.focus();						//return the focus in the field
+													//select the input text after the keypress event
 				setTimeout( (function(input) { return function() { input.select(); } })(input), 100 );
 				break;
 			case listener.KEY.Right:
 				var input = $("input:focus");
 				
-				input.blur();					//if you were edditing some field, then blur to submit its changes
-				Editor.actionNextSprite();		//show the next sprite if available
-				input.focus();					//return the focus in the field
-												//select the input text after the keypress event
+				input.blur();						//if you were edditing some field, then blur to submit its changes
+				if( listener.key( listener.KEY.Alt ) )
+				{
+					Editor.actionLastSprite();		//show the last sprite if available
+				}
+				else
+				{
+					Editor.actionNextSprite();		//show the next sprite if available
+				}
+				input.focus();						//return the focus in the field
+													//select the input text after the keypress event
 				setTimeout( (function(input) { return function() { input.select(); } })(input), 100 );
 				break;
 		}
