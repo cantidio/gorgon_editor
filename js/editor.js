@@ -1,15 +1,14 @@
 var Editor = new function()
 {
-	this.mElementId	= "maintabs";
-		
 	/**
 	 * Event Called when the window is resized. This event will resize the height of the tabs as well.
 	 */
 	this.onResize = function()
 	{
-		//this.mElement.height( $(window).height() );
 	}
-	
+	/**
+	 * Method that registers all the necessary events for the Editor.
+	 */
 	this.registerEvents = function()
 	{
 		$(window).resize
@@ -21,7 +20,9 @@ var Editor = new function()
 		
 		$("#import_sprites_file").change( this.eventImageAdd );
 	}
-	
+	/**
+	 * Event called when the import button is pressed.
+	 */
 	this.eventImageAdd = function()
 	{
 		var imgs	= $("#import_sprites_file")[0].files;
@@ -32,7 +33,7 @@ var Editor = new function()
 	/**
 	 * Method that receives a file object and reads it and returns 
 	 * a callback with the sprite read
-	 * @param	Object pParamList, an object composed of the following properties:
+	 * @param	{Object} pParamList, an object composed of the following properties:
 	 *		Object 		file	the file to be read
 	 *		Function	onload	the function that will be called when the sprite is ready.
 	 *			This function will be called with the sprite read as a param.
@@ -54,6 +55,14 @@ var Editor = new function()
 		
 		reader.readAsDataURL( pParamList.file );
 	}
+	/**
+	 * Callback that is called for every sprite to be added in the Editor.
+	 * This callback will be called for every image in the files array.
+	 *
+	 * @param	{Array} 	files	, array of image files
+	 * @param	{Integer} 	i		, the number of the sprite to be added
+	 * @param	{Integer}	group	, the group of the added sprite
+	 */
 	this.onImageAddStep = function( files, i, group )
 	{
 		this.readSpriteData
@@ -63,7 +72,9 @@ var Editor = new function()
 			{
 				return function( sprite )
 				{
-					Editor.addSprite( sprite );
+					sprite.index = i;
+					sprite.group = group;
+					Editor.actionAddSprite( sprite );
 					ProgressBar.add( 1 );
 					if( i + 1 < files.length )
 					{
@@ -73,23 +84,39 @@ var Editor = new function()
 			}) (files, i, group)
 		});
 	}
-	this.addSprite = function( pSprite )
+	/**
+	 * Method that returns the current shown sprite Object
+	 *
+	 * @return	{Sprite} the current sprite or null if none is found
+	 */
+	this.getCurrentSprite = function()
+	{
+		return this.mSpritePack.sprite( this.mSpriteShown );
+	}
+	/**
+	 * Action that adds a Sprite in the Editor
+	 *
+	 * @param	{Sprite} pSprite the sprite to be added in the Editor
+	 */
+	this.actionAddSprite = function( pSprite )
 	{
 		this.mSpritePack.addSprite( pSprite, this.mSpriteShown + 1 );
 		Editor.actionNextSprite();
 		this.mSpritePackView.mFrameBar.setSliderSize( this.mSpritePack.size() - 1 );
 	}
-	this.getCurrentSprite = function()
+	/**
+	 * Action that removes a sprite from the editor. If the sprite to be removed is currently displayed in the editor,
+	 * it will remove this sprite and then display the sprite after it, if there's one, or one before it.
+	 *
+	 * @param	{Integer} pSpriteNumber, the index of the sprite to be removed
+	 */
+	this.actionRemoveSprite = function( pSpriteNumber )
 	{
-		return this.mSpritePack.sprite( this.mSpriteShown );
-	}
-	this.actionRemoveSprite = function( pSPriteNumber )
-	{
-		if( pSPriteNumber >= 0 && pSPriteNumber < this.mSpritePack.size() )
+		if( pSpriteNumber >= 0 && pSpriteNumber < this.mSpritePack.size() )
 		{
-			this.mSpritePack.removeSprite( pSPriteNumber );
+			this.mSpritePack.removeSprite( pSpriteNumber );
 			
-			if( pSPriteNumber === this.mSpriteShown )
+			if( pSpriteNumber === this.mSpriteShown )
 			{			
 				if( this.mSpriteShown + 1 >= this.mSpritePack.size() )
 				{
@@ -99,7 +126,7 @@ var Editor = new function()
 			}
 			else
 			{
-				if( pSPriteNumber < this.mSpriteShown )
+				if( pSpriteNumber < this.mSpriteShown )
 				{
 					--this.mSpriteShown;
 				}
@@ -107,41 +134,68 @@ var Editor = new function()
 			this.mSpritePackView.mFrameBar.setSliderSize( this.mSpritePack.size() - 1 );
 		}
 	}
+	/**
+	 * Action that shows a sprite in the editor. This action do not check if the sprite requested exists or not.
+	 * If it not exists then it will not show any sprite.
+	 *
+	 * @param {Integer} pSpriteNumber, the index of the sprite to be shown in the editor
+	 */
 	this.actionShowSprite = function( pSpriteNumber )
 	{
-		if( pSpriteNumber < this.mSpritePack.size() )
-		{
-			this.mSpriteShown = pSpriteNumber;
-			var sprite = this.getCurrentSprite();
-			
-			this.mSpritePackView.mSpriteProperties.setValues( sprite );
-			this.mSpritePackView.mDrawingArea.setSprite( sprite );
-			this.mSpritePackView.mFrameBar.setSliderValue( this.mSpriteShown );
-			
-			this.actionShowOnionSkin();
-		}
+		this.mSpriteShown = pSpriteNumber;
+		var sprite = this.getCurrentSprite();
+		
+		this.mSpritePackView.mSpriteProperties.setValues( sprite );
+		this.mSpritePackView.mDrawingArea.setSprite( sprite );
+		this.mSpritePackView.mFrameBar.setSliderValue( this.mSpriteShown );
+		
+		this.actionShowOnionSkin();
 	}
+	/**
+	 * Action that shows the correct onionskin sprite
+	 */
 	this.actionShowOnionSkin = function()
 	{
 		this.mSpritePackView.mDrawingArea.setOnionSkinSprite( this.mSpritePackView.mSpriteProperties.getOnionSkin() );
 	}
+	/**
+	 * Action that shows the first sprite in the editor
+	 */
 	this.actionFirstSprite = function()
 	{
 		this.actionShowSprite( 0 );
 	}
+	/**
+	 * Action that shows the next sprite in the editor
+	 */
 	this.actionNextSprite = function()
 	{
-		this.actionShowSprite( this.mSpriteShown + 1 );
+		if( this.mSpriteShown + 1 < this.mSpritePack.size() )
+		{
+			this.actionShowSprite( this.mSpriteShown + 1 );
+		}
 	}
+	/**
+	 * Action that shows the previous sprite in the editor
+	 */
 	this.actionPreviousSprite = function()
 	{
-		this.actionShowSprite( this.mSpriteShown - 1 );
+		if( this.mSpriteShown > 0 )
+		{
+			this.actionShowSprite( this.mSpriteShown - 1 );
+		}
 	}
+	/**
+	 * Action that shows the last sprite in the editor
+	 */
 	this.actionLastSprite = function()
 	{
 		this.actionShowSprite( this.mSpritePack.size() - 1 );
 	}
-	
+	/**
+	 * Method that creates the Editor and all its components. 
+	 * Registering all the necessary events as well.
+	 */
 	this.init = function()
 	{
 		this.mKeyListener		= new KeyListener();
@@ -153,112 +207,3 @@ var Editor = new function()
 		this.registerEvents();
 	}
 }
-/*var Editor = new function()
-{
-	this.show = function() {
-		this.mElement.width		= this.mSize.x;
-		this.mElement.height	= this.mSize.y;
-		var onionskin 			= SpritePropertiesView.onionskin();
-
-		this.drawGrid();
-		if( onionskin.value == 1 )
-		{
-			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown - 2 ) , 0.3 );
-			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown - 1 ) , 0.5 );
-		}
-		else if( onionskin.value == 2 )
-		{
-			this.drawSprite( this.mSpritePack.search( onionskin.group, onionskin.index )[0] , 0.5 );
-		}
-		if( this.mSpritePack.size() > 0 )
-		{
-			this.drawSprite( this.mSpritePack.sprite( this.mSpriteShown ) );
-		}
-		this.drawHotspot();
-	}
-	
-	
-	this.removeSprite	= function( pSprite ) {
-		this.mSpritePack.removeSprite( pSprite );
-		this.currentSpriteIndex( this.currentSpriteIndex() );
-		SpritePropertiesView.spriteNumber( this.spriteNumber() - 1 ).currentSprite( this.currentSpriteIndex() );
-		this.show();
-	}
-	
-	
-	this.onResize		= function() {
-		
-		this.mSize				= new Point( Math.floor( $(this.mElement).width() ), Math.floor( $(this.mElement).height() ) );
-		this.mHotspot			= new Point( Math.floor( this.mSize.x / 2 ), Math.floor( this.mSize.y / 2 ) );
-		this.mElement.width		= this.mSize.x;
-		this.mElement.height	= this.mSize.y;
-		
-		console.log( "size" );		console.log( this.mSize );
-		console.log("hotspot");		console.log( this.mHotspot );
-	}
-	this.registerCallbacks = function() {
-		$(window).blur(
-			(function( obj ) {
-				return function( event ) 
-				{
-					obj.mod.shift	= false;
-					obj.mod.control	= false;
-				}
-			})( this )
-		);
-		$(window).keydown(
-			(function( obj ) {
-				return function( event ) { obj.onKeyPress( event.which );  }
-			})( this )
-		);
-		$(window).keyup(
-			(function( obj ) {
-				return function( event ) { obj.onKeyRelease( event.which );  }
-			})( this )
-		);
-		
-		$(this.mElement).mousedown(
-			(function( obj ) {
-				return function( event ) 
-				{
-					obj.onMousePress
-					({
-						button: event.which,
-						x: event.pageX - this.offsetLeft,
-						y: event.pageY - this.offsetTop
-					});
-				}
-			})( this )
-		);
-		
-		$( window ).resize
-		(
-			(function( obj ) {
-				return function()
-				{
-					obj.onResize(); 
-					obj.show();
-				}
-			})( this )
-		);
-		
-		$("#addimg").change(
-			(function( obj ) {
-				return function( event ) { obj.onImageAdd(); $(this).val(""); }
-			})( this )
-		);
-	}
-	this.init = function() {
-		this.mElement		= document.getElementById("viewport");
-		this.mSize			= new Point( 0, 0 );
-		this.mHotspot		= new Point( 0, 0 );
-		this.mSpritePack	= new SpritePack();
-		this.mSpriteShown	= -1;
-		this.mod			= { shift: false, control: false };
-		this.mGrid			= { color: "#DDDDDD", width: 15, lineWidth: 0.5 };
-		this.onResize();
-		this.show();
-		this.registerCallbacks();
-	}
-}
-*/
