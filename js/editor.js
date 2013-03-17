@@ -1,26 +1,6 @@
 var Editor = new function()
 {
 	/**
-	 * Event Called when the window is resized. This event will resize the height of the tabs as well.
-	 */
-	this.onResize = function()
-	{
-	}
-	/**
-	 * Method that registers all the necessary events for the Editor.
-	 */
-	this.registerEvents = function()
-	{
-		$(window).resize
-		(
-			(function(obj){
-				return function(){ obj.onResize(); }
-			})(this)
-		);
-		
-		$("#import_sprites_file").change( this.eventImageAdd );
-	}
-	/**
 	 * Event called when the import button is pressed.
 	 */
 	this.eventImageAdd = function()
@@ -198,6 +178,9 @@ var Editor = new function()
 	 */
 	this.init = function()
 	{
+		this.mElement			= $( "#tabs" ).tabs();
+		this.resize();
+		
 		this.mKeyListener		= new KeyListener();
 		this.mMenu				= new EditorMenu();
 		this.mSpritePackView	= new EditorSpritePackView();
@@ -205,5 +188,33 @@ var Editor = new function()
 		this.mSpriteShown		= -1;
 		
 		this.registerEvents();
+	}
+	/**
+	 * Event Called when the window is resized. This event will resize the height of the tabs as well.
+	 */
+	this.resize = function()
+	{
+		console.log("resize");
+		
+		var window_height	= $(window).height()
+		this.mElement.height( window_height );
+		
+		var nav_height		= this.mElement.children("ul").height();
+		var offset			= this.mElement.children("div").offset();
+		this.mElement.children("div").height( window_height - nav_height - offset.top );
+	}
+	/**
+	 * Method that registers all the necessary events for the Editor.
+	 */
+	this.registerEvents = function()
+	{
+		$(window).resize
+		(
+			(function(obj){
+				return function(){ obj.resize(); }
+			})(this)
+		);
+		
+		$("#import_sprites_file").change( this.eventImageAdd );
 	}
 }

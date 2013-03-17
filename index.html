@@ -53,30 +53,7 @@
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			
-			$( "#tabs" ).tabs();
-			$("#dialog").dialog({ autoOpen: false });
-			
-			//$( document ).tooltip();
-			
-			var window_height	= $(window).height()
-			$("#tabs").height( window_height );
-			var nav_height		= $("#tabs").children("ul").height();
-			var offset			= $("#tabs").children("div").offset();
-			$("#tabs").children("div").height( window_height - nav_height - offset.top );
-					
-			$(window).resize
-			(
-				function()
-				{
-					var window_height	= $(window).height()
-					$("#tabs").height( window_height );
-					
-					var nav_height		= $("#tabs").children("ul").height();
-					var offset			= $("#tabs").children("div").offset();
-					$("#tabs").children("div").height( window_height - nav_height - offset.top );
-				}
-			);
+			//$("#dialog").dialog({ autoOpen: false });
 			
 			Editor.init();
 			ProgressBar.init();
