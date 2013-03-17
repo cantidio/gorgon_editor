@@ -32,28 +32,56 @@ EditorSpritePackFrameBar.prototype.setSliderValue = function( pValue )
  */
 EditorSpritePackFrameBar.prototype.eventFirstSprite = function()
 {
-	Editor.actionFirstSprite();
+	if( !$(".sprite").hasClass("ui-draggable-dragging") )
+	{
+		var input = $("input:focus");
+		input.blur();																			//if you were edditing some field, then blur to submit its changes
+		Editor.actionFirstSprite();																//show the first sprite if available
+		input.focus();																			//return the focus in the field
+		setTimeout( (function(input) { return function() { input.select(); } })(input), 100 );	//select the input text after the keypress event
+	}
 }
 /**
  * Event triggered when the previous sprite icon is pressed.
  */
 EditorSpritePackFrameBar.prototype.eventPreviousSprite = function()
 {
-	Editor.actionPreviousSprite();
+	if( !$(".sprite").hasClass("ui-draggable-dragging") )
+	{
+		var input = $("input:focus");
+		input.blur();																			//if you were edditing some field, then blur to submit its changes
+		Editor.actionPreviousSprite();															//show the previous sprite if available
+		input.focus();																			//return the focus in the field
+		setTimeout( (function(input) { return function() { input.select(); } })(input), 100 );	//select the input text after the keypress event
+	}
 }
 /**
  * Event triggered when the next sprite icon is pressed.
  */
 EditorSpritePackFrameBar.prototype.eventNextSprite = function()
 {
-	Editor.actionNextSprite();
+	if( !$(".sprite").hasClass("ui-draggable-dragging") )
+	{
+		var input = $("input:focus");
+		input.blur();																			//if you were edditing some field, then blur to submit its changes
+		Editor.actionNextSprite();																//show the next sprite if available
+		input.focus();																			//return the focus in the field
+		setTimeout( (function(input) { return function() { input.select(); } })(input), 100 );	//select the input text after the keypress event
+	}
 }
 /**
  * Event triggered when the last sprite icon is pressed.
  */
 EditorSpritePackFrameBar.prototype.eventLastSprite = function()
 {
-	Editor.actionLastSprite();
+	if( !$(".sprite").hasClass("ui-draggable-dragging") )
+	{
+		var input = $("input:focus");
+		input.blur();																			//if you were edditing some field, then blur to submit its changes
+		Editor.actionLastSprite();																//show the last sprite if available
+		input.focus();																			//return the focus in the field
+		setTimeout( (function(input) { return function() { input.select(); } })(input), 100 );	//select the input text after the keypress event
+	}
 }
 /**
  * Event triggered when the frame slide changes its value

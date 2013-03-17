@@ -129,7 +129,7 @@ KeyListener.prototype._onKeyUp = function( event )
 /**
  * Enum with the Keys
  */
-KeyListener.prototype.KEY = 
+KeyListener.KEY = 
 {
 	Backspace:	8,
 	Tab:		9,
@@ -144,6 +144,7 @@ KeyListener.prototype.KEY =
 	Up:			38,
 	Right:		39,
 	Down:		40,
+	Delete:		46,
 	
 	Num_0:		48,
 	Num_1:		49,
@@ -182,4 +183,15 @@ KeyListener.prototype.KEY =
 	X :			88,
 	Y :			89,	
 	Z :			90,
+	
+	Pad_0:		96,
+	Pad_1:		97,
+	Pad_2:		98,
+	Pad_3:		99,
+	Pad_4:		100,
+	Pad_5:		101,
+	Pad_6:		102,
+	Pad_7:		103,
+	Pad_8:		104,
+	Pad_9:		105,
 };

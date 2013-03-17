@@ -14,11 +14,14 @@ EditorDrawingArea = function()
 	this.mGridScale	= 2;
 	this.mZoom		= 1.0;
 	
+	this.mShortcutListener = new ShortcutListener();
+	
 	this.mGrid.draggable({ cancel: "div.sprite"  });
 	this.mSprite.draggable({ containment: "parent" });
 	
 	this.updateSize();
 	this.registerEvents();
+	this.registerShortcuts();
 }
 /**
  * Method that sets the current zoom of the drawing area
@@ -174,62 +177,108 @@ EditorDrawingArea.prototype.eventSpriteDrag = function( event, ui )
 	Editor.mSpritePackView.mSpriteProperties.setValues( $(this).data("sprite") );
 }
 /**
- * Event that removes the visual indicationg that the sprite is ready to be moved
+ * Event that is triggered when the user clicks on the sprite
  */
-EditorDrawingArea.prototype.eventKeyUp = function( key, listener )
+EditorDrawingArea.prototype.eventSpriteClick = function()
 {
-	if( key == listener.KEY.Shift )
+	Editor.mSpritePackView.mToolBar.mTools.borderToggle.click();
+}
+/**
+ * Event that adds the visual indicationg that the sprite is ready to be moved
+ */
+EditorDrawingArea.prototype.eventMoveSpriteOn = function()
+{
+	if( $("input:focus").length == 0 && ! $(".sprite").hasClass("ui-draggable-dragging") )
 	{
-		this.mSprite.removeClass("key-moving");
+		Editor.mSpritePackView.mDrawingArea.mSprite.addClass("key-moving");
 	}
 }
 /**
- * Event that controls the sprite movement when the key shift is pressed
- * You can only control the sprite if there is none input on focus.
+ * Event that removes the visual indicationg that the sprite is ready to be moved
  */
-EditorDrawingArea.prototype.eventKeyDown = function( key, listener )
+EditorDrawingArea.prototype.eventMoveSpriteOff = function()
 {
-	//you can't control the sprite if you are editing something
-	if( $("input:focus").length > 0 || this.mSprite.hasClass("ui-draggable-dragging")) 
+	Editor.mSpritePackView.mDrawingArea.mSprite.removeClass("key-moving");
+}
+/**
+ * Action that moves the sprite 1px to the left
+ */
+EditorDrawingArea.prototype.actionMoveSpriteLeft = function()
+{
+	if( $("input:focus").length == 0 && !this.mSprite.hasClass("ui-draggable-dragging") )
 	{
-		return;
+		--this.mSprite.data("sprite").offset.x;
+		this.updateSprite();
+		Editor.mSpritePackView.mSpriteProperties.setValues( this.mSprite.data("sprite") );
 	}
-	if( key == listener.KEY.F )
+}
+/**
+ * Action that moves the sprite 1px to the right
+ */
+EditorDrawingArea.prototype.actionMoveSpriteRight = function()
+{
+	if( $("input:focus").length == 0 && !this.mSprite.hasClass("ui-draggable-dragging") )
 	{
-		this.mSprite.toggleClass("borderOn");
-	}	
-	else if( key == listener.KEY.Shift )
-	{
-		this.mSprite.addClass("key-moving");
+		++Editor.mSpritePackView.mDrawingArea.mSprite.data("sprite").offset.x;
+		this.updateSprite();
+		Editor.mSpritePackView.mSpriteProperties.setValues( this.mSprite.data("sprite") );
 	}
-	else if( this.mSprite.hasClass("key-moving") )
+}
+/**
+ * Action that moves the sprite 1px up
+ */
+EditorDrawingArea.prototype.actionMoveSpriteUp = function()
+{
+	if( $("input:focus").length == 0 && !this.mSprite.hasClass("ui-draggable-dragging") )
 	{
-		var sprite = this.mSprite.data("sprite");
-		if( listener.key( listener.KEY.Shift ) )
-		{
-			switch( key )
-			{
-				case listener.KEY.Left:
-					--sprite.offset.x;
-					break;
-				case listener.KEY.Up:
-					--sprite.offset.y;
-					break;
-				case listener.KEY.Right:
-					++sprite.offset.x;
-					break;
-				case listener.KEY.Down:
-					++sprite.offset.y;
-					break;
-			}
-			this.updateSprite();
-			Editor.mSpritePackView.mSpriteProperties.setValues( sprite );
-		}
-		if( key == listener.KEY.Esc )
-		{
-			this.mSprite.removeClass("borderOn");
-		}
+		--Editor.mSpritePackView.mDrawingArea.mSprite.data("sprite").offset.y;
+		this.updateSprite();
+		Editor.mSpritePackView.mSpriteProperties.setValues( this.mSprite.data("sprite") );
 	}
+}
+/**
+ * Action that moves the sprite 1px down
+ */
+EditorDrawingArea.prototype.actionMoveSpriteDown = function()
+{
+	if( $("input:focus").length == 0 && !this.mSprite.hasClass("ui-draggable-dragging") )
+	{
+		++Editor.mSpritePackView.mDrawingArea.mSprite.data("sprite").offset.y;
+		this.updateSprite();
+		Editor.mSpritePackView.mSpriteProperties.setValues( this.mSprite.data("sprite") );
+	}
+}
+/**
+ * Method that registers all shortcuts used in this view
+ */
+EditorDrawingArea.prototype.registerShortcuts = function()
+{
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Shift],
+		down:	this.eventMoveSpriteOn,
+		up:		this.eventMoveSpriteOff
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Shift, KeyListener.KEY.Left],
+		down:	(function(obj){ return function(){ obj.actionMoveSpriteLeft(); } } ) (this)
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Shift, KeyListener.KEY.Right],
+		down:	(function(obj){ return function(){ obj.actionMoveSpriteRight(); } } ) (this)
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Shift, KeyListener.KEY.Up],
+		down:	(function(obj){ return function(){ obj.actionMoveSpriteUp(); } } ) (this)
+	});
+	this.mShortcutListener.shortcut
+	({
+		keys:	[KeyListener.KEY.Shift, KeyListener.KEY.Down],
+		down:	(function(obj){ return function(){ obj.actionMoveSpriteDown(); } } ) (this)
+	});
 }
 /**
  * Method responsable for registering the events related to the Drawing area.
@@ -239,17 +288,5 @@ EditorDrawingArea.prototype.registerEvents = function()
 	$(window).resize( (function(obj) { return function() { obj.updateSize(); } })(this) ); //register the window resize event
 	
 	this.mSprite.on( "drag", this.eventSpriteDrag ); //register the sprite drag event
-	this.mSprite.click( function(e){ e.stopPropagation();  $(this).toggleClass("borderOn"); } ); //register the sprite click event
-	this.mGrid.not(".sprite").not(".sprite > img").click( (function( sprite ) { return function() { sprite.removeClass("borderOn"); } })(this.mSprite) );
-	
-	Editor.mKeyListener.keydown(
-		(function( obj ) {
-			return function( key, list ) { obj.eventKeyDown( key, list );  }
-		})( this )
-	);
-	Editor.mKeyListener.keyup(
-		(function( obj ) {
-			return function( key, list ) { obj.eventKeyUp( key, list );  }
-		})( this )
-	);
+	this.mSprite.click( this.eventSpriteClick );	 //register the sprite click event
 }
