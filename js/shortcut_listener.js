@@ -65,19 +65,19 @@ ShortcutListener.prototype.registerEvents = function()
 				if( !obj.mListening ) return;
 				for( i = 0; i < obj.mShortcutList.length; ++i )
 				{
-					error = false;
-					for( j = 0; obj.mShortcutList[i].keys && j < obj.mShortcutList[i].keys.length - 1; ++j )
+					if( Object.prototype.toString.call( obj.mShortcutList[i].down) === "[object Function]" )
 					{
-						if( !listener.key( obj.mShortcutList[i].keys[j] ) )
+						error = false;
+						for( j = 0; obj.mShortcutList[i].keys && j < obj.mShortcutList[i].keys.length - 1; ++j )
 						{
-							error = true; break;
+							if( !listener.key( obj.mShortcutList[i].keys[j] ) )
+							{
+								error = true; break;
+							}
 						}
-					}
-					if( !error && key == obj.mShortcutList[i].keys[j] )
-					{
-						obj.mShortcutList[i].active = true;
-						if( Object.prototype.toString.call( obj.mShortcutList[i].down) === "[object Function]" )
+						if( !error && key == obj.mShortcutList[i].keys[j] )
 						{
+							obj.mShortcutList[i].active = true;
 							obj.mShortcutList[i].down();
 						}
 					}
@@ -95,7 +95,7 @@ ShortcutListener.prototype.registerEvents = function()
 				if( !obj.mListening ) return;
 				for( i = 0; i < obj.mShortcutList.length; ++i )
 				{
-					if( obj.mShortcutList[i].active )
+					if( obj.mShortcutList[i].active && Object.prototype.toString.call( obj.mShortcutList[i].up) === "[object Function]" )
 					{
 						error = false;
 						for( j = 0; obj.mShortcutList[i].keys && j < obj.mShortcutList[i].keys.length; ++j )
@@ -108,10 +108,7 @@ ShortcutListener.prototype.registerEvents = function()
 						if( error )
 						{
 							obj.mShortcutList[i].active = false;
-							if( Object.prototype.toString.call( obj.mShortcutList[i].up) === "[object Function]" )
-							{
-								obj.mShortcutList[i].up();
-							}
+							obj.mShortcutList[i].up();
 						}
 					}
 				}
