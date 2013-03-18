@@ -28,6 +28,50 @@ function EditorSpriteToolBar()
 	this.registerShortcuts();
 }
 /**
+ * Event that flips the sprite horizontally 
+ */
+EditorSpriteToolBar.prototype.eventFlipHorizontal = function()
+{
+	var sprite = Editor.getCurrentSprite();
+	if( sprite )
+	{
+		sprite.flipHorizontal( function( sprite ) { Editor.mSpritePackView.mDrawingArea.setSprite( sprite ); } );
+	}
+}
+/**
+ * Event that flips the sprite vertically 
+ */
+EditorSpriteToolBar.prototype.eventFlipVertical = function()
+{
+	var sprite = Editor.getCurrentSprite();
+	if( sprite )
+	{
+		sprite.flipVertical( function( sprite ) { Editor.mSpritePackView.mDrawingArea.setSprite( sprite ); } );
+	}
+}
+/**
+ * Event that rotates the current sprite 90 to the left
+ */
+EditorSpriteToolBar.prototype.eventRotateLeft = function()
+{
+	var sprite = Editor.getCurrentSprite();
+	if( sprite )
+	{
+		sprite.rotateLeft( function( sprite ) { Editor.mSpritePackView.mDrawingArea.setSprite( sprite ); } );
+	}
+}
+/**
+ * Event that rotates the current sprite 90 to the right
+ */
+EditorSpriteToolBar.prototype.eventRotateRight = function()
+{
+	var sprite = Editor.getCurrentSprite();
+	if( sprite )
+	{
+		sprite.rotateRight( function( sprite ) { Editor.mSpritePackView.mDrawingArea.setSprite( sprite ); } );
+	}
+}
+/**
  * Event that increases 1 zoom step to the current zoom
  */
 EditorSpriteToolBar.prototype.eventZoomIn = function()
@@ -87,11 +131,15 @@ EditorSpriteToolBar.prototype.eventBorderToggle = function()
  */
 EditorSpriteToolBar.prototype.registerEvents = function()
 {
-	this.mTools.borderToggle.change((function(obj){ return function(){ obj.eventBorderToggle(); } } )(this) );
-	this.mTools.remove.click( (function(obj){ return function(){ obj.eventRemoveSprite(); } } )(this) );
-	this.mTools.zoomIn.click( (function(obj){ return function(){ obj.eventZoomIn(); } } )(this) );
-	this.mTools.zoomOut.click( (function(obj){ return function(){ obj.eventZoomOut(); } } )(this) );
-	this.mTools.zoomNormal.click( (function(obj){ return function(){ obj.eventZoomNormal(); } } )(this) );
+	this.mTools.flipHorizontal.click( (function(obj){ return function(){ obj.eventFlipHorizontal(); } } )(this) );
+	this.mTools.flipVertical.click	( (function(obj){ return function(){ obj.eventFlipVertical(); 	} } )(this) );
+	this.mTools.rotateLeft.click	( (function(obj){ return function(){ obj.eventRotateLeft(); 	} } )(this) );
+	this.mTools.rotateRight.click	( (function(obj){ return function(){ obj.eventRotateRight(); 	} } )(this) );
+	this.mTools.borderToggle.change	( (function(obj){ return function(){ obj.eventBorderToggle();	} } )(this) );
+	this.mTools.remove.click		( (function(obj){ return function(){ obj.eventRemoveSprite(); 	} } )(this) );
+	this.mTools.zoomIn.click		( (function(obj){ return function(){ obj.eventZoomIn(); 		} } )(this) );
+	this.mTools.zoomOut.click		( (function(obj){ return function(){ obj.eventZoomOut();		} } )(this) );
+	this.mTools.zoomNormal.click	( (function(obj){ return function(){ obj.eventZoomNormal(); 	} } )(this) );
 }
 /**
  * Method that registers all the shortcuts used in this view

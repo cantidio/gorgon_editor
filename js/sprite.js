@@ -141,3 +141,89 @@ Sprite.prototype.getImageType = function() {
 		return null;
 	}
 }
+/**
+ * Method that flips the sprite horizontally
+ *
+ * @param {function} onReady, function called when the operation is done
+ */
+Sprite.prototype.flipHorizontal = function( onReady )
+{
+	var canvas		= document.createElement('canvas');
+	canvas.width	= this.width();
+	canvas.height	= this.height();
+	canvasContext	= canvas.getContext('2d');
+
+	canvasContext.translate(canvas.width, 0);
+	canvasContext.scale(-1, 1);
+	canvasContext.drawImage( this.image, 0, 0 );
+	
+	this.offset.x = -(canvas.width + this.offset.x);
+	this.load( canvas.toDataURL(), onReady );
+}
+/**
+ * Method that flips the sprite vertically
+ *
+ * @param {function} onReady, function called when the operation is done
+ */
+Sprite.prototype.flipVertical = function( onReady )
+{
+	var canvas		= document.createElement('canvas');
+	canvas.width	= this.width();
+	canvas.height	= this.height();
+	canvasContext	= canvas.getContext('2d');
+
+	canvasContext.translate(0, canvas.height);
+	canvasContext.scale(1, -1);
+	canvasContext.drawImage( this.image, 0, 0 );
+	
+	this.offset.y = -(canvas.height + this.offset.y);
+	this.load( canvas.toDataURL(), onReady );
+}
+/**
+ * Method that rotates the Sprite 90 to the Left
+ *
+ * @param {function} onReady, function called when the operation is done
+ */
+Sprite.prototype.rotateLeft = function( onReady )
+{
+	var canvas		= document.createElement('canvas');
+	canvas.width	= this.height();
+	canvas.height	= this.width();
+	canvasContext	= canvas.getContext('2d');
+
+	canvasContext.translate(0, canvas.height);
+	canvasContext.rotate( -90 * Math.PI / 180 );
+	canvasContext.drawImage( this.image, 0, 0 );
+	
+	this._width		= canvas.width;
+	this._height	= canvas.height;
+	var x			= this.offset.x;
+	this.offset.x	= this.offset.y;
+	this.offset.y	= -(canvas.height + x);
+
+	this.load( canvas.toDataURL(), onReady );
+}
+/**
+ * Method that rotates the Sprite 90 to the Right
+ *
+ * @param {function} onReady, function called when the operation is done
+ */
+Sprite.prototype.rotateRight = function( onReady )
+{
+	var canvas		= document.createElement('canvas');
+	canvas.width	= this.height();
+	canvas.height	= this.width();
+	canvasContext	= canvas.getContext('2d');
+
+	canvasContext.translate(canvas.width, 0);
+	canvasContext.rotate( 90 * Math.PI / 180 );
+	canvasContext.drawImage( this.image, 0, 0 );
+	
+	this._width 	= canvas.width;
+	this._height	= canvas.height;	
+	var y			= this.offset.y;
+	this.offset.y	= this.offset.x;
+	this.offset.x	= -(canvas.width + y);
+	
+	this.load( canvas.toDataURL(), onReady );
+}
