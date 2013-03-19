@@ -1,3 +1,27 @@
+function Color( pParam, pIndex )
+{
+	if( Object.prototype.toString.call( pParam ) === "[object Object]" )
+	{
+		this.r	= pParam.r;
+		this.g	= pParam.g;
+		this.b	= pParam.b;
+		this.a	= pParam.a;
+	}
+	else if( Object.prototype.toString.call( pParam ) === "[object ImageData]" && pIndex != undefined )
+	{
+		this.r	= pParam.data[ pIndex + 0];
+		this.g	= pParam.data[ pIndex + 1];
+		this.b	= pParam.data[ pIndex + 2];
+		this.a	= pParam.data[ pIndex + 3];
+	}
+	else
+	{
+		this.r	= 0;
+		this.g	= 0;
+		this.b	= 0;
+		this.a	= 0;
+	}
+}
 /**
  * Function that receives a file name and return its base64 identifier 
  * 
@@ -148,10 +172,11 @@ Sprite.prototype.getImageType = function() {
  */
 Sprite.prototype.flipHorizontal = function( onReady )
 {
-	var canvas		= document.createElement('canvas');
-	canvas.width	= this.width();
-	canvas.height	= this.height();
-	canvasContext	= canvas.getContext('2d');
+	var	canvas			= document.createElement('canvas'),
+		canvasContext	= canvas.getContext('2d');
+		
+	canvas.width		= this.width();
+	canvas.height		= this.height();
 
 	canvasContext.translate(canvas.width, 0);
 	canvasContext.scale(-1, 1);
@@ -167,10 +192,11 @@ Sprite.prototype.flipHorizontal = function( onReady )
  */
 Sprite.prototype.flipVertical = function( onReady )
 {
-	var canvas		= document.createElement('canvas');
-	canvas.width	= this.width();
-	canvas.height	= this.height();
-	canvasContext	= canvas.getContext('2d');
+	var	canvas			= document.createElement('canvas'),
+		canvasContext	= canvas.getContext('2d');
+
+	canvas.width		= this.width();
+	canvas.height		= this.height();
 
 	canvasContext.translate(0, canvas.height);
 	canvasContext.scale(1, -1);
@@ -186,10 +212,11 @@ Sprite.prototype.flipVertical = function( onReady )
  */
 Sprite.prototype.rotateLeft = function( onReady )
 {
-	var canvas		= document.createElement('canvas');
-	canvas.width	= this.height();
-	canvas.height	= this.width();
-	canvasContext	= canvas.getContext('2d');
+	var	canvas			= document.createElement('canvas'),
+		canvasContext	= canvas.getContext('2d');
+		
+	canvas.width		= this.height();
+	canvas.height		= this.width();
 
 	canvasContext.translate(0, canvas.height);
 	canvasContext.rotate( -90 * Math.PI / 180 );
@@ -210,10 +237,11 @@ Sprite.prototype.rotateLeft = function( onReady )
  */
 Sprite.prototype.rotateRight = function( onReady )
 {
-	var canvas		= document.createElement('canvas');
-	canvas.width	= this.height();
-	canvas.height	= this.width();
-	canvasContext	= canvas.getContext('2d');
+	var	canvas			= document.createElement('canvas'),
+		canvasContext	= canvas.getContext('2d');
+		
+	canvas.width		= this.height();
+	canvas.height		= this.width();
 
 	canvasContext.translate(canvas.width, 0);
 	canvasContext.rotate( 90 * Math.PI / 180 );
@@ -227,3 +255,41 @@ Sprite.prototype.rotateRight = function( onReady )
 	
 	this.load( canvas.toDataURL(), onReady );
 }
+Sprite.prototype.replaceColor = function(  colorSrc, colorDest, onReady )
+{
+	var	canvas			= document.createElement('canvas'),
+		canvasContext	= canvas.getContext('2d'),
+		imageData		= null;
+	
+	canvas.width		= this.width();
+	canvas.height		= this.height();
+	
+	canvasContext.drawImage( this.image, 0, 0 );
+	
+	imageData 			= canvasContext.getImageData( 0, 0, canvas.width, canvas.height );
+	
+	for( var y = 0, index = 0; y < canvas.height; ++y )
+	{
+		for( var x = 0; x < canvas.width; ++x )
+		{
+			var color = new Color( imageData, index );
+			
+			if( colorSrc.r == color.r && colorSrc.g == color.g && colorSrc.b == color.b )
+			{
+				imageData.data[index++] = colorDest.r;
+				imageData.data[index++] = colorDest.g;
+				imageData.data[index++] = colorDest.b;
+				imageData.data[index++] = colorDest.a;
+			}
+			else
+			{
+				index+= 4;
+			}
+		}
+	}
+	
+	canvasContext.putImageData(imageData, 0, 0);	
+	this.load( canvas.toDataURL(), onReady );
+
+}
+
