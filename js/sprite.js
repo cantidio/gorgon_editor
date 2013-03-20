@@ -1,11 +1,23 @@
+/**
+ * Class that represents a RGBA Color
+ *
+ * @param	{Object} pParam, this can be 2 kinds of object:
+ *	1st:	a RGBA Object which is composed of the following properties:
+ *		{Integer} r	, the red component
+ *		{Integer} g , the green component
+ *		{Integer} b , the blue component
+ *		{Integer} a , the alpha component
+ *	2nd:	a ImageData in this case the second parameter must be given (pIndex)
+ * @param	{Integer} pIndex, the index of the color in the ImageData
+ */
 function Color( pParam, pIndex )
 {
 	if( Object.prototype.toString.call( pParam ) === "[object Object]" )
 	{
-		this.r	= pParam.r;
-		this.g	= pParam.g;
-		this.b	= pParam.b;
-		this.a	= pParam.a;
+		this.r	= pParam.r ? pParam.r : 0;
+		this.g	= pParam.g ? pParam.g : 0;
+		this.b	= pParam.b ? pParam.b : 0;
+		this.a	= pParam.a ? pParam.a : 255;
 	}
 	else if( Object.prototype.toString.call( pParam ) === "[object ImageData]" && pIndex != undefined )
 	{
@@ -255,11 +267,21 @@ Sprite.prototype.rotateRight = function( onReady )
 	
 	this.load( canvas.toDataURL(), onReady );
 }
-Sprite.prototype.replaceColor = function(  colorSrc, colorDest, onReady )
+/**
+ * Method that finds a color checks its tolerance and replaces it for the given color
+ *
+ * @param	{Object}	pParamList object composed by the following properties:
+ *		{Color}		find		, the color to be found
+ *		{Color} 	replace		, the color to replace
+ *		{Number}	tolerance	, the color tolerance
+ *		{Function}	onReady		, function called when the operation is done.
+ */
+Sprite.prototype.replaceColor = function(  pParamList )
 {
 	var	canvas			= document.createElement('canvas'),
 		canvasContext	= canvas.getContext('2d'),
-		imageData		= null;
+		imageData		= null,
+		colorTolerance	= (pParamList.tolerance != undefined ? pParamList.tolerance : 0 ) / 100 * 255;
 	
 	canvas.width		= this.width();
 	canvas.height		= this.height();
@@ -274,12 +296,18 @@ Sprite.prototype.replaceColor = function(  colorSrc, colorDest, onReady )
 		{
 			var color = new Color( imageData, index );
 			
-			if( colorSrc.r == color.r && colorSrc.g == color.g && colorSrc.b == color.b )
+			if
+			(
+				color.a > 0 &&
+				( color.r - colorTolerance <= pParamList.find.r && color.r + colorTolerance >= pParamList.find.r ) && 
+				( color.g - colorTolerance <= pParamList.find.g && color.g + colorTolerance >= pParamList.find.g ) && 
+				( color.b - colorTolerance <= pParamList.find.b && color.b + colorTolerance >= pParamList.find.b )
+			)
 			{
-				imageData.data[index++] = colorDest.r;
-				imageData.data[index++] = colorDest.g;
-				imageData.data[index++] = colorDest.b;
-				imageData.data[index++] = colorDest.a;
+				imageData.data[index++] = pParamList.replace.r;
+				imageData.data[index++] = pParamList.replace.g;
+				imageData.data[index++] = pParamList.replace.b;
+				imageData.data[index++] = pParamList.replace.a;
 			}
 			else
 			{
@@ -289,7 +317,5 @@ Sprite.prototype.replaceColor = function(  colorSrc, colorDest, onReady )
 	}
 	
 	canvasContext.putImageData(imageData, 0, 0);	
-	this.load( canvas.toDataURL(), onReady );
-
+	this.load( canvas.toDataURL(), pParamList.onReady );
 }
-
