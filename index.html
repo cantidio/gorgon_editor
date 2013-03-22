@@ -13,6 +13,7 @@
 	
 	<link type="text/css" rel="stylesheet" href="css/editor_slider.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_input.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_scrollbar.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_drawing_area.css"/>
 	
@@ -53,14 +54,28 @@
 			z-index:	999;
 			display:	none;
 		}
+		#helpDialog
+		{
+			position:		absolute;
+			top:			20px;
+			width:			500px;
+			left:			50%;
+			right:			50%;
+			margin-left:	-250px;
+			margin-right:	-250px;
+		}
 	</style>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			//$("#dialog").dialog({ autoOpen: false });
+			$("#helpDialog").draggable({ containment: "parent" }).hide();
 			
 			document.oncontextmenu	= new Function("return false");
 			Editor.init();
 			ProgressBar.init();
+			$("#scroll").slider({ orientation: "vertical", value: 255, min: 0, max: 255 });
+			
+			$("#help").click( function(){ $("#helpDialog").show() });
+			$(".dialog > input[type=button]").click( function(){ console.log("a"); $(this).parent().hide(); } );
 		});
 	</script>
 </head>
@@ -225,12 +240,21 @@
 		<li><a href="#">Open AnimationPack</a></li>
 		<li><a href="#">Save AnimationPack</a></li>
 		<li></li>
-		<li><a href="#">Help</a></li>
+		<li><a id="help" href="#">Help</a></li>
 		<li><a href="#">About</a></li>
 	</ul>
+	
+	
+	
 	
 	<input type="file" id="import_sprites_file"  	accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple">
 	<input type="file" id="import_spritepack_file"	accept=".zip">
 	<progress id="progressbar"></progress> 
+	
+	<div id="helpDialog" class="dialog">
+		<input type="text" value="Find"/>
+		<h1>Help</h1><input type="button" value="x"/>
+		<div class="scroll slider-closure-vertical"><div id="scroll"></div></div>
+	</div>	
 </body>
 </html>

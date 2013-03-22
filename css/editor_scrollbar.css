@@ -1,0 +1,82 @@
+.slider-closure.scroll
+{
+	border:				1px solid #2A2A2A;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+	width:				377px;
+	height:				10px;
+	padding-left:		14px;
+	padding-right:		14px;
+	background:			#2A2A2A;
+}
+
+.slider-closure.scroll > .ui-slider-horizontal
+{
+	height:				100%;
+	margin:				0px;
+	margin-top:			-1px;
+	background:			none;
+	border:				none;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+}
+.slider-closure.scroll > .ui-slider-horizontal .ui-state-default
+{
+	position:			absolute;
+	top:				0px;
+	width: 				30px;
+	height:				100%;
+	margin-left: 		-15px;
+	margin-top: 		-0px;
+	
+	cursor:				pointer;
+	outline:			none;
+	background: 		#4D4D4D;
+	
+	border-top: 		1px solid #5a5a5a;
+	border-bottom:		1px solid #5a5a5a;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+}
+
+.slider-closure-vertical.scroll
+{
+	border:				1px solid #2A2A2A;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+	width:				10px;
+	height:				377px;
+	padding-top:		14px;
+	padding-bottom:		14px;
+	background:			#2A2A2A;
+}
+
+.slider-closure-vertical.scroll > .ui-slider-vertical
+{
+	width:				100%;
+	height:				100%;
+	margin:				0px;
+	margin-left:		-1px;
+	background:			none;
+	border:				none;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+}
+.slider-closure-vertical.scroll > .ui-slider-vertical .ui-state-default
+{
+	position:			absolute;
+	left:				0px;
+	height: 			30px;
+	width:				100%;
+	margin-bottom: 		-15px;
+	margin-left: 		-0px;
+	
+	cursor:				pointer;
+	outline:			none;
+	background: 		#4D4D4D;
+	border:				none;
+	border-left: 		1px solid #5a5a5a;
+	border-right:		1px solid #5a5a5a;
+	border-radius:		0px;
+	-moz-border-radius:	0px;
+}
