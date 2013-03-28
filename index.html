@@ -66,15 +66,19 @@
 		}
 		div.scrollable
 		{
-			position:	relative;
 			display:	block;
+			position:	relative;
 			overflow:	hidden;
 		}
-		div.scrollable > .scrollable-content
+		div.scrollable > .scrollable-content-closure
 		{
 			display:		block;
-			border:1px solid blue;
-			width: 600px;
+			overflow:		hidden;
+		}
+		div.scrollable > .scrollable-content-closure > .scrollable-content
+		{
+			display:		block;
+			border:			1px solid red;
 		}
 		div.scrollable > div.slider-closure
 		{
@@ -98,46 +102,61 @@
 			$(this).each( function()
 			{
 				$(this).addClass("scrollable-content");
-				$(this).wrap( $('<div class="scrollable">').css({width: "100%", height: "200px" }) );
-				var scroll_area = $(this).parent();
+				$(this).wrap( $('<div class="scrollable"/>' ).css({width: "100%", height: "100%" }) );
+				$(this).wrap( $('<div class="scrollable-content-closure"/>') );
 				
-				if( $(this)[0].scrollHeight > scroll_area.height() )
+				var content_closure	= $(this).parent();
+				var scroll_area		= content_closure.parent();
+				var v = $(this)[0].scrollHeight	> scroll_area.height()	? true : false;
+				var h = $(this)[0].scrollWidth	> scroll_area.width()	? true : false;
+				
+				if( v )
+				{
+					content_closure.css({ width: scroll_area.width() - 12 });
+				}
+				if( h )
+				{
+					content_closure.css({ height: scroll_area.height() - 12 });
+				}
+				console.log($(this)[0].scrollHeight);
+				console.log(scroll_area.height())
+				
+				if( v )
 				{
 					var slider		= $('<div/>').slider
 					({
 						orientation: 	"vertical",
-						min:			scroll_area.height() - $(this)[0].scrollHeight - 10,
 						max:			0,
 						value:			0,
 						step:			1,
+						min:			scroll_area.height() - $(this)[0].scrollHeight - 16,
 						slide:			function()
 						{
-							$(this).parent().parent().children(".scrollable-content").css("margin-top", $(this).slider("value") );
+							$(this).parent().parent().children(".scrollable-content-closure").children(".scrollable-content").css("margin-top", $(this).slider("value") );
 						}
 					 });
-					var scrollbar	= $('<div class="scroll slider-closure-vertical">').append ( slider ).css({ height: scroll_area.height() - 28 });
+					 console.log( slider.width() );
+					var scrollbar	= $('<div class="scroll slider-closure-vertical">').append ( slider ).css({ height: content_closure.height() - 30 });
 					scroll_area.append( scrollbar );
 				}
 				
-				
-				if( $(this)[0].scrollWidth > scroll_area.width() )
+				if( h )
 				{
+					
 					var slider		= $('<div/>').slider
 					({
 						min:			0,
-						max:			$(this)[0].scrollWidth - scroll_area.width() + 10,
 						value:			0,
 						step:			1,
+						max:			$(this)[0].scrollWidth - scroll_area.width() + 16,
 						slide:			function()
 						{
-							console.log("W: "+$(this).slider("value"));
+							$(this).parent().parent().children(".scrollable-content-closure").children(".scrollable-content").css("margin-left", -$(this).slider("value") );
 						}
 					 });
-					var scrollbar	= $('<div class="scroll slider-closure">').append ( slider ).css({ width: scroll_area.width() - 28 });
+					var scrollbar	= $('<div class="scroll slider-closure">').append ( slider ).css({ width: (content_closure.width() - 30) + "px"  });
 					scroll_area.append( scrollbar );
 				}
-				
-				
 			});
 			
 			
@@ -347,8 +366,7 @@
 		<input type="text" value="Find"/>
 		<h1>Help</h1><input type="button" value="x"/>
 		<div id="myscroll">
-			ahsahushauishauish auishaius hauish auish auish auihs auish 123456789ABC
-			auihs auihs aiushaui sh auisha iusha uishauish auihs uiahs 
+			ahsahushauishauish auishaius hauish auish auish auihs auish 123456789ABCDEFGIJLMNOPQRSTUVXZauihsauihsaiushauishauishaiushauishauishauihsuiahs 
 			uiahs<br> asyagsyagsygaysgays
 			uiahs<br> asyagsyagsygaysgays
 			uiahs<br> asyagsyagsygaysgays
