@@ -12,6 +12,7 @@
 	<link type="text/css" rel="stylesheet" href="css/editor_toolbar.css"/>
 	
 	<link type="text/css" rel="stylesheet" href="css/editor_slider.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_scrollable.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_input.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_scrollbar.css"/>
 	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
@@ -19,6 +20,7 @@
 	
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery_scrollable.js"></script>
 	<script type="text/javascript" src="js/jszip/jszip.js"></script>
 	<script type="text/javascript" src="js/jszip/jszip-load.js"></script>
 	<script type="text/javascript" src="js/jszip/jszip-inflate.js"></script>
@@ -64,114 +66,16 @@
 			margin-left:	-250px;
 			margin-right:	-250px;
 		}
-		div.scrollable
+		#myscroll
 		{
-			display:	block;
-			position:	relative;
-			overflow:	hidden;
+			height: 200px;
 		}
-		div.scrollable > .scrollable-content-closure
-		{
-			display:		block;
-			overflow:		hidden;
-		}
-		div.scrollable > .scrollable-content-closure > .scrollable-content
-		{
-			display:		block;
-			border:			1px solid red;
-		}
-		div.scrollable > div.slider-closure
-		{
-			position:	absolute;
-			bottom:		0px;
-			left:		0px;
-			width:		100%;
-		}
-		div.scrollable > div.slider-closure-vertical
-		{
-			position:	absolute;
-			top:		0px;
-			right:		0px;
-			height:		100%;
-		}
+		
 		
 	</style>
 	<script type="text/javascript">
-		(function( $ ) {
-		  $.fn.scrollable = function() {
-			$(this).each( function()
-			{
-				$(this).addClass("scrollable-content");
-				$(this).wrap( $('<div class="scrollable"/>' ).css({width: "100%", height: "100%" }) );
-				$(this).wrap( $('<div class="scrollable-content-closure"/>') );
-				
-				var content_closure	= $(this).parent();
-				var scroll_area		= content_closure.parent();
-				var v = $(this)[0].scrollHeight	> scroll_area.height()	? true : false;
-				var h = $(this)[0].scrollWidth	> scroll_area.width()	? true : false;
-				
-				if( v )
-				{
-					content_closure.css({ width: scroll_area.width() - 12 });
-				}
-				if( h )
-				{
-					content_closure.css({ height: scroll_area.height() - 12 });
-				}
-				console.log($(this)[0].scrollHeight);
-				console.log(scroll_area.height())
-				
-				if( v )
-				{
-					var slider		= $('<div/>').slider
-					({
-						orientation: 	"vertical",
-						max:			0,
-						value:			0,
-						step:			1,
-						min:			scroll_area.height() - $(this)[0].scrollHeight - 16,
-						slide:			function()
-						{
-							$(this).parent().parent().children(".scrollable-content-closure").children(".scrollable-content").css("margin-top", $(this).slider("value") );
-						}
-					 });
-					 console.log( slider.width() );
-					var scrollbar	= $('<div class="scroll slider-closure-vertical">').append ( slider ).css({ height: content_closure.height() - 30 });
-					scroll_area.append( scrollbar );
-				}
-				
-				if( h )
-				{
-					
-					var slider		= $('<div/>').slider
-					({
-						min:			0,
-						value:			0,
-						step:			1,
-						max:			$(this)[0].scrollWidth - scroll_area.width() + 16,
-						slide:			function()
-						{
-							$(this).parent().parent().children(".scrollable-content-closure").children(".scrollable-content").css("margin-left", -$(this).slider("value") );
-						}
-					 });
-					var scrollbar	= $('<div class="scroll slider-closure">').append ( slider ).css({ width: (content_closure.width() - 30) + "px"  });
-					scroll_area.append( scrollbar );
-				}
-			});
-			
-			
-			
-			
-			
-
-		  };
-		})( jQuery );    
-		
-		
-		
-		
 		$(document).ready(function(){
-			$("#helpDialog").draggable({ containment: "parent" }).show();
+			$("#helpDialog").draggable({ containment: "parent" }).hide();
 			
 			//document.oncontextmenu	= new Function("return false");
 			Editor.init();
@@ -180,11 +84,6 @@
 			
 			$("#help").click( function(){ $("#helpDialog").show() });
 			$(".dialog > input[type=button]").click( function(){ console.log("a"); $(this).parent().hide(); } );
-			
-			
-			
-			
-			
 			$("#myscroll").scrollable();
 		});
 	</script>
@@ -366,23 +265,7 @@
 		<input type="text" value="Find"/>
 		<h1>Help</h1><input type="button" value="x"/>
 		<div id="myscroll">
-			ahsahushauishauish auishaius hauish auish auish auihs auish 123456789ABCDEFGIJLMNOPQRSTUVXZauihsauihsaiushauishauishaiushauishauishauihsuiahs 
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			uiahs<br> asyagsyagsygaysgays
-			
+			Help text
 		</div>
 	</div>	
 </body>
