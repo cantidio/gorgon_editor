@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="us">
+<head>
+	<meta charset="utf-8">
+	<link type="text/css" rel="stylesheet" href="css/fonts.css"/>
+	<link type="text/css" rel="stylesheet" href="css/ui-darkness/jquery-ui.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_buttonset.css"/>
+
+	<link type="text/css" rel="stylesheet" href="css/editor_tabs.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_menu.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_dialog.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_toolbar.css"/>
+
+	<link type="text/css" rel="stylesheet" href="css/editor_slider.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_scrollable.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_input.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_scrollbar.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_input_button.css"/>
+	<link type="text/css" rel="stylesheet" href="css/editor_drawing_area.css"/>
+
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.js"></script>
+	<script type="text/javascript" src="js/jquery_scrollable.js"></script>
+	<script type="text/javascript" src="js/jszip/jszip.js"></script>
+	<script type="text/javascript" src="js/jszip/jszip-load.js"></script>
+	<script type="text/javascript" src="js/jszip/jszip-inflate.js"></script>
+	<script type="text/javascript" src="js/progress_bar.js"></script>
+	<script type="text/javascript" src="js/key_listener.js"></script>
+	<script type="text/javascript" src="js/shortcut_listener.js"></script>
+	<script type="text/javascript" src="js/point.js"></script>
+	<script type="text/javascript" src="js/sprite.js"></script>
+	<script type="text/javascript" src="js/spritepack.js"></script>
+	<script type="text/javascript" src="js/editor.js"></script>
+	<script type="text/javascript" src="js/editor_menu.js"></script>
+	<script type="text/javascript" src="js/editor_spritepack_view.js"></script>
+	<script type="text/javascript" src="js/editor_spritepack_toolbar.js"></script>
+	<script type="text/javascript" src="js/editor_spritepack_framebar.js"></script>
+	<script type="text/javascript" src="js/editor_spritepack_sprite_properties.js"></script>
+	<script type="text/javascript" src="js/editor_drawing_area.js"/></script>
+  <script type="application/dart" src="main.dart"></script>
+  <script src="packages/browser/dart.js"></script>
+	<style type="text/css">
+		body
+		{
+			margin:		0px;
+			-moz-user-select:		none;
+			-khtml-user-select:		none;
+			-webkit-user-select:	none;
+			user-select: 			none;
+			min-width:				1600px;
+		}
+		#progressbar
+		{
+			position:	fixed;
+			top:		50%;
+			left:		25%;
+			width:		50%;
+			z-index:	999;
+			display:	none;
+		}
+		#helpDialog
+		{
+			position:		absolute;
+			top:			20px;
+			width:			500px;
+			left:			50%;
+			right:			50%;
+			margin-left:	-250px;
+			margin-right:	-250px;
+		}
+		#myscroll
+		{
+			height: 200px;
+		}
+
+
+	</style>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$("#helpDialog").draggable({ containment: "parent" }).hide();
+
+			//document.oncontextmenu	= new Function("return false");
+			Editor.init();
+			ProgressBar.init();
+			$("#scroll").slider({ orientation: "vertical", value: 255, min: 0, max: 255 });
+
+			$("#help").click( function(){ $("#helpDialog").show() });
+			$(".dialog > input[type=button]").click( function(){ console.log("a"); $(this).parent().hide(); } );
+			$("#myscroll").scrollable();
+		});
+	</script>
+</head>
+<body>
+	<div id="tabs">
+		<ul>
+			<li><a href="#fragment-1"><span>SPRITEPACK</span></a></li>
+			<li><a href="#fragment-2"><span>ANIMATIONPACK</span></a></li>
+		</ul>
+		<div id="fragment-1">
+			<div id="sprite_properties" class="tab-options">
+				<label>New Group</label>
+				<input type="button" id="btn_import_sprites" value="Import Sprites"></input>
+				<label>Properties of Selected Sprite</label>
+
+				<div class="container">
+					<span class="split left">
+						<label>Group</label>
+						<input id="input_sprite_group" type="number" value="0"/>
+					</span>
+					<span class="split right">
+						<label>Index</label>
+						<input id="input_sprite_index"type="number" value="0"/>
+					</span>
+
+					<span>
+						<label>Name or comment</label>
+						<input id="input_sprite_name" type="text" value="frame1"/>
+					</span>
+
+					<span class="split left">
+						<label>XOffset</label>
+						<input id="input_sprite_xoffset" type="number" value="0"/>
+					</span>
+
+					<span class="split right">
+						<label>YOffset</label>
+						<input id="input_sprite_yoffset" type="number" value="0"/>
+					</span>
+
+				</div>
+				<label>Viewport</label>
+				<div class="buttonset-closure">
+					<div id="viewport_input">
+						<input name="viewport_input" type="radio" id="viewport_maximized" checked="checked"><label for="viewport_maximized">Maximized</label>
+						<input name="viewport_input" type="radio" id="viewport_thumbnails"><label for="viewport_thumbnails">Thumbnails</label>
+					</div>
+				</div>
+
+				<label>OnionSkin</label>
+				<div class="buttonset-closure">
+					<div id="onionskin_input">
+						<input type="radio" name="onionskin_input" value = "0" id="onionskin_disabled"><label for="onionskin_disabled">Disabled</label>
+						<input type="radio" name="onionskin_input" value = "1" id="onionskin_lastsprite" checked="checked"><label for="onionskin_lastsprite">Last Sprite</label>
+						<input type="radio" name="onionskin_input" value = "2" id="onionskin_fixed"><label for="onionskin_fixed">Fixed</label>
+					</div>
+				</div>
+
+				<div class="container" id="oninskin_fixed_input_container" style="opacity: 0.6">
+					<span class="split left">
+						<label>Group</label>
+						<input id="oninskin_fixed_group" type="number" value="0" disabled />
+					</span>
+					<span class="split right">
+						<label>Index</label>
+						<input id="oninskin_fixed_index" type="number" value="0" disabled />
+					</span>
+				</div>
+
+			</div>
+			<div class="tab-main-content">
+
+				<div id="spritepack-drawing-area" class="drawing-area">
+					<div class="draggable">
+						<div class="horizontal-line"></div>
+						<div class="vertical-line"></div>
+						<div id="hotspot" class="hotspot"></div>
+						<span>BASELINE</span>
+						<div class="onionskin"></div>
+						<div class="sprite"></div>
+					</div>
+				</div>
+
+				<div id="sprite-toolbar" class="toolbar">
+					<button class="tool" id="crop"><div></div></button>
+					<button class="tool" id="flipHorizontal"><div></div></button>
+					<button class="tool" id="flipVertical"><div></div></button>
+					<button class="tool" id="rotateLeft"><div></div></button>
+					<button class="tool" id="rotateRight"><div></div></button>
+					<button class="tool" id="zoomNormal"><div></div></button>
+					<button class="tool" id="zoomIn"><div></div></button>
+					<button class="tool" id="zoomOut"><div></div></button>
+					<button class="tool" id="removeSprite"><div></div></button>
+
+					<div class="tool borderToggle">
+						<input type="checkbox" value="None" id="borderToggle" />
+						<label for="borderToggle"></label>
+					</div>
+
+					<div class="tool lock">
+						<input type="checkbox" value="None" id="lock" />
+						<label for="lock"></label>
+					</div>
+				</div>
+				<div  id="sprite-framebar" class="framebar">
+					<button class="framebar_first_button"></button>
+					<button class="framebar_previous_button"></button>
+					<button class="framebar_play_button"></button>
+					<button class="framebar_next_button"></button>
+					<button class="framebar_last_button"></button>
+					<div class="slider-closure"><div id="frame-slider"></div></div>
+				</div>
+			</div>
+
+
+		</div>
+		<div id="fragment-2">
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+			Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+		</div>
+	</div>
+	<style>
+		#logo
+		{
+			position: 		absolute;
+			top:			39px;
+			right:			162px;
+			font-family:	"Logo-Font";
+			color:			#f2f2f2;
+			font-size:		20px;
+			letter-spacing:	1px;
+			background:		url("imgs/logo_arrow.png") no-repeat center right;
+			margin:			0px;
+			padding:		0px;
+			padding-right:	20px;
+			text-shadow: 	none;
+			border:			none;
+		}
+		#logo:active
+		{
+			opacity: 0.6;
+		}
+		#main-menu
+		{
+			position:	absolute;
+			top: 		69px;
+			right:		156px;
+		}
+		input[type=file]
+		{
+			opacity:	0;
+			position:	absolute;
+			top:		-50px;
+			left:		-50px;
+		}
+
+	</style>
+	<button id="logo">Gorgon Editor</button>
+	<ul id="main-menu">
+		<li><a id="spritepack-open" href="#">Open SpritePack</a></li>
+		<li><a id="spritepack-save" href="#">Save SpritePack</a></li>
+		<li></li>
+		<li><a href="#">Open AnimationPack</a></li>
+		<li><a href="#">Save AnimationPack</a></li>
+		<li></li>
+		<li><a id="help" href="#">Help</a></li>
+		<li><a href="#">About</a></li>
+	</ul>
+
+
+
+
+	<input type="file" id="import_sprites_file"  	accept=".png,.pcx,.bmp,.jpeg,.jpg" multiple = "multiple">
+	<input type="file" id="import_spritepack_file"	accept=".zip">
+	<progress id="progressbar"></progress>
+
+	<div id="helpDialog" class="dialog">
+		<input type="text" value="Find"/>
+		<h1>Help</h1><input type="button" value="x"/>
+		<div id="myscroll">
+			Help text
+		</div>
+	</div>
+</body>
+</html>
