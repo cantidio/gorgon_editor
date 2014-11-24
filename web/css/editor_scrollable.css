@@ -1,29 +1,28 @@
-div.scrollable
-{
-	display:	block;
-	position:	relative;
-	overflow:	hidden;
+div.scrollable {
+  display: block;
+  position: relative;
+  overflow: hidden;
 }
-div.scrollable > .scrollable-content-closure
-{
-	display:		block;
-	overflow:		hidden;
+
+div.scrollable>.scrollable-content-closure {
+  display: block;
+  overflow: hidden;
 }
-div.scrollable > .scrollable-content-closure > .scrollable-content
-{
-	display:		block;
+
+div.scrollable>.scrollable-content-closure>.scrollable-content {
+  display: block;
 }
-div.scrollable > div.slider-closure
-{
-	position:	absolute;
-	bottom:		0px;
-	left:		0px;
-	width:		100%;
+
+div.scrollable>div.slider-closure {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  width: 100%;
 }
-div.scrollable > div.slider-closure-vertical
-{
-	position:	absolute;
-	top:		0px;
-	right:		0px;
-	height:		100%;
+
+div.scrollable>div.slider-closure-vertical {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  height: 100%;
 }

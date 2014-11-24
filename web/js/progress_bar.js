@@ -1,12 +1,12 @@
 /**
  * Class that represents the editor progress bar
- * 
- * @constructor 
+ *
+ * @constructor
  */
 ProgressBar = new function()
 {
 	/**
-	 * Method that must be called after the DOM is loaded 
+	 * Method that must be called after the DOM is loaded
 	 */
 	this.init	= function()
 	{
@@ -15,22 +15,22 @@ ProgressBar = new function()
 	}
 	/**
 	 * Method that adds a value to the progress bar
-	 * 
-	 * @param {Int} pValue the value to be added 
+	 *
+	 * @param {Int} pValue the value to be added
 	 */
-	this.add	= function( pValue )
-	{
+  this.add	= function( pValue )
+    {
 		this.mElement.val( this.mElement.val() + 1 );
 		if( this.mElement.val() >= this.mElement.attr( "max" ) )
-		{
+		      {
 			this.mOnComplete();
 		}
 	}
 	/**
 	 * Method that shows the progressbar
-	 * 
+	 *
 	 * @param	{Int} pTotal the total amount of the progressbar
-	 * @param	{Function} pOnComplete function called when the progress bar reaches its maximum value 
+	 * @param	{Function} pOnComplete function called when the progress bar reaches its maximum value
 	 */
 	this.show	= function( pTotal, pOnComplete )
 	{
@@ -40,7 +40,7 @@ ProgressBar = new function()
 		this.mOnComplete	= pOnComplete ? pOnComplete : function(){};
 	}
 	/**
-	 * Method that hides the progressbar 
+	 * Method that hides the progressbar
 	 */
 	this.hide = function()
 	{

@@ -6,9 +6,9 @@ function EditorMenu()
 	this.mLogo		= $("#logo");
 	this.mElement	= $("#main-menu");
 	this.mAnimVel	= 300;
-	
+
 	this.mElement.menu().hide();
-	this.registerEvents();	
+	this.registerEvents();
 }
 /**
  * Method that toggles the visibility of the menu
@@ -44,8 +44,9 @@ EditorMenu.prototype.eventSpritePackOpen = function()
  */
 EditorMenu.prototype.eventSpritePackLoad = function()
 {
+  return;
 	var item = $("#import_spritepack_file")[0].files[0];
-	if( item.type === "application/zip" || item.type === "application/x-zip-compressed") 
+	if( item.type === "application/zip" || item.type === "application/x-zip-compressed")
 	{
 		var reader = new FileReader();
 		reader.onload = function( e )
@@ -75,14 +76,15 @@ EditorMenu.prototype.eventSpritePackLoad = function()
  */
 EditorMenu.prototype.eventSpritePackSave = function()
 {
+  return;
 	var pack	= Editor.mSpritePack.dump();
 	var zip		= new JSZip();
 	var lua		= "spritepack = {\n";
-	
+
 	for( var i = 0; i < pack.length; ++i )
 	{
 		zip.file("img_" + i + pack[i].image_type, pack[i].image, { base64: true });
-		
+
 		lua += "\t{\n";
 		lua +="\t\tname    = \""	+ pack[i].name		+ "\",\n";
 		lua +="\t\tgroup   = "		+ pack[i].group		+ ",\n";
@@ -95,7 +97,7 @@ EditorMenu.prototype.eventSpritePackSave = function()
 	}
 	lua += "}";
 	zip.file( "spritepack.lua", lua );
-	
+
 	var blobLink = document.getElementById('spritepack-save');
 	try
 	{
@@ -118,8 +120,8 @@ EditorMenu.prototype.registerEvents = function()
 	$("#spritepack-save").click( this.eventSpritePackSave );															//Menu spritepack save event
 	this.mElement.children("li").children("a").click( (function( obj ) { return function() { obj.hide(); } })(this) );	//Menu options on click event
 	this.mLogo.click( (function( obj ) { return function(e) { e.stopPropagation(); obj.toggle(); } })(this) );			//Logo click event
-	
-	
+
+
 	$("body :not(#logo)").not("#main-menu").not("#main-menu > li").not("#main-menu > li > a").mousedown
 	(
 		function()

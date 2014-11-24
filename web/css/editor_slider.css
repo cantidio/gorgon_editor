@@ -1,83 +1,75 @@
-.framebar
-{
-	width:			389px;
-	margin-left:	-194px;
-	position:		absolute;
-	bottom:			23px;
-	left:			50%;
-	text-align:		center;
+.framebar {
+  width: 389px;
+  margin-left: -194px;
+  position: absolute;
+  bottom: 23px;
+  left: 50%;
+  text-align: center;
 }
 
-.framebar > button
-{
-	width: 				26px;
-	height:				24px;
-	background:			none;
-	background-repeat: 	no-repeat;
-	background-position:center;
-	
-	border: 			none;
-	margin-bottom:		18px;
-	margin-left:		3px;
-	margin-right:		3px;
-	cursor:				pointer;
-}
-.framebar > button:active
-{
-	opacity: 0.35;
-}
-.framebar > button.framebar_first_button
-{
-	background-image: url("../imgs/framebar/framebar_first.png");
-}
-.framebar > button.framebar_previous_button
-{
-	background-image: url("../imgs/framebar/framebar_back.png");
-}
-.framebar > button.framebar_play_button
-{
-	background-image: url("../imgs/framebar/framebar_play.png");
-}
-.framebar > button.framebar_next_button
-{
-	background-image: url("../imgs/framebar/framebar_next.png");
-}
-.framebar > button.framebar_last_button
-{
-	background-image: url("../imgs/framebar/framebar_last.png");
+.framebar>button {
+  width: 26px;
+  height: 24px;
+  background: none;
+  background-repeat: no-repeat;
+  background-position: center;
+  border: none;
+  margin-bottom: 18px;
+  margin-left: 3px;
+  margin-right: 3px;
+  cursor: pointer;
 }
 
-
-.slider-closure
-{
-	border:				2px solid #f2f2f2;
-	border-radius:		2px;
-	-moz-border-radius:	2px;
-	width:				377px;
-	height:				10px;
-	padding-left:		4px;
-	padding-right:		4px;
+.framebar>button:active {
+  opacity: 0.35;
 }
 
-.slider-closure > .ui-slider-horizontal
-{
-	height:				12px;
-	margin-top:			0px;
-	background: 		none;
-	border:				none;
+.framebar>button.framebar_first_button {
+  background-image: url("../imgs/framebar/framebar_first.png");
 }
-.slider-closure  > .ui-slider-horizontal .ui-state-default
-{
-	width: 				10px;
-	height:				100%;
-	margin-left: 		-5px;
-	margin-top: 		5px;
-	
-	cursor:				pointer;
-	outline:			none;
-	background: 		#f2f2f2;
-	
-	border: 			none;
-	border-radius:		0px;
-	-moz-border-radius:	0px;
+
+.framebar>button.framebar_previous_button {
+  background-image: url("../imgs/framebar/framebar_back.png");
+}
+
+.framebar>button.framebar_play_button {
+  background-image: url("../imgs/framebar/framebar_play.png");
+}
+
+.framebar>button.framebar_next_button {
+  background-image: url("../imgs/framebar/framebar_next.png");
+}
+
+.framebar>button.framebar_last_button {
+  background-image: url("../imgs/framebar/framebar_last.png");
+}
+
+.slider-closure {
+  border: 2px solid #f2f2f2;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  width: 377px;
+  height: 10px;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+.slider-closure>.ui-slider-horizontal {
+  height: 12px;
+  margin-top: 0px;
+  background: none;
+  border: none;
+}
+
+.slider-closure>.ui-slider-horizontal .ui-state-default {
+  width: 10px;
+  height: 100%;
+  margin-left: -5px;
+  margin-top: 5px;
+  cursor: pointer;
+  outline: none;
+  background: #f2f2f2;
+  border: none;
+  border-radius: 0px;
+  -moz-border-radius: 0px;
 }

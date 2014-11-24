@@ -1,24 +1,29 @@
-@font-face 
-{
-	font-family: 'Ebrima';
-	src: url('fonts/ebrima.eot');
-	src: local('?'), url('fonts/ebrima.woff') format('woff'), url('fonts/ebrima.ttf') format('truetype'), url('fonts/ebrima.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
+@font-face {
+  font-family: 'Ebrima';
+  src: url('fonts/ebrima.eot');
+  src: local('?'), url('fonts/ebrima.woff') format('woff'),
+    url('fonts/ebrima.ttf') format('truetype'), url('fonts/ebrima.svg')
+    format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
-@font-face
-{
-	font-family: 'Ebrimabd';
-	src: url('fonts/ebrimabd.eot');
-	src: local('?'), url('fonts/ebrimabd.woff') format('woff'), url('fonts/ebrimabd.ttf') format('truetype'), url('fonts/ebrimabd.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
+
+@font-face {
+  font-family: 'Ebrimabd';
+  src: url('fonts/ebrimabd.eot');
+  src: local('?'), url('fonts/ebrimabd.woff') format('woff'),
+    url('fonts/ebrimabd.ttf') format('truetype'),
+    url('fonts/ebrimabd.svg') format('svg');
+  font-weight: normal;
+  font-style: normal;
 }
-@font-face
-{
-	font-family: 'Logo-Font';
-	src: url('fonts/Intro.eot');
-	src: local('?'), url('fonts/Intro.woff') format('woff'), url('fonts/Intro.ttf') format('truetype'), url('fonts/Intro.svg') format('svg');
-	font-weight: normal;
-	font-style: normal;
+
+@font-face {
+  font-family: 'Logo-Font';
+  src: url('fonts/Intro.eot');
+  src: local('?'), url('fonts/Intro.woff') format('woff'),
+    url('fonts/Intro.ttf') format('truetype'), url('fonts/Intro.svg')
+    format('svg');
+  font-weight: normal;
+  font-style: normal;
 }

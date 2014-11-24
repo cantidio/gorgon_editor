@@ -1,144 +1,138 @@
-#progressbar
-{
-	position:	fixed;
-	top:		50%;
-	left:		25%;
-	width:		50%;
-	z-index:	999;
-	display:	none;
-}
-#addimg, #import_spritepack
-{
-	visibility:	hidden;
-	position:	absolute;
-	top:		-50;
-	left:		-50;
-}
-#menu
-{
-	position: 	absolute;
-	top:		0px;
-	left:		0px;
-	width:		100%;
-	height: 	5%;
-	background: red;
-	margin:		0px;
-	padding:	0px;
-	list-style: none;
-}
-#menu li
-{
-	padding-left:	15px;
-	padding-top: 	5px;
-	float:		left;
-}
-.viewport
-{
-	position:	absolute;
-	top:		5%;
-	left:		5%;
-	height:		90%;
-	width:		90%;
-}
-.active
-{
-	border: 2px solid red;
+#progressbar {
+  position: fixed;
+  top: 50%;
+  left: 25%;
+  width: 50%;
+  z-index: 999;
+  display: none;
 }
 
-#sprite_properties
-{
-	position:	absolute;
-	bottom:		20px;
-	width:		200px;
-	border:		1px solid #D3D3D3;
-	padding:	0px;
-	margin:		0px;
-	background:	#2E2E2E;
-	color:		#D3D3D3;
-}
-#sprite_properties > h1
-{
-	font-size: 18px;
-	text-align: center;
-	border-bottom: 1px solid grey;
-}
-#sprite_properties > #sprite_slider 
-{
-	width: 200px;
-}
-#sprite_properties > #sprite_slider > button
-{
-	margin: 	0px;
-	padding:	0px;
-	height: 	30px;
-	width:		10%;
-}
-#sprite_properties > #sprite_slider > input
-{
-	cursor:					pointer;
-	vertical-align: 		center;
-	margin:					0px;
-	padding:				0px;
-	height: 				10px;
-	width:					76%;
-	-webkit-appearance: 	none !important;
-	background-image:		url("../imgs/slider_1.png"), url("../imgs/slider_3.png"), url("../imgs/slider_2.png");
-	background-position:	left top, right top, center top;
-	background-repeat: 		no-repeat, no-repeat, repeat;
-}
-#sprite_properties > #sprite_slider > input::-webkit-slider-thumb {
-    -webkit-appearance:	none !important;
-    background-image:	url("../imgs/slider_4.png");
-    height:				10px;
-    width:				9px;
+#addimg,#import_spritepack {
+  visibility: hidden;
+  position: absolute;
+  top: -50;
+  left: -50;
 }
 
-
-#sprite_properties > div > table
-{
-	width: 200px;
-	border: 1px solid green;
+#menu {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 5%;
+  background: red;
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
 }
 
-#sprite_properties > div > div
-{
-	width: 200px;
-	margin: 0px;
-	padding-bottom: 3px;
-	text-align: center;
-}
-#sprite_properties > div > div > span
-{
-	width:		100px;
-	display:	inline-block;
-	margin:		0px;
-	padding:	0px;
-}
-#sprite_properties > div > div > span > input
-{
-	width: 80px;
+#menu li {
+  padding-left: 15px;
+  padding-top: 5px;
+  float: left;
 }
 
-#sprite_properties > div > div > span > input
-{
-	width: 80px;
-}
-#sprite_properties > div > div > span > input[type="radio"]
-{
-	width: 15px;
-	height: 15px;
-	background: none;
+.viewport {
+  position: absolute;
+  top: 5%;
+  left: 5%;
+  height: 90%;
+  width: 90%;
 }
 
-#onionskin_menu
-{
-	display: none;
+.active {
+  border: 2px solid red;
 }
 
-#server
-{
-	height:		50%;
-	width:		50%;
-	position: 	absolute;
-	top: 		200px;
+#sprite_properties {
+  position: absolute;
+  bottom: 20px;
+  width: 200px;
+  border: 1px solid #D3D3D3;
+  padding: 0px;
+  margin: 0px;
+  background: #2E2E2E;
+  color: #D3D3D3;
+}
+
+#sprite_properties>h1 {
+  font-size: 18px;
+  text-align: center;
+  border-bottom: 1px solid grey;
+}
+
+#sprite_properties>#sprite_slider {
+  width: 200px;
+}
+
+#sprite_properties>#sprite_slider>button {
+  margin: 0px;
+  padding: 0px;
+  height: 30px;
+  width: 10%;
+}
+
+#sprite_properties>#sprite_slider>input {
+  cursor: pointer;
+  vertical-align: center;
+  margin: 0px;
+  padding: 0px;
+  height: 10px;
+  width: 76%;
+  -webkit-appearance: none !important;
+  background-image: url("../imgs/slider_1.png"),
+    url("../imgs/slider_3.png"), url("../imgs/slider_2.png");
+  background-position: left top, right top, center top;
+  background-repeat: no-repeat, no-repeat, repeat;
+}
+
+#sprite_properties>#sprite_slider>input::-webkit-slider-thumb {
+  -webkit-appearance: none !important;
+  background-image: url("../imgs/slider_4.png");
+  height: 10px;
+  width: 9px;
+}
+
+#sprite_properties>div>table {
+  width: 200px;
+  border: 1px solid green;
+}
+
+#sprite_properties>div>div {
+  width: 200px;
+  margin: 0px;
+  padding-bottom: 3px;
+  text-align: center;
+}
+
+#sprite_properties>div>div>span {
+  width: 100px;
+  display: inline-block;
+  margin: 0px;
+  padding: 0px;
+}
+
+#sprite_properties>div>div>span>input {
+  width: 80px;
+}
+
+#sprite_properties>div>div>span>input {
+  width: 80px;
+}
+
+#sprite_properties>div>div>span>input[type="radio"] {
+  width: 15px;
+  height: 15px;
+  background: none;
+}
+
+#onionskin_menu {
+  display: none;
+}
+
+#server {
+  height: 50%;
+  width: 50%;
+  position: absolute;
+  top: 200px;
 }

@@ -22,6 +22,5 @@ void main() {
     HttpServer.bind('0.0.0.0', port).then((server) {
       server.listen(staticFiles.serveRequest);
     });
-  },
-  onError: (e, stackTrace) => print('Oh noes! $e $stackTrace'));
+  }, onError: (e, stackTrace) => print('Oh noes! $e $stackTrace'));
 }
