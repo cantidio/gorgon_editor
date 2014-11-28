@@ -1,0 +1,31 @@
+<link rel="import" href="packages/polymer/polymer.html">
+
+<polymer-element touch-action="pan-x pan-y" name="scrollable-area" attributes="count" on-trackstart="{{ dragStart }}" on-track="{{ dragIt }}" on-trackend="{{ dragEnd }}">
+  <template>
+    <style>
+      :host {
+        border: 1px solid red;
+        display: block;
+        cursor:pointer;
+        overflow: hidden;
+      }
+
+      div {
+      font-size: 24pt;
+      text-align: center;
+      margin-top: 140px;
+      }
+      button {
+      font-size: 24pt;
+      margin-bottom: 20px;
+      }
+    </style>
+    <div>
+      <button on-click="{{increment}}">Click me</button>
+      <br>
+      <span>(click count: {{count}})</span>
+    </div>
+    <content></content>
+  </template>
+  <script type="application/dart" src="scrollable_area.dart"></script>
+</polymer-element>
