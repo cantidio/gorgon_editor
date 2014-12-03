@@ -3,37 +3,44 @@ import 'dart:js';
 import 'package:polymer/polymer.dart';
 
 /**
- * A Polymer click counter element.
+ * A Polymer Scrollable Area element.
  */
 @CustomTag('scrollable-area')
 class ScrollableArea extends PolymerElement {
-  int dragX;
-  int dragY;
-  int marginLeft=0;
-  int marginTop=0;
+  @published Point contentOffset;
+  Point _dragPosition;
 
   ScrollableArea.created() : super.created() {
+    contentOffset = new Point(_attrParseInt('content-offset-x'), _attrParseInt('content-offset-y'));
   }
 
-  void dragStart() {
-    dragX = null;
-    dragY = null;
+  void scroll(Point shift) {
+    contentOffset += shift;
   }
 
-  void dragIt(Event e, MouseEvent detail, HtmlElement target){
+  void dragStart(Event e) {
+    _dragPosition = _getEventPosition(e);
+  }
+
+  void dragIt(Event e) {
+    Point position = _getEventPosition(e);
+    Point shift = _dragPosition - position;
+    _dragPosition = position;
+
+    scroll(shift);
+  }
+
+  Point _getEventPosition(Event e) {
     // TODO stop using this hack to get the correct event
     var event = new JsObject.fromBrowserObject(e);
-    int shiftX = ( dragX != null) ? dragX - event['clientX'] : 0;
-    int shiftY = ( dragY != null) ? dragY - event['clientY'] : 0;
-    dragX = event['clientX'];
-    dragY = event['clientY'];
+    return new Point(event['clientX'], event['clientY']);
+  }
 
-    marginLeft += shiftX;
-    marginTop += shiftY;
-
-//    target.shadowRoot.host.children[]
-    print(target.shadowRoot.lastChild);
-    target.shadowRoot.children.last.style.marginLeft = "${marginLeft}px";
-    target.shadowRoot.children.last.style.marginTop = "${marginTop}px";
+  int _attrParseInt(String attributeName, {int defaultValue:0}) {
+    try {
+      return int.parse(this.attributes[attributeName]);
+    } on FormatException {
+      return defaultValue;
+    }
   }
 }
