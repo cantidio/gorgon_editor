@@ -1,4 +1,5 @@
 import 'dart:html';
+import 'dart:js';
 import 'package:polymer/polymer.dart';
 
 /**
@@ -6,35 +7,33 @@ import 'package:polymer/polymer.dart';
  */
 @CustomTag('scrollable-area')
 class ScrollableArea extends PolymerElement {
-  @published String state = "";
-  @published int count = 0;
-/*
-stopped
+  int dragX;
+  int dragY;
+  int marginLeft=0;
+  int marginTop=0;
 
-
-
-* */
   ScrollableArea.created() : super.created() {
-    print("created");
-
-
-//    eventDelegates
   }
 
   void dragStart() {
-    print("click");
-  }
-  void dragIt(MouseEvent event){
-    print("dragging it");
-    print(event.client.x);
-    print(event.client.y);
-
-  }
-  void dragEnd(dynamic event){
-    print("drag end");
+    dragX = null;
+    dragY = null;
   }
 
-  void increment() {
-    count++;
+  void dragIt(Event e, MouseEvent detail, HtmlElement target){
+    // TODO stop using this hack to get the correct event
+    var event = new JsObject.fromBrowserObject(e);
+    int shiftX = ( dragX != null) ? dragX - event['clientX'] : 0;
+    int shiftY = ( dragY != null) ? dragY - event['clientY'] : 0;
+    dragX = event['clientX'];
+    dragY = event['clientY'];
+
+    marginLeft += shiftX;
+    marginTop += shiftY;
+
+//    target.shadowRoot.host.children[]
+    print(target.shadowRoot.lastChild);
+    target.shadowRoot.children.last.style.marginLeft = "${marginLeft}px";
+    target.shadowRoot.children.last.style.marginTop = "${marginTop}px";
   }
 }
