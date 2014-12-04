@@ -1,0 +1,42 @@
+<link rel="import" href="packages/polymer/polymer.html">
+
+<polymer-element name="toggleable-button" on-click="{{ toggle }}" on-keydown="{{ keyPress }}" tabindex="1">
+  <template>
+    <style>
+      :host {
+        display: inline-block;
+        cursor: pointer;
+        font-family: inherit;
+        padding: .5em 1em;
+        color: white;
+        border-radius: 4px;
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        background: rgb(66, 184, 221);
+      }
+
+      :host(:hover) {
+      background: rgb(50, 150, 201);
+      }
+
+      :host(.toggleable-button-pressed) {
+        background: rgb(34, 116, 181);
+      }
+
+      :host(.toggleable-button-pressed:hover){
+      background: rgb(18, 82, 161);
+      }
+
+      :host(:not(.toggleable-button-pressed)) ::content on {
+        display:none;
+      }
+
+      :host(.toggleable-button-pressed) ::content off {
+        display:none;
+      }
+    </style>
+    <span>
+      <content></content>
+    </span>
+  </template>
+  <script type="application/dart" src="toggleable_button.dart"></script>
+</polymer-element>

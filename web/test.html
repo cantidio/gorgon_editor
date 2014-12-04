@@ -4,6 +4,9 @@
   <meta charset="utf-8">
   <link rel="import" href="components/scrollable_area.html">
   <link rel="import" href="components/draggable_element.html">
+  <link rel="import" href="components/toggleable_button.html">
+  <!--<link rel="import" href="packages/core_elements/core_field.html">-->
+  <!--<link rel="import" href="packages/core_elements/core_t.html">-->
   <style>
     scrollable-area {
       width: 300px;
@@ -19,7 +22,9 @@
 </head>
 <body unresolved>
 
-<scrollable-area BOB={{start}} content-offset-x="100" content-offset-y="100">
+<core-animated-pages></core-animated-pages>
+
+<scrollable-area content-offset-x="100" content-offset-y="100">
   <div>OI-1</div>
   <draggable-element>DRAG ME</draggable-element>
   <span>OI-2</span>
@@ -27,6 +32,26 @@
   <span>OI-4</span>
 </scrollable-area>
 
+<toggleable-button>
+  TOGGLEABLE BUTTON
+  <!--<on>ON</on>-->
+  <!--<off>OFF</off>-->
+</toggleable-button>
+
+<!--</button-set>-->
+<!--<core-field>-->
+  <!--<core-icon icon="menu"></core-icon>-->
+  <!--<label>I'm a label!</label>-->
+  <!--<input placeholder="I have a label" flex>-->
+<!--</core-field>-->
+
+<!--<core-splitter direction="up" touch-action="none" class="horizontal"></core-splitter>-->
+<!--<core-range></core-range>-->
+<!--<core-menu selected="0">-->
+  <!--<core-item icon="settings" label="Settings" horizontal="" center="" layout="" class="core-selected" active=""></core-item>-->
+  <!--<core-item icon="favorite" label="Favorite" horizontal="" center="" layout=""></core-item>-->
+  <!--<core-item icon="account-box" label="Account" horizontal="" center="" layout=""></core-item>-->
+<!--</core-menu>-->
 
 <script type="application/dart">export 'test.dart';</script>
 
