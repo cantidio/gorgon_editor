@@ -5,7 +5,7 @@ import 'package:polymer/polymer.dart';
  * A Polymer Draggable element.
  */
 @CustomTag('toggleable-button')
-class DraggableElement extends PolymerElement {
+class ToggleableButton extends PolymerElement {
   bool _pressed = false;
 
   @published bool get pressed => _pressed;
@@ -18,7 +18,7 @@ class DraggableElement extends PolymerElement {
     }
   }
 
-  DraggableElement.created() : super.created() {
+  ToggleableButton.created() : super.created() {
   }
 
   void toggle() {
