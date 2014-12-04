@@ -36,11 +36,11 @@ class ScrollableArea extends PolymerElement {
     return new Point(event['clientX'], event['clientY']);
   }
 
-  int _attrParseInt(String attributeName, {int defaultValue:0}) {
+  int _attrParseInt(String attributeName) {
     try {
       return int.parse(this.attributes[attributeName]);
     } on FormatException {
-      return defaultValue;
+      return 0;
     }
   }
 }
