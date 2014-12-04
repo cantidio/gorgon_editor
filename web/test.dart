@@ -4,9 +4,7 @@ import 'components/scrollable_area.dart';
 
 void hello() {
   ScrollableArea area = querySelector('scrollable-area');
-//  area.attributes.forEach((key,val){
-//    print("$key-$val");
-//  });
+
   area.scroll(new Point(100, 100));
 
   print(area.contentOffset);
@@ -16,7 +14,7 @@ void main() {
   initPolymer().run(() {
     Polymer.onReady.then((_) {
 
-      querySelector('toggleable-button').onClick.listen((Event e) {
+      querySelector('toggleable-button').onChange.listen((Event e) {
         print("button pressed: ${e.target.pressed}");
       });
 
@@ -24,6 +22,4 @@ void main() {
 
     });
   });
-
-//  document.querySelector("#BOB").onClick.listen((_) => hello());
 }
