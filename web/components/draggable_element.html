@@ -1,0 +1,27 @@
+<link rel="import" href="packages/polymer/polymer.html">
+
+<polymer-element name="draggable-element" on-trackstart="{{ dragStart }}" on-track="{{ dragIt }}" on-keydown="{{ keyDown }}" tabindex="1">
+  <template>
+    <style>
+      :host {
+        left: {{position.x}}px;
+        top:  {{position.y}}px;
+        display: block;
+        cursor: pointer;
+        user-select: none;
+        position: relative;
+        overflow: hidden;
+      }
+
+      :host > div {
+        display: block;
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div>
+      <content></content>
+    </div>
+  </template>
+  <script type="application/dart" src="draggable_element.dart"></script>
+</polymer-element>
