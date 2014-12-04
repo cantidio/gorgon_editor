@@ -30,6 +30,23 @@ class ScrollableArea extends PolymerElement {
     scroll(shift);
   }
 
+  void keyDown(KeyboardEvent e) {
+    switch (e.keyCode) {
+      case KeyCode.RIGHT:
+        scroll(new Point(-1, 0));
+        break;
+      case KeyCode.LEFT:
+        scroll(new Point(1, 0));
+        break;
+      case KeyCode.UP:
+        scroll(new Point(0, 1));
+        break;
+      case KeyCode.DOWN:
+        scroll(new Point(0, -1));
+        break;
+    }
+  }
+
   Point _getEventPosition(Event e) {
     // TODO stop using this hack to get the correct event
     var event = new JsObject.fromBrowserObject(e);

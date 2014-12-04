@@ -1,6 +1,6 @@
 <link rel="import" href="packages/polymer/polymer.html">
 
-<polymer-element name="scrollable-area" attributes="contentOffset" on-trackstart="{{ dragStart }}" on-track="{{ dragIt }}">
+<polymer-element name="scrollable-area" attributes="contentOffset" on-trackstart="{{ dragStart }}" on-track="{{ dragIt }}" on-keydown="{{ keyDown }}" tabindex="1">
   <template>
     <style>
       :host {
@@ -24,7 +24,7 @@
         height: 100%;
       }
     </style>
-    <div tabindex="1">
+    <div>
       <content></content>
     </div>
   </template>
