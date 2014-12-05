@@ -1,0 +1,29 @@
+<link rel="import" href="packages/polymer/polymer.html">
+
+<polymer-element name="ge-display">
+  <template>
+    <style>
+      :host {
+      position: absolute;
+      user-select: none;
+      display: block;
+      padding: 0px;
+      margin: 0px;
+      left: 0px;
+      top: 0px;
+      }
+
+      :host > div {
+      display: block;
+      height: 100%;
+      width: 100%;
+      }
+    </style>
+
+    <div on-change="{{contentChange}}">
+      <content></content>
+    </div>
+
+  </template>
+  <script type="application/dart" src="ge_display.dart"></script>
+</polymer-element>
