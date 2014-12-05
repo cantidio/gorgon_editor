@@ -16,12 +16,13 @@ class DraggableElement extends PolymerElement {
   }
 
   void lockSize() {
-    this.style.maxWidth = this.style.minWidth = "${this.clientWidth}px";
-    this.style.maxHeight = this.style.minHeight = "${this.clientHeight}px";
+//    this.style.maxWidth = this.style.minWidth = "${this.clientWidth}px";
+//    this.style.maxHeight = this.style.minHeight = "${this.clientHeight}px";
   }
 
   void move(Point offset) {
     position += offset;
+    this.fire('change');
   }
 
   void keyDown(KeyboardEvent e) {
