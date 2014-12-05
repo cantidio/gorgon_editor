@@ -14,7 +14,6 @@ class ToggleableButton extends PolymerElement {
     if (press != _pressed) {
       _pressed = press;
       this.classes.toggle('toggleable-button-pressed');
-      this.fire('change');
     }
   }
 
@@ -23,6 +22,7 @@ class ToggleableButton extends PolymerElement {
 
   void toggle() {
     pressed = !_pressed;
+    this.fire('change');
   }
 
   void keyPress(KeyboardEvent e) {
