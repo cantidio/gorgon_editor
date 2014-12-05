@@ -14,8 +14,8 @@ void main() {
   initPolymer().run(() {
     Polymer.onReady.then((_) {
 
-      querySelector('toggleable-button').onChange.listen((Event e) {
-        print("button pressed: ${e.target.pressed}");
+      querySelector('button-set').onChange.listen((Event e) {
+        print("button pressed: ${e.target.selected}");
       });
 
       hello();
