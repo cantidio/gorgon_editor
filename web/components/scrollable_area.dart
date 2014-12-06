@@ -57,7 +57,7 @@ class ScrollableArea extends PolymerElement {
   int _attrParseInt(String attributeName) {
     try {
       return int.parse(this.attributes[attributeName]);
-    } on FormatException {
+    } catch (_) {
       return 0;
     }
   }
