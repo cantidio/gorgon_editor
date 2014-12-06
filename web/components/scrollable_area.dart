@@ -16,7 +16,7 @@ class ScrollableArea extends PolymerElement {
 
   void scroll(Point shift) {
     contentOffset += shift;
-    this.fire('change');
+    this.fire('scroll');
   }
 
   void dragStart(Event e) {

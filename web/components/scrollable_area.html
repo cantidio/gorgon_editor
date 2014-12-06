@@ -4,7 +4,6 @@
   <template>
     <style>
       :host {
-        position: relative;
         border: 1px solid red;
         display: block;
         cursor: all-scroll;
@@ -18,6 +17,7 @@
         -ms-user-select: none;
         user-select: none;
       }
+
       :host > div {
         display: block;
         margin-left: {{contentOffset.x}}px;
