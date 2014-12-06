@@ -15,11 +15,15 @@ class GEDisplay extends PolymerElement {
   int get height => _display.height;
 
   GEDisplay.created() : super.created() {
-    var container = this.shadowRoot.children.last;
-    resize();
+  }
 
+  void ready() {
     MutationObserver observer = new MutationObserver(_layoutChange);
     observer.observe(this.parent, attributes:true, attributeFilter:['style']);
+  }
+
+  void attached() {
+    resize();
   }
 
   void resize() {
