@@ -12,33 +12,17 @@ void hello() {
 void main() {
   initPolymer().run(() {
     Polymer.onReady.then((_) {
-      var display = querySelector('ge-display');
-
-      querySelector('button-set').onChange.listen((Event e) {
-        print("button pressed: ${e.target.selected}");
-      });
+//      querySelector('button-set').onChange.listen((Event e) {
+//        print("button pressed: ${e.target.selected}");
+//      });
 
       Sprite spr = new Sprite(imageSource: 'imgs/iori.gif', offset: new Point2D(-30, -30));
       spr.onLoad.then((_) {
-
-        querySelector('ge-sprite').sprite = spr;
-
-        querySelector('draggable-element')
-          ..style.width = "${spr.width}px"
-          ..style.height = "${spr.height}px"
-          ..position = spr.offset
-          ..onDrag.listen((Event e) {
-            e.stopImmediatePropagation();
-            querySelector('ge-sprite').offset = e.target.position;
-        });
+        print('loaded');
+        querySelector('ge-sprite-view').sprite = spr;
       });
-
-      querySelector('scrollable-area').onScroll.listen((Event e) {
-        display.contentOffset = e.target.contentOffset;
-        display.redraw();
-      });
-
-      hello();
+//
+//      hello();
 
     });
   });

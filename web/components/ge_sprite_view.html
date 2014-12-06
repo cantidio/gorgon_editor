@@ -1,0 +1,31 @@
+<link rel="import" href="packages/polymer/polymer.html">
+<link rel="import" href="scrollable_area.html">
+<link rel="import" href="draggable_element.html">
+<link rel="import" href="ge_display.html">
+<link rel="import" href="ge_sprite.html">
+
+<polymer-element name="ge-sprite-view">
+  <template>
+    <style>
+      :host {
+        display: block;
+        border: 1px solid green;
+        position: relative;
+      }
+
+      :host div, :host scrollable-area {
+        width: 100%;
+        height: 100%;
+      }
+    </style>
+    <div on-scroll="{{areaScroll}}" on-drag="{{spriteDrag}}">
+      <scrollable-area>
+        <ge-display>
+          <ge-sprite></ge-sprite>
+        </ge-display>
+        <draggable-element></draggable-element>
+      </scrollable-area>
+    </div>
+  </template>
+  <script type="application/dart" src="ge_sprite_view.dart"></script>
+</polymer-element>
