@@ -7,6 +7,7 @@ import 'package:gorgon/gorgon.dart';
 class GESprite extends PolymerElement {
   Sprite _sprite;
   Point2D _position;
+  double _alpha;
 
   @published Point2D get position => _position;
 
@@ -22,17 +23,23 @@ class GESprite extends PolymerElement {
     this.fire('change');
   }
 
+  @published void set alpha(double alpha) {
+    _alpha = alpha;
+    this.fire('change');
+  }
+
   @published void set sprite(Sprite sprite) {
     _sprite = sprite;
     this.fire('change');
   }
 
   GESprite.created() : super.created() {
+    _alpha = 1.0;
     _sprite = new Sprite();
     _position = new Point2D.zero();
   }
 
   void draw(Point2D position) {
-    _sprite.draw(position);
+    _sprite.draw(position, alpha: _alpha);
   }
 }
