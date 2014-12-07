@@ -6,7 +6,7 @@ import 'ge_sprite.dart';
 import 'draggable_element.dart';
 import 'scrollable_area.dart';
 /**
- * A Polymer GESprite element.
+ * A Polymer GESpriteView element.
  */
 @CustomTag('ge-sprite-view')
 class GESpriteView extends PolymerElement {
@@ -28,6 +28,14 @@ class GESpriteView extends PolymerElement {
 
   void spriteDrag() {
     _sprite.offset = new Point2D(_draggable.position.x, _draggable.position.y);
+  }
+
+  void spriteDragOn() {
+    _sprite.alpha = 0.5;
+  }
+
+  void spriteDragOff() {
+    _sprite.alpha = 1.0;
   }
 
   void areaScroll() {
