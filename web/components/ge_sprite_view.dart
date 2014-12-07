@@ -24,6 +24,7 @@ class GESpriteView extends PolymerElement {
     _draggable = this.shadowRoot.querySelector('draggable-element');
     _display = this.shadowRoot.querySelector('ge-display');
     _sprite = this.shadowRoot.querySelector('ge-sprite');
+    scrollToCenter();
   }
 
   void spriteDrag() {
@@ -49,5 +50,10 @@ class GESpriteView extends PolymerElement {
       ..style.width = "${spr.width}px"
       ..style.height = "${spr.height}px"
       ..position = new Point(spr.offset.x, spr.offset.y);
+  }
+
+  void scrollToCenter() {
+    _scrollable.contentOffset = new Point(this.clientWidth / 2, this.clientHeight / 2);
+    areaScroll();
   }
 }
