@@ -11,15 +11,52 @@
         display: block;
         border: 1px solid green;
         position: relative;
+        font-family: Arial;
+        font-size: 8px;
+        color: #7c7c7c
       }
 
       :host div, :host scrollable-area {
         width: 100%;
         height: 100%;
       }
+
+      .ruler {
+        position: absolute;
+        background: #7c7c7c;
+      }
+
+      .ruler.line-h {
+        width: 100%;
+        height: 1px;
+        left: 0%;
+      }
+
+      .ruler.line-v {
+        height: 100%;
+        width: 1px;
+        top: 0%;
+      }
+
+      .ruler.hot-spot {
+        width: 5px;
+        height: 5px;
+        margin-top: -2px;
+        margin-left: -2px;
+      }
+
+      .ruler.info {
+        margin-left: 4px;
+        margin-top: 4px;
+        background: none;
+      }
     </style>
     <div on-scroll="{{areaScroll}}" on-drag="{{spriteDrag}}">
       <scrollable-area>
+        <div class="ruler line-h"></div>
+        <div class="ruler line-v"></div>
+        <div class="ruler hot-spot"></div>
+        <span class ="ruler info">BASELINE</span>
         <ge-display>
           <ge-sprite></ge-sprite>
         </ge-display>
