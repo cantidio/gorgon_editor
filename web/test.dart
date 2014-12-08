@@ -12,9 +12,11 @@ void hello() {
 void main() {
   initPolymer().run(() {
     Polymer.onReady.then((_) {
-//      querySelector('button-set').onChange.listen((Event e) {
-//        print("button pressed: ${e.target.selected}");
-//      });
+
+      querySelector('button-set').onChange.listen((Event e) {
+        double scale = e.target.selected + 1.0;
+        querySelector('ge-sprite-view').scale = scale;
+      });
 
       Sprite spr = new Sprite(imageSource: 'imgs/iori.gif', offset: new Point2D(-30, -30));
       spr.onLoad.then((_) {

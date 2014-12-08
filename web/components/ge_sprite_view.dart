@@ -15,19 +15,13 @@ class GESpriteView extends PolymerElement {
   GEDisplay _display;
   DraggableElement _draggable;
   ScrollableArea _scrollable;
+  @published double scale = 1.0;
 
   Sprite get sprite => _sprite.sprite;
 
-  void set sprite(Sprite spr) {
-    _sprite.sprite = spr;
-    _draggable
-      ..style.width = "${spr.width}px"
-      ..style.height = "${spr.height}px"
-      ..position = new Point(spr.offset.x, spr.offset.y);
-  }
+  void set sprite(Sprite spr) => _sprite.sprite = spr;
 
   GESpriteView.created() : super.created() {
-
   }
 
   void ready() {
@@ -39,7 +33,7 @@ class GESpriteView extends PolymerElement {
   }
 
   void spriteDrag() {
-    _sprite.offset = new Point2D(_draggable.position.x, _draggable.position.y);
+    _sprite.offset = new Point2D(_draggable.position.x / scale, _draggable.position.y / scale);
   }
 
   void spriteDragOn() {
@@ -58,5 +52,13 @@ class GESpriteView extends PolymerElement {
   void scrollToCenter() {
     _scrollable.contentOffset = new Point(this.clientWidth / 2, this.clientHeight / 2);
     areaScroll();
+  }
+
+  void updateDraggable() {
+    Sprite spr = _sprite.sprite;
+    _draggable
+      ..style.width = "${spr.width * scale}px"
+      ..style.height = "${spr.height * scale}px"
+      ..position = new Point(spr.offset.x * scale, spr.offset.y * scale);
   }
 }

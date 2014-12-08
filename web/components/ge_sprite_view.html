@@ -27,23 +27,24 @@
       .ruler.line-h {
         left: 0%;
         width: 100%;
-        border-top: 1px solid;
+        border-top: {{scale}}px solid;
       }
 
       .ruler.line-v {
         top: 0%;
         height: 100%;
-        border-left: 1px solid;
+        border-left: {{scale}}px solid;
       }
 
       .ruler.hot-spot {
-        margin: -2.0px 0px 0px -2.0px;
+        margin: -{{2 * scale}}px 0px 0px -{{2 * scale}}px;
         border-style: solid;
-        border-width: 3px 2px 2px 3px;
+        border-width: {{3 * scale}}px {{2 * scale}}px {{2 * scale}}px {{3 * scale}}px;
       }
 
       .ruler.info {
-        margin: 4px 0px 0px 4px;
+        font-size: {{8 * scale}}px;
+        padding: {{4 * scale}}px;
       }
     </style>
     <div on-scroll="{{areaScroll}}" on-drag="{{spriteDrag}}">
@@ -53,9 +54,9 @@
         <div class="ruler hot-spot"></div>
         <span class ="ruler info">BASELINE</span>
         <ge-display>
-          <ge-sprite></ge-sprite>
+          <ge-sprite scale="{{scale}}" on-change="{{updateDraggable}}"></ge-sprite>
         </ge-display>
-        <draggable-element on-focus="{{spriteDragOn}}" on-blur="{{spriteDragOff}}"></draggable-element>
+        <draggable-element step="{{scale}}" on-focus="{{spriteDragOn}}" on-blur="{{spriteDragOff}}"></draggable-element>
       </scrollable-area>
     </div>
   </template>
