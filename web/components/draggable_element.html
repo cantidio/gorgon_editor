@@ -1,6 +1,6 @@
 <link rel="import" href="packages/polymer/polymer.html">
 
-<polymer-element name="draggable-element" on-trackstart="{{ dragStart }}" on-track="{{ dragIt }}" on-keydown="{{ keyDown }}" tabindex="1">
+<polymer-element name="draggable-element" on-trackstart="{{ dragStart }}" on-track="{{ dragIt }}" on-trackend="{{dragEnd}}" on-keydown="{{ keyDown }}" tabindex="1">
   <template>
     <style>
       :host {

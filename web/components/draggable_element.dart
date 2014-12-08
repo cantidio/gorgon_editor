@@ -8,6 +8,7 @@ import 'package:polymer/polymer.dart';
 @CustomTag('draggable-element')
 class DraggableElement extends PolymerElement {
   @published Point position;
+  @published double step = 1.0;
   Point _dragPosition;
 
   DraggableElement.created() : super.created() {
@@ -29,16 +30,16 @@ class DraggableElement extends PolymerElement {
     bool consume = true;
     switch (e.keyCode) {
       case KeyCode.RIGHT:
-        move(new Point(1, 0));
+        move(new Point(step, 0));
         break;
       case KeyCode.LEFT:
-        move(new Point(-1, 0));
+        move(new Point(-step, 0));
         break;
       case KeyCode.UP:
-        move(new Point(0, -1));
+        move(new Point(0, -step));
         break;
       case KeyCode.DOWN:
-        move(new Point(0, 1));
+        move(new Point(0, step));
         break;
       default:
         consume = false;
@@ -60,6 +61,11 @@ class DraggableElement extends PolymerElement {
     move(offset);
 
     e.stopPropagation();
+  }
+
+  void dragEnd() {
+    position = new Point((position.x / step).round() * step, (position.y / step).round() * step);
+    this.fire('drag');
   }
 
   Point _getEventPosition(Event e) {
