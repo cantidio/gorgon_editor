@@ -8,10 +8,13 @@ class GESprite extends PolymerElement {
   Sprite _sprite;
   Point2D _position;
   double _alpha;
+  double _scale;
 
   @published Point2D get position => _position;
 
   @published Sprite get sprite => _sprite;
+
+  @published double get scale => _scale;
 
   @published void set position(Point2D position) {
     _position = position;
@@ -28,18 +31,23 @@ class GESprite extends PolymerElement {
     this.fire('change');
   }
 
+  @published void set scale(double scale) {
+    _scale = scale;
+    this.fire('change');
+  }
+
   @published void set sprite(Sprite sprite) {
     _sprite = sprite;
     this.fire('change');
   }
 
   GESprite.created() : super.created() {
-    _alpha = 1.0;
+    _alpha = _scale = 1.0;
     _sprite = new Sprite();
     _position = new Point2D.zero();
   }
 
   void draw(Point2D position) {
-    _sprite.draw(position, alpha: _alpha);
+    _sprite.draw(position, alpha: _alpha, scale: _scale);
   }
 }
