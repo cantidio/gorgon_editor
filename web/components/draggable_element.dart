@@ -63,14 +63,9 @@ class DraggableElement extends PolymerElement {
     e.stopPropagation();
   }
 
-  void dragEnd() {
-    position = new Point((position.x / step).round() * step, (position.y / step).round() * step);
-    this.fire('drag');
-  }
-
   Point _getEventPosition(Event e) {
     // TODO stop using this hack to get the correct event
     var event = new JsObject.fromBrowserObject(e);
-    return new Point(event['clientX'], event['clientY']);
+    return new Point((event['clientX'] / step).round() * step, (event['clientY'] / step).round() * step);
   }
 }
